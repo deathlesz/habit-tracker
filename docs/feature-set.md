@@ -3,6 +3,11 @@
 This document aims to provide concise description of the application functionality from the stand point of an abstract user.
 It contains a list of all supported features and their descriptions, as well as a general product description.
 
+## Product description
+*Habit Tracker* is a simple tool that attempts to make your life better.
+
+It makes tracking both good and bad habits easy, visualizes your progress in a clear and concise way and helps you to stay accountable.
+
 ## Data formats
 First of all, we need to identify the structure of habit.
 The user **must** enter **required** fields and **may** enter **optional** fields, but this is not necessary.
