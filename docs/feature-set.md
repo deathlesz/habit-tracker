@@ -1,0 +1,192 @@
+# Feature set document
+
+This document aims to provide concise description of the application functionality from the stand point of an abstract user.
+It contains a list of all supported features and their descriptions, as well as a general product description.
+
+```
+TODO: General description.
+```
+
+## Data formats
+First of all, we need to identify the structure of habit.
+The user **must** enter **required** fields and **may** enter **optional** fields, but this is not necessary.
+
+A habit structure that has been approved by the team:
+- **Required** field for selecting a `positive/negative` habit;
+- **Required** field for the `name` of the habit;
+- **Required** choice of an `icon` for the habit from the catalogue;
+- **Required** choice of a `color` for the habit from the catalogue;
+- **Required** field for specifying the `goal` with the possibility of selecting a `measurement system` from the `catalogue` (Count, Steps, M, Km, Sec, Min, Hr, Ml, Cal, G, Mg, Drink);
+- **Required** field for selecting the `regularity` of repeating the habit:
+    1. Daily:
+        - Checkbox for daily habit;
+        - Choice of days of the week;
+        - Choice of number of days per week.
+
+        One of the options **must** necessarily be selected.
+    1. Monthly:
+        - Selection of the days of the month;
+        - Selection of the number of days in the month;
+    
+        One of the options **must** necessarily be selected.
+    1. Interval:
+        - **Required** selection of the frequency of repetition of the habit in days (Every *N* Days);
+
+- **Optional** selection of the `part of the day` (Anytime, Morning, Afternoon, Evening);
+- **Optional** selection of the habit `start date`;
+- **Optional** selection of the habit `end date`;
+- **Optional** `reminder` field (Select Time, Reminder Massage);
+- **Optional** `description` of the habit.
+
+## Adding habits
+
+### General form design
+
+After clicking the `Add Habit` button, the following fields are displayed:  
+
+**required** Fields:
+- `Habit Type` - selection between `Positive` or `Negative` habit.  
+- `Habit Name` - field for entering the habit’s name.  
+- `Icon Selection` - choice of an icon from the icon catalogue.  
+- `Color Selection` - choice of a color from the color catalogue.  
+- `Goal Setting` - field for specifying the habit’s goal, with the ability to select a measurement unit from the catalogue (Count, Steps, M, Km, Sec, Min, Hr, Ml, Cal, G, Mg, Drink).  
+- `Regularity Selection` - field for setting the habit’s repetition frequency:  
+    1. Daily: 
+        - Checkbox for daily habit.
+        - Choice of specific days of the week.  
+        - Option to select the number of days per week.  
+        
+        At least one of these options **must** be selected. 
+    1. Monthly:  
+        - Selection of specific days in the month.  
+        - Option to set the number of days per month.  
+        
+        At least one of these options **must** be selected. 
+    1. Interval:
+        - **Required** selection of habit repetition frequency in days (Every *N* Days).  
+
+**Optional** fields:
+- `Time of Day` - selection of when the habit is performed (Anytime, Morning, Afternoon, Evening);
+- `Start Date` - selection of the habit’s start date;
+- `End Date` - selection of the habit’s end date;
+- `Reminder` - reminder settings (Select Time, Reminder Message);
+- `Description` - field for adding additional notes about the habit.  
+
+### Validation & Saving
+
+- When the `Save` button is clicked, **all** fields are validated;
+- If any **required** field is missing or incorrect, the user sees the *problematic* field along with an *error message*;  
+- **If** validation passes, the habit is saved to the *database*;
+- Upon successful saving, the user sees a **confirmation message** and is redirected to the `habit list`.
+
+### Canceling
+- Clicking the `Cancel` button resets the form and returns the user to the `habit list` *without saving*.
+
+## Editing habits
+
+When the `Edit Habit` button is clicked, the `habit form` opens with all existing fields populated with the current habit data.  
+
+### Validation & Editing
+
+- If **any** field contains incorrect data, it is highlighted with an *error message explaining the issue*;
+- The user **can** modify **any** field, including:
+  - `Habit type` (Positive/Negative);
+  - `Habit name`;
+  - `Icon` & `Color` selection;
+  - `Goal` & `Measurement unit`;
+  - `Regularity settings` (Daily, Monthly, Interval);
+  - Any **optional** fields (`Time of day`, `Start/End date`, `Reminder`, `Description`).
+
+### Saving Changes
+- When the `Save` button is clicked, **all** fields are validated;
+- **If** validation passes, the updated habit is saved to the *database*;
+- The user sees a *success message* confirming the changes and is redirected to the `habit list`.
+
+### Canceling Changes
+- If the user clicks `Cancel`, a confirmation dialog appears with the message:  
+  ```
+  All unsaved changes will be lost. Are you sure you want to exit?
+  ```
+  - On `Agree` action, the form **resets**, and the user returns to the `habit list` *without saving*;
+  - On `Decline` action, the dialog closes, and the user continues editing with **all modifications preserved**.
+
+## Habit management - actions for habits
+
+Actions for `Incomplete` Habits:
+- `Mark as Complete` - Swipe to fill the progress bar and confirm completio;
+- `Edit Habit` - Modify habit settings;
+- `Skip Habit` - Temporarily bypass tracking for the current period;
+- `Delete Habit` - Remove the habit entirely from your list;
+- `View Statistics` - Open statistics for this specific habit.
+
+Actions for `Completed` Habits:
+- `Edit Habit` - Modify habit settings;
+- `Reset Habit` - Clear completion status;
+- `Delete Habit` - Permanently remove the habit from the list;
+- `View Statistics` - Open statistics for this specific habit.
+
+If the user does not mark a habit as `Completed` before the end of its execution period, the habit is **automatically marked** as `Incomplete`.
+
+## Statistics for a specific habit
+
+### Calendar.
+Days on the calendar have three types of highlighting:
+
+1. `Neutral` (no habit was scheduled for that day);
+1. `Partially completed` (the habit was not completely fulfilled);
+1. `All completed` (the habit was not completely fulfilled).
+    ```
+    TODO: Really? Maybe should have been `all scheduled habits for the day were accomplished'?
+    ```
+
+Also the following information is provided:
+
+- Information on the `current series` of habit execution. 
+- Information on the `record series` of habit execution.
+- Information on the `total amount` of habit execution.
+- Information about `not completing` the habit
+- Graph of dependence of habit execution on days (with possibility to see dependence of week, month, year).
+  ```
+  TODO: Graph feature needs more clarification.
+  ```
+
+### Statistics for all habits
+
+### Calendar.
+Days on the calendar have three types of highlighting:
+
+1. `Neutral` (no habit was scheduled for that day)
+1. `Partially` completed (not all scheduled habits were completed)
+1. `All completed` (all scheduled habits for the day were accomplished).
+
+- Information on the `current series` of all habits execution;
+- Information on the `record series` of all habits execution;
+- Information on the `total amount` of habits execution;
+- Information about `not completed` of all habits;
+- Graph of dependence of habit execution on days (with possibility to see dependence of week, month, year).
+    ```
+  TODO: Graph feature needs more clarification.
+  ```
+
+## Strike system
+
+### All habits
+When **all** the habits *planned for the day* are completed, a `light` and the message `Day N is complete!` are displayed on the screen.
+
+In the stats for all habits, the current day is marked as `All completed`, the series of `great days` continues.
+
+## A specific habit
+When a *specific* habit is completed, a `characteristic sound` is made.
+```
+TODO: Sound???
+```
+
+In the statistics for a specific habit, the current day is marked as `All completed`, the series for the *particular habit* continues.
+
+## Features that are out of scope
+1. **Optional** habit selection from the catalogue of popular habits;
+1. Statistics for a specific habit;
+1. Strike system.
+    ```
+    TODO: How is it out of scope, if it is in this document??
+    ```
