@@ -26,12 +26,12 @@ A habit structure that has been approved by the team:
         - Choice of days of the week;
         - Choice of number of days per week.
 
-        One of the options **must** necessarily be selected.
+        One of the options **must** be selected.
     1. Monthly:
         - Selection of the days of the month;
         - Selection of the number of days in the month;
     
-        One of the options **must** necessarily be selected.
+        One of the options **must** be selected.
     1. Interval:
         - **Required** selection of the frequency of repetition of the habit in days (Every *N* Days);
 
@@ -48,32 +48,32 @@ A habit structure that has been approved by the team:
 After clicking the `Add Habit` button, the following fields are displayed:  
 
 **Required** fields:
-- `Habit type` - selection between `Positive` or `Negative` habit.  
-- `Habit name` - field for entering the habit’s name.  
-- `Icon selection` - choice of an icon from the icon catalogue.  
-- `Color selection` - choice of a color from the color catalogue.  
-- `Goal setting` - field for specifying the habit’s goal, with the ability to select a measurement unit from the catalogue (Count, Steps, M, Km, Sec, Min, Hr, Ml, Cal, G, Mg, Drink).  
+- `Habit type` - selection between `Positive` or `Negative` habit;
+- `Habit name` - field for entering the habit’s name;
+- `Icon selection` - choice of an icon from the icon catalogue;
+- `Color selection` - choice of a color from the color catalogue;
+- `Goal setting` - field for specifying the habit’s goal, with the ability to select a measurement unit from the catalogue (Count, Steps, M, Km, Sec, Min, Hr, Ml, Cal, G, Mg, Drink);
 - `Regularity selection` - field for setting the habit’s repetition frequency:  
     1. Daily: 
-        - Checkbox for daily habit.
-        - Choice of specific days of the week.  
-        - Option to select the number of days per week.  
+        - Checkbox for daily habit;
+        - Choice of specific days of the week;
+        - Option to select the number of days per week.
         
         At least one of these options **must** be selected. 
     1. Monthly:  
-        - Selection of specific days in the month.  
-        - Option to set the number of days per month.  
+        - Selection of specific days in the month;
+        - Option to set the number of days per month.
         
         At least one of these options **must** be selected. 
     1. Interval:
-        - **Required** selection of habit repetition frequency in days (Every *N* Days).  
+        - **Required** selection of habit repetition frequency in days (Every *N* Days).
 
 **Optional** fields:
 - `Time of day` - selection of when the habit is performed (Anytime, Morning, Afternoon, Evening);
 - `Start date` - selection of the habit’s start date;
 - `End date` - selection of the habit’s end date;
 - `Reminder` - reminder settings (Select Time, Reminder Message);
-- `Description` - field for adding additional notes about the habit.  
+- `Description` - field for adding additional notes about the habit.
 
 ### Validation & Saving
 
@@ -84,7 +84,7 @@ After clicking the `Add Habit` button, the following fields are displayed:
 
 ### Canceling
 
-- Clicking the `Cancel` button resets the form and returns the user to the habit list without saving.
+Clicking the `Cancel` button resets the form and returns the user to the habit list without saving.
 
 ## Editing habits
 
@@ -171,7 +171,7 @@ Days on the calendar have three types of highlighting:
 
 ### All habits
 
-When **all** the habits planned for the day are completed, a light and the message `Day N is complete!` are displayed on the screen.
+When **all** the habits planned for the day are completed, a fire icon and the message `Day N is complete!` are displayed on the screen.
 
 In the stats for all habits, the current day is marked as `All completed`, the series of great days continues.
 
