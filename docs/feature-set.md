@@ -162,7 +162,7 @@ Days on the calendar have three types of highlighting:
 ## Strike system
 
 ### All habits
-When **all** the habits planned for the day are completed, a *light* and the message `Day N is complete!` are displayed on the screen.
+When **all** the habits planned for the day are completed, a light and the message `Day N is complete!` are displayed on the screen.
 
 In the stats for all habits, the current day is marked as `All completed`, the series of great days continues.
 
