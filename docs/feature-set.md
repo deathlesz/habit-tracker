@@ -4,11 +4,13 @@ This document aims to provide concise description of the application functionali
 It contains a list of all supported features and their descriptions, as well as a general product description.
 
 ## Product description
+
 *Habit Tracker* is a simple tool that attempts to make your life better.
 
 It makes tracking both good and bad habits easy, visualizes your progress in a clear and concise way and helps you to stay accountable.
 
 ## Data formats
+
 First of all, we need to identify the structure of habit.
 The user **must** enter **required** fields and **may** enter **optional** fields, but this is not necessary.
 
@@ -81,6 +83,7 @@ After clicking the `Add Habit` button, the following fields are displayed:
 - Upon successful saving, the user sees a confirmation message and is redirected to the habit list.
 
 ### Canceling
+
 - Clicking the `Cancel` button resets the form and returns the user to the habit list without saving.
 
 ## Editing habits
@@ -99,12 +102,14 @@ When the `Edit Habit` button is clicked, the habit form opens with all existing 
   - Any **optional** field (`Time of day`, `Start/End date`, `Reminder`, `Description`).
 
 ### Saving Changes
+
 - When the `Save` button is clicked, **all** fields are validated;
 - **If** validation passes, the updated habit is saved to the database;
 - The user sees a success message confirming the changes and is redirected to the habit list.
 
 ### Canceling Changes
-- If the user clicks `Cancel`, a confirmation dialog appears with the message:  
+
+If the user clicks `Cancel`, a confirmation dialog appears with the message:  
   ```
   All unsaved changes will be lost. Are you sure you want to exit?
   ```
@@ -114,7 +119,7 @@ When the `Edit Habit` button is clicked, the habit form opens with all existing 
 ## Actions for habits
 
 Actions for `Incomplete` Habits:
-- `Mark as Complete` - Swipe to fill the progress bar and confirm completio;
+- `Mark as Complete` - Swipe to fill the progress bar and confirm completion;
 - `Edit Habit` - Modify habit settings;
 - `Skip Habit` - Temporarily bypass tracking for the current period;
 - `Delete Habit` - Remove the habit entirely from your list;
@@ -129,9 +134,11 @@ Actions for `Completed` Habits:
 If the user does not mark a habit as `Completed` before the end of its execution period, the habit is **automatically** marked as `Incomplete`.
 
 ## Statistics
+
 ### Statistics for a specific habit
 
 #### Calendar
+
 Days on the calendar have three types of highlighting:
 
 1. `Neutral` (no habit was scheduled for that day);
@@ -148,11 +155,12 @@ Also the following information is provided:
 ### Statistics for all habits
 
 #### Calendar
+
 Days on the calendar have three types of highlighting:
 
 1. `Neutral` (no habit was scheduled for that day);
 1. `Partially` completed (not all scheduled habits were completed);
-1. `All completed` (all scheduled habits for the day were accomplished).
+1. `All completed` (all scheduled habits for the day were completed).
 
 - Information on the *current series* of all habits execution;
 - Information on the *record series* of all habits execution;
@@ -162,16 +170,19 @@ Days on the calendar have three types of highlighting:
 ## Strike system
 
 ### All habits
+
 When **all** the habits planned for the day are completed, a light and the message `Day N is complete!` are displayed on the screen.
 
 In the stats for all habits, the current day is marked as `All completed`, the series of great days continues.
 
 ### A specific habit
+
 When a specific habit is completed, a characteristic sound is made.
 
 In the statistics for a specific habit, the current day is marked as `All completed`, the series for the particular habit continues.
 
 ## Features that are out of scope
+
 1. **Optional** habit selection from the catalogue of popular habits;
 1. Statistics for a specific habit;
 1. Strike system.
