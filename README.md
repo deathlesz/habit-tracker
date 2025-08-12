@@ -34,6 +34,7 @@ _Will be decided in the future._
 | [Arseniy Zhigalovskiy](https://github.com/Panar0ik)             | Frontend            |
 | [Timofey Tomashevskiy](https://github.com/Margit-The-Fell-Omen) | Frontend            |
 | [Timofey Zaberezhny](https://github.com/JFomit)                 | Backend             |
+| [Alexandr Golov](https://github.com/lamerous)                   | Beckend             |
 | [Roman Lagutik](https://github.com/deathlesz)                   | Backend             |
 | [Eduard Kilbas](https://github.com/UterSt)                      | Backend             |
 
