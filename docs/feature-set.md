@@ -12,7 +12,7 @@ It makes tracking both good and bad habits easy, visualizes your progress in a c
 ## Data formats
 
 First of all, we need to identify the structure of habit.
-The user **must** enter **required** fields and **may** enter **optional** fields, but this is not necessary.
+The user **must** enter **required** fields and **may** enter **optional** fields.
 
 A habit structure that has been approved by the team:
 - **Required** field for selecting a `positive/negative` habit;
@@ -173,8 +173,8 @@ Days on the calendar have three types of highlighting:
 
 When **all** the habits planned for the day are completed, a fire icon and the message `Day N is complete!` are displayed on the screen.
 
-In the stats for all habits, the current day is marked as `All completed`, the series of great days continues.
-
+In the stats for all habits, the current day is marked as `All completed`, the series of completed days continues.
+s
 ### A specific habit
 
 When a specific habit is completed, a characteristic sound is made.
