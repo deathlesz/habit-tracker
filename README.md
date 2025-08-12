@@ -7,7 +7,10 @@ clear and concise way and helps you to stay accountable.
 
 ## Tech stack
 
-_Will be decided in the future._
+ - C# 13
+ - .NET 9
+ - MAUI 9
+ - SQLite 3
 
 ## Building and running
 
@@ -32,7 +35,6 @@ _Will be decided in the future._
 | [Timofey Tomashevskiy](https://github.com/Margit-The-Fell-Omen) | Frontend            |
 | [Timofey Zaberezhny](https://github.com/JFomit)                 | Backend             |
 | [Roman Lagutik](https://github.com/deathlesz)                   | Backend             |
-| [Pavel Ivaniuk](https://github.com/iSum126)                     | Backend             |
 | [Eduard Kilbas](https://github.com/UterSt)                      | Backend             |
 
 ## License
