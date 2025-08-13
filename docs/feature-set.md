@@ -110,7 +110,8 @@ Days on the calendar have three types of highlighting:
 
 1. `Neutral` (no habit was scheduled for that day);
 1. `Partially completed` (the habit was not completely fulfilled);
-1. `All completed` (all scheduled habits for the day were accomplished).
+1. `All completed` (all scheduled habits for the day were accomplished);
+1. `Nothing completed` (nothing has been done).
 
 Also the following information is provided:
 
@@ -127,7 +128,8 @@ Days on the calendar have three types of highlighting:
 
 1. `Neutral` (no habit was scheduled for that day);
 1. `Partially` completed (not all scheduled habits were completed);
-1. `All completed` (all scheduled habits for the day were completed).
+1. `All completed` (all scheduled habits for the day were completed);
+1. `Nothing completed` (nothing has been done).
 
 - Information on the *current series* of all habits execution;
 - Information on the *record series* of all habits execution;
