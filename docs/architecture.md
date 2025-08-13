@@ -9,6 +9,8 @@ on:
 
 This file is developed in accordance with the `docs/feature-set.md`.
 
+Schematic is provided; it can be edited with [Excalidraw](https://excalidraw.com).
+
 ## Data flow
 
 Data design in this document defines the precise structure of business entities used in the application.
@@ -82,7 +84,7 @@ The `icon` of the habit is one of the following:
 enum Icon {
     Training,
     Running,
-    DrinkingWater
+    DrinkingWater,
 }
 ```
 
@@ -98,7 +100,7 @@ enum Color {
     Blue,
     Magenta,
     Cyan,
-    White
+    White,
 }
 ```
 
@@ -227,44 +229,44 @@ struct Reminder {
 - Display all habits:
     - Pre-requisites: The user is on the `Main` screen.
     - Flow:
-    - The `Main` screen appears.
-        - The presentation layer calls a method in the logic layer to get all habits through the infrastructure.
-    - The logic layer makes a request to the storage through the infrastructure.
-    - The storage retrieves all stored habits and returns as a sorted list.
-    - The logic layer receives the data from the storage and converts it to the list of `Habit`.
-    - The presentation layer receives the list.
+    - The `Main` screen appears;
+        - The presentation layer calls a method in the application layer to get all habits through the infrastructure;
+    - The application layer makes a request to the storage through the infrastructure;
+    - The storage retrieves all stored habits and returns as a sorted list;
+    - The application layer receives the data from the storage and converts it to the list of `Habit`;
+    - The presentation layer receives the list;
         - The presentation layer receives the data and displays the list of habits or a 'No habits' message.
 - Description of the data flow for creating a new habit:
     - Pre-requisites: The user is on the `Add` screen.
     - Flow:
-    - The presentation layer calls a method in logic layer through infrastructure to add new habit.
-    - The logic layer validates data and makes a request to the storage.
-    - The storage retrieves information about successful/unsuccessfull saving of new instance.
-    - The logic layer receives the information and passes it to logic layer.
+    - The presentation layer calls a method in application layer through infrastructure to add new habit;
+    - The application layer validates data and makes a request to the storage;
+    - The storage retrieves information about successful/unsuccessfull saving of new instance;
+    - The application layer receives the information and passes it to application layer;
     - The presentation layer layer navigates user to `Main` screen and displays message about how saving was made.
 - Description of the data flow for viewing habit details:
     - Pre-requisites: The `Edit` screen appears.
     - Flow:
-    - The presentation layer presents an already loaded habit.
+    - The presentation layer presents an already loaded habit;
 - Description of the data flow for updating a habit:
     - Pre-requisites: The user triggers "Save".
     - Flow: 
-    - The presentation layer calls a method in logic layer to update habit.
-    - The logic layer makes a request to the storage.
-    - The storage retrieves information about successful/unsuccessfull updating of new instance.
-    - The logic layer receives the information and passes it to presentation layer.
+    - The presentation layer calls a method in application layer to update habit;
+    - The application layer makes a request to the storage;
+    - The storage retrieves information about successful/unsuccessfull updating of new instance;
+    - The application layer receives the information and passes it to presentation layer;
     - The presentation layer layer navigates user to `Main` screen and displays message about how updating was made.
 - Description of the data flow for removing a habit:
     - Pre-requisites: The user triggers "Delete habit".
     - Flow:
-    - The presentation layer wait a confirmation to delete a habit.
-    - If user is agree, the presentation layer calls method in logic layer to delete the habit.
-    - The logic layer makes a request to the storage.
-    - The storage retrieves information about successful/unsuccessfull deleting of new instance.
-    - The logic layer receives the information and passes it to controller layer.
+    - The presentation layer wait a confirmation to delete a habit;
+    - If user is agree, the presentation layer calls method in application layer to delete the habit;
+    - The application layer makes a request to the storage;
+    - The storage retrieves information about successful/unsuccessfull deleting of new instance;
+    - The application layer receives the information and passes it to controller layer;
     - The presentation layer layer navigates user to `habit list` screen and displays message about deleting status.
 
-Notice, that when presentation goes to logic layer and logic layer to db, all requests
+Notice, that when presentation goes to application layer and application layer to db, all requests
 go through infrastructure layer.
 
 ## Solution overview
@@ -272,7 +274,7 @@ go through infrastructure layer.
 The project is to be developed with onion architecture.
 The application is cut into layers, specifically:
 - Business entity layer - contains information about business entities;
-- Logic layer - holds logic and operates on business entities;
+- Application layer - holds logic and operates on business entities;
 - Infrastructure layer - contains two interfaces:
     1. Driving adaptor - for requests; data flows from user to application core;
     1. Driven adaptor - for application working; data flows from application core to external services;
@@ -285,7 +287,7 @@ The application is cut into layers, specifically:
     **End commentary text**
 
 - Presentation layer - user interface service; that is what the user interacts with;
-- Db logic layer - provides a database logic for the application's persistence needs;
+- Db application layer - provides a database application for the application's persistence needs;
 - Daemon - a background process for doing notifications and marking habits as incomplete.
 
 ## User flow
@@ -294,8 +296,8 @@ The application is cut into layers, specifically:
 
 This subsection describes the relationships between presentation layer views (screens) and their dependencies. Each item is a description of the navigation flow for opening 
 
-- Upon opening, the app shows the `Main` screen.
-- App can be closed from any screen.
+- Upon opening, the app shows the `Main` screen;
+- App can be closed from any screen;
 - Opening the `Add` screen:
     - Pre-requisites: The user is on the `Main` screen.
     - Action (trigger): The user presses the `Add` button.
@@ -307,7 +309,9 @@ This subsection describes the relationships between presentation layer views (sc
 - Saving a new habit:
     - Pre-requisites: The user is on the `Add` screen.
     - Action (trigger): The user presses the `Save` button.
-    - Result: Navigate to the `Main` screen. A popup with the result is shown.
+    - Result:
+        - Navigate to the `Main` screen;
+        - A popup with the result is shown.
 - Viewing a specific habit\'s details and editing it:
     - Pre-requisites: The user is on the `Main` screen.
     - Action (trigger): The user taps on a specific habit in the list.
@@ -315,11 +319,15 @@ This subsection describes the relationships between presentation layer views (sc
 - Deleting a habit:
     - Pre-requisites: The user is on the `Edit` screen.
     - Action (trigger): The user presses the `Delete` button and confirms the deletion.
-    - Result: After the deletion, navigate to the `Main` screen. The list is updated and no longer shows the deleted habit.
+    - Result:
+        - After the deletion, navigate to the `Main` screen;
+        - The list is updated and no longer shows the deleted habit.
 - Canceling the deletion of a habit:
     - Pre-requisites: `Edit` is shown, a confirmation dialog for deletion is shown.
     - Action (trigger): The user presses the button to cancel the deletion.
-    - Result: The confirmation dialog is dismissed, and the user see the `Edit` screen.
+    - Result:
+        - The confirmation dialog is dismissed;
+        - The user returns to the `Edit` screen.
 - Updating and saving the habit:
     - Pre-requisites: The user is on the `Edit` screen and has changed some information.
     - Action (trigger): The user presses the `Save` button.
