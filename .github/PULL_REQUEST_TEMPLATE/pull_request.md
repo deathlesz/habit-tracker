@@ -1,6 +1,6 @@
 Closes _{replace with issue ids, e.g. #1, #2}_:
-    - #_{issue id}_;
-    - #_{issue id}_.
+- #_{issue id}_;
+- #_{issue id}_.
 
 ## What was done?
 
