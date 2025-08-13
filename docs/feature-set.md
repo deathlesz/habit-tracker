@@ -9,38 +9,6 @@ It contains a list of all supported features and their descriptions, as well as 
 
 It makes tracking both good and bad habits easy, visualizes your progress in a clear and concise way and helps you to stay accountable.
 
-## Data formats
-
-First of all, we need to identify the structure of habit.
-The user **must** enter **required** fields and **may** enter **optional** fields.
-
-A habit structure that has been approved by the team:
-- **Required** field for selecting a `positive/negative` habit;
-- **Required** field for the `name` of the habit;
-- **Required** choice of an `icon` for the habit from the catalogue;
-- **Required** choice of a `color` for the habit from the catalogue;
-- **Required** field for specifying the `goal` with the possibility of selecting a `measurement system` from the `catalogue` (Count, Steps, M, Km, Sec, Min, Hr, Ml, Cal, G, Mg, Drink);
-- **Required** field for selecting the `regularity` of repeating the habit:
-    1. Daily:
-        - Checkbox for daily habit;
-        - Choice of days of the week;
-        - Choice of number of days per week.
-
-        One of the options **must** be selected.
-    1. Monthly:
-        - Selection of the days of the month;
-        - Selection of the number of days in the month;
-    
-        One of the options **must** be selected.
-    1. Interval:
-        - **Required** selection of the frequency of repetition of the habit in days (Every *N* Days);
-
-- **Optional** selection of the `part of the day` (Anytime, Morning, Afternoon, Evening);
-- **Optional** selection of the habit `start date`;
-- **Optional** selection of the habit `end date`;
-- **Optional** `reminder` field (Select Time, Reminder Massage);
-- **Optional** `description` of the habit.
-
 ## Adding habits
 
 ### General form design
@@ -121,7 +89,6 @@ If the user clicks `Cancel`, a confirmation dialog appears with the message:
 Actions for `Incomplete` Habits:
 - `Mark as Complete` - Swipe to fill the progress bar and confirm completion;
 - `Edit Habit` - Modify habit settings;
-- `Skip Habit` - Temporarily bypass tracking for the current period;
 - `Delete Habit` - Remove the habit entirely from your list;
 - `View Statistics` - Open statistics for this specific habit.
 
@@ -180,9 +147,3 @@ In the stats for all habits, the current day is marked as `All completed`, the s
 When a specific habit is completed, a characteristic sound is made.
 
 In the statistics for a specific habit, the current day is marked as `All completed`, the series for the particular habit continues.
-
-## Features that are out of scope
-
-1. **Optional** habit selection from the catalogue of popular habits;
-1. Statistics for a specific habit;
-1. Strike system.
