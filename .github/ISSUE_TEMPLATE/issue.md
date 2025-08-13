@@ -5,9 +5,9 @@ about: "Use this template for all issues"
 
 ## Why?
 
-{replace with a description of why this feature should be added}
+_{replace with a description of why this feature should be added}_
 
 ## What?
 
-{replace with a description of what specifically should be added, changed, etc.}
+_{replace with a description of what specifically should be added, changed, etc.}_
 
