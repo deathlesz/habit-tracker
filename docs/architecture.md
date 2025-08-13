@@ -153,7 +153,7 @@ For setting `regularity` of the habit, the following data types are used:
     - `Monthly` of type `MonthlyRegularity`;
     - contain a single integer; the habit is to be executed every *N* days.
 1. `DailyRegularity` is either
-    - Some specific days of the week (stored as booleans in `WeekDayCollection`), or
+    - Some specific days of the week (a set of week days), or
     - Some number of times per week (a number).
 
 1. `MonthlyRegularity` is either
@@ -161,29 +161,21 @@ For setting `regularity` of the habit, the following data types are used:
     - A single number, representing a general number per month.
 
 ```rust
-struct WeekDayCollection {
-    Monday: bool,
-    Tuesday: bool,
-    Wednesday: bool,
-    Thursday: bool,
-    Friday: bool,
-    Saturday: bool,
-    Sunday: bool
-}
-
 enum Regularity {
     Daily(DailyRegularity),
     Monthly(MonthlyRegularity),
     EveryNDays(i32),
 }
 enum DailyRegularity {
-    DayOfTheWeek(WeekDayCollection),
-    TimesPerWeek(i32),
+    // if nth bit is set, nth day of the week is counted, in that order:
+    // Mon, Tue, Wed, Thu, Fri, Sat, Sun
+    DayOfTheWeek(u8),
+    TimesPerWeek(i8),
 }
 
 enum MonthlyRegularity {
     // if nth bit is set, nth day is counted.
-    ConcreteDays(i32),
+    ConcreteDays(u32),
 
     TimesPerMonth(i32),
 }
