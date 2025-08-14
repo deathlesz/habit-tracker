@@ -40,4 +40,6 @@ _Will be decided in the future._
 
 ## License
 
-_Will be decided in the future._
+This project is distributed under the terms of _Apache License (Version 2.0)_.
+
+See [LICENSE.md](LICENSE.md) for details.
