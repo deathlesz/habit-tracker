@@ -1,0 +1,61 @@
+## Общие файлы для .NET ##
+bin/
+obj/
+.vs/
+.vscode/
+.user
+*.userprefs
+*.suo
+*.cache
+*.swp
+*.nupkg
+*.DS_Store
+
+# Файлы пакетов
+packages/
+artifacts/
+
+# Файлы отладки (логи, дампы)
+debuglog.txt
+*.log
+*.binlog
+
+# Файлы Android (кеши, сборки)
+android/bin/
+android/obj/
+android/build/
+*.apk
+*.aab
+*.keystore
+
+# Файлы iOS (кеши, временные файлы)
+ios/bin/
+ios/obj/
+ios/build/
+*.ipa
+*.p12
+*.mobileprovision
+
+# Файлы Mac Catalyst
+maccatalyst/bin/
+maccatalyst/obj/
+maccatalyst/build/
+
+# Файлы Tizen (если используется)
+tizen/bin/
+tizen/obj/
+tizen/build/
+
+# NuGet-кеши
+.nuget/
+localpackages/
+
+# Файлы тестов (если есть)
+TestResults/
+*.trx
+*.coverage
+
+# Файлы окружения (env, secrets)
+.env
+*.secrets.json
+appsettings.Development.json
