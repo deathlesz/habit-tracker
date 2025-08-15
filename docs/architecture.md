@@ -237,7 +237,7 @@ struct Reminder {
     - The application layer validates data and makes a request to the storage;
     - The storage retrieves information about successful/unsuccessful saving of new instance;
     - The application layer receives the information and passes it to application layer;
-    - The presentation layer layer navigates user to `Main` screen and displays message about how saving was made.
+    - The presentation layer navigates user to `Main` screen and displays message about how saving was made.
 - Description of the data flow for viewing habit details:
     - Pre-requisites: The `Edit` screen appears.
     - Flow:
@@ -249,7 +249,7 @@ struct Reminder {
     - The application layer makes a request to the storage;
     - The storage retrieves information about successful/unsuccessful updating of new instance;
     - The application layer receives the information and passes it to presentation layer;
-    - The presentation layer layer navigates user to `Main` screen and displays message about how updating was made.
+    - The presentation layer navigates user to `Main` screen and displays message about how updating was made.
 - Description of the data flow for removing a habit:
     - Pre-requisites: The user triggers "Delete habit".
     - Flow:
@@ -258,7 +258,7 @@ struct Reminder {
     - The application layer makes a request to the storage;
     - The storage retrieves information about successful/unsuccessful deleting of new instance;
     - The application layer receives the information and passes it to controller layer;
-    - The presentation layer layer navigates user to `habit list` screen and displays message about deleting status.
+    - The presentation layer navigates user to `habit list` screen and displays message about deleting status.
 
 Notice, that when presentation goes to application layer and application layer to db, all requests
 go through infrastructure layer.
