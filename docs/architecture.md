@@ -48,7 +48,7 @@ The habit structure contains fields:
 ```rust
 struct Habit {
     // Required fields
-    kind: GooodnessKind,
+    kind: GoodnessKind,
     name: String,
     icon: Icon,
     color: Color,
@@ -196,7 +196,7 @@ enum PartOfTheDay {
 }
 ```
 
-The state of the habit is either *incomplete* of *completed*.
+The state of the habit is either *incomplete* or *completed*.
 
 ```rust
 enum State {
@@ -235,7 +235,7 @@ struct Reminder {
     - Flow:
     - The presentation layer calls a method in application layer through infrastructure to add new habit;
     - The application layer validates data and makes a request to the storage;
-    - The storage retrieves information about successful/unsuccessfull saving of new instance;
+    - The storage retrieves information about successful/unsuccessful saving of new instance;
     - The application layer receives the information and passes it to application layer;
     - The presentation layer layer navigates user to `Main` screen and displays message about how saving was made.
 - Description of the data flow for viewing habit details:
@@ -247,7 +247,7 @@ struct Reminder {
     - Flow: 
     - The presentation layer calls a method in application layer to update habit;
     - The application layer makes a request to the storage;
-    - The storage retrieves information about successful/unsuccessfull updating of new instance;
+    - The storage retrieves information about successful/unsuccessful updating of new instance;
     - The application layer receives the information and passes it to presentation layer;
     - The presentation layer layer navigates user to `Main` screen and displays message about how updating was made.
 - Description of the data flow for removing a habit:
@@ -256,7 +256,7 @@ struct Reminder {
     - The presentation layer wait a confirmation to delete a habit;
     - If user is agree, the presentation layer calls method in application layer to delete the habit;
     - The application layer makes a request to the storage;
-    - The storage retrieves information about successful/unsuccessfull deleting of new instance;
+    - The storage retrieves information about successful/unsuccessful deleting of new instance;
     - The application layer receives the information and passes it to controller layer;
     - The presentation layer layer navigates user to `habit list` screen and displays message about deleting status.
 
@@ -276,7 +276,7 @@ The application is cut into layers, specifically:
     **Commentary text**
 
     You can think of driving and driven adaptors as of presentation layer and database interfaces
-    respectevly.
+    respectively.
 
     **End commentary text**
 
@@ -309,7 +309,7 @@ This subsection describes the relationships between presentation layer views (sc
 - Viewing a specific habit\'s details and editing it:
     - Pre-requisites: The user is on the `Main` screen.
     - Action (trigger): The user taps on a specific habit in the list.
-    - Result: Navigate to the `Edit` screen to show all stored information for the selected hebit.
+    - Result: Navigate to the `Edit` screen to show all stored information for the selected habit.
 - Deleting a habit:
     - Pre-requisites: The user is on the `Edit` screen.
     - Action (trigger): The user presses the `Delete` button and confirms the deletion.
@@ -335,6 +335,6 @@ This subsection describes the relationships between presentation layer views (sc
     - Action (trigger): The user presses the `Statistics` button.
     - Result: Navigate to `Statistics` screen.
 - Exiting the `Statistics` screen:
-    - Pre-requisites: The user is on `Statistis` screen.
+    - Pre-requisites: The user is on `Statistics` screen.
     - Action (trigger): The user presses the `Exit` button.
     - Result: Navigate back to `Main` screen.
