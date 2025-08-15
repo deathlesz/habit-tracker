@@ -1,6 +1,8 @@
-﻿namespace HabitTracker.Presentation
+﻿using Android.App;
+
+namespace HabitTracker.Presentation
 {
-    public partial class App : Application
+    public partial class App : Microsoft.Maui.Controls.Application
     {
         public App()
         {
