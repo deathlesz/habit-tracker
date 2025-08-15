@@ -54,6 +54,8 @@ struct Habit {
     color: Color,
     goal: Goal,
 
+    regularity: Regularity,
+
     // Optional fields
     part_of_the_day: Option<PartOfTheDay>,
     start_date: Option<DateOnly>,
