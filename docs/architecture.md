@@ -109,15 +109,15 @@ enum Color {
 Feature set required to use the following `measurement unit`s for a habit:
 - Count;
 - Steps;
-- M;
-- Km;
-- Sec;
-- Min;
-- Hr;
-- Ml;
-- Cal;
-- G;
-- Mg;
+- M (meters);
+- Km (kilometers);
+- Sec (seconds);
+- Min (minutes);
+- Hr (hours);
+- Ml (milliliters);
+- Cal (calories);
+- G (grams);
+- Mg (milligrams);
 - Drink.
 
 ```rust
