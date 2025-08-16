@@ -1,7 +1,3 @@
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using MauiColor = Microsoft.Maui.Graphics.Color;
-
 namespace HabitTracker.Domain;
 
 enum GoodnessKind
@@ -40,9 +36,9 @@ record Habit
 }
 
 abstract record Regularity;
-sealed record Daily : Regularity;
-sealed record Monthly : Regularity;
-sealed record EveryNDays(int Count) : Regularity;
+sealed record Daily(DailyRegularity DailyRegularity) : Regularity;
+// sealed record Monthly() : Regularity;
+sealed record EveryNDays(uint Count) : Regularity;
 
 abstract record DailyRegularity;
 sealed record DaysOfTheWeek(byte WeekDays) : DailyRegularity
@@ -87,3 +83,4 @@ sealed record DaysOfTheWeek(byte WeekDays) : DailyRegularity
         _ => false,
     };
 }
+sealed record TimesPerWeek(uint Count) : DailyRegularity;
