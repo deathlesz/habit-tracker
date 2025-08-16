@@ -1,0 +1,31 @@
+using MauiColor = Microsoft.Maui.Graphics.Color;
+
+namespace HabitTracker.Domain;
+
+enum GoodnessKind
+{
+    Positive = 0,
+    Negative,
+}
+
+enum Icon
+{
+    Default = 0,
+
+    Training,
+    Running,
+    DrinkingWater    
+}
+
+enum Color
+{
+
+}
+
+record Habit
+{
+    public required GoodnessKind Kind { get; init; }
+    public required string Name { get; init; }
+    public required Icon Icon { get; init; }
+    public required Color Color { get; init; }
+}
