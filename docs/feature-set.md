@@ -18,8 +18,8 @@ After clicking the `Add Habit` button, the following fields are displayed:
 **Required** fields:
 - `Habit type` - selection between `Positive` or `Negative` habit;
 - `Habit name` - field for entering the habit’s name;
-- `Icon selection` - choice of an icon from the icon catalogue;
-- `Color selection` - choice of a color from the color catalogue;
+- `Icon selection` - choice of an icon from the icon catalogue (default one is provided);
+- `Color selection` - choice of a color from the color catalogue (default one is provided);
 - `Goal setting` - field for specifying the habit’s goal, with the ability to select a measurement unit from the catalogue (Count, Steps, M, Km, Sec, Min, Hr, Ml, Cal, G, Mg, Drink);
 - `Regularity selection` - field for setting the habit’s repetition frequency:  
     1. Daily: 
@@ -108,10 +108,9 @@ If the user does not mark a habit as `Completed` before the end of its execution
 
 Days on the calendar have three types of highlighting:
 
-1. `Neutral` (no habit was scheduled for that day);
+1. `Neutral` (no habit was scheduled for that day or nothing has been done);
 1. `Partially completed` (the habit was not completely fulfilled);
-1. `Completed` (the habit was completed that day);
-1. `Nothing completed` (nothing has been done).
+1. `Completed` (the habit was completed that day).
 
 Also the following information is provided:
 
@@ -126,10 +125,9 @@ Also the following information is provided:
 
 Days on the calendar have three types of highlighting:
 
-1. `Neutral` (no habit was scheduled for that day);
+1. `Neutral` (no habit was scheduled for that day or nothing has been done);
 1. `Partially completed` (not all scheduled habits were completed);
-1. `All completed` (all scheduled habits for the day were completed);
-1. `Nothing completed` (nothing has been done).
+1. `All completed` (all scheduled habits for the day were completed).
 
 - Information on the *current series* of all habits execution;
 - Information on the *record series* of all habits execution;
