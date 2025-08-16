@@ -45,8 +45,35 @@ sealed record Monthly : Regularity;
 sealed record EveryNDays(int Count) : Regularity;
 
 abstract record DailyRegularity;
-sealed record DaysOfTheWeek(byte WeekDays)
+sealed record DaysOfTheWeek(byte WeekDays) : DailyRegularity
 {
+    public DaysOfTheWeek(params ReadOnlySpan<DayOfWeek> days)
+        : this(PackDayOfWeekSpan(days))
+    { }
+
+    private static byte PackDayOfWeekSpan(ReadOnlySpan<DayOfWeek> days)
+    {
+        byte result = 0;
+
+        for (int i = 0; i < days.Length; i++)
+        {
+            result |= days[i] switch
+            {
+                DayOfWeek.Monday => 1,
+                DayOfWeek.Tuesday => 2,
+                DayOfWeek.Wednesday => 4,
+                DayOfWeek.Thursday => 8,
+                DayOfWeek.Friday => 16,
+                DayOfWeek.Saturday => 32,
+                DayOfWeek.Sunday => 64,
+
+                _ => 0
+            };
+        }
+
+        return result;
+    }
+
     public bool IsDaySet(DayOfWeek day) => day switch
     {
         DayOfWeek.Monday => (WeekDays & 1) != 0,
