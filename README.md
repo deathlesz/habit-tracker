@@ -14,7 +14,7 @@ clear and concise way and helps you to stay accountable.
 
 ## Building and running
 
-_At the moment, the implementation is in progress._
+See [Building and Running the App](docs/building-and-running.md) for guidelines.
 
 ## Contributing
 
