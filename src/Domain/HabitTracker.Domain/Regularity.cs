@@ -67,7 +67,7 @@ sealed record ConcreteDays(uint MonthDays) : MonthlyRegularity
         return result;
     }
 
-    public bool isDaySet(int day)
+    public bool IsDaySet(int day)
     {
         return (MonthDays & (1u << (day - 1))) != 0;
     }
