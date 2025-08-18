@@ -1,11 +1,12 @@
 namespace HabitTracker.Domain;
 
 abstract record Regularity;
+abstract record DailyRegularity;
+abstract record MonthlyRegularity;
 sealed record Daily(DailyRegularity DailyRegularity) : Regularity;
-// sealed record Monthly() : Regularity;
+sealed record Monthly(MonthlyRegularity MonthlyRegularity) : Regularity;
 sealed record EveryNDays(uint Count) : Regularity;
 
-abstract record DailyRegularity;
 sealed record DaysOfTheWeek(byte WeekDays) : DailyRegularity
 {
     public DaysOfTheWeek(params ReadOnlySpan<DayOfWeek> days)
@@ -49,3 +50,26 @@ sealed record DaysOfTheWeek(byte WeekDays) : DailyRegularity
     };
 }
 sealed record TimesPerWeek(uint Count) : DailyRegularity;
+
+sealed record ConcreteDays(uint MonthDays) : MonthlyRegularity
+{
+    public ConcreteDays(params ReadOnlySpan<int> days):
+        this(PackDayOfWeekSpan(days))
+    {}
+
+    private static uint PackDayOfWeekSpan(ReadOnlySpan<int> days)
+    {
+        uint result = 0;
+        for (int i = 0; i < days.Length; i++)
+        {
+            result |= 1u << (days[i] - 1);
+        } 
+        return result;
+    }
+
+    public bool isDaySet(int day)
+    {
+        return (MonthDays & (1u << (day - 1))) != 0;
+    }
+};
+sealed record TimesPerMonth(uint Count) : MonthlyRegularity;
