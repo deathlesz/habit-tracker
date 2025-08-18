@@ -18,7 +18,7 @@ _At the moment, the implementation is in progress._
 
 ## Contributing
 
-_Will be decided in the future._
+See our contribution guidelines in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Versioning scheme
 
