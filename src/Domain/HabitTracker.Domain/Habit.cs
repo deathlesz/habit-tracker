@@ -1,3 +1,5 @@
+using Android.Media;
+using JFomit.Functional.Monads;
 using Microsoft.Maui.Animations;
 
 namespace HabitTracker.Domain;
@@ -45,17 +47,7 @@ enum MeasurementUnit
     Drink
 }
 
-struct Goal
-{
-    public string Name {get; init;}
-    public MeasurementUnit Unit {get; init;}
-    
-    public Goal(string name, MeasurementUnit unit)
-    {
-        Name = name;
-        Unit = unit;
-    }
-} 
+record Goal(string Name, MeasurementUnit Unit);
 
 //Optional
 
@@ -72,17 +64,8 @@ enum State
     Complete,
 }
 
-struct Reminder
-{
-    public TimeOnly Time {get; init;}
-    public string Message { get; init; }
+record Reminder(TimeOnly Time, string Message);
 
-    public Reminder(TimeOnly time, string message)
-    {
-        Time = time;
-        Message = message;
-    }
-}
 record Habit
 {
     public required GoodnessKind Kind { get; init; } 
@@ -90,12 +73,12 @@ record Habit
     public required Icon Icon { get; init; }
     public required Color Color { get; init; }
     public required Goal Goal { get; init; }
-    public PartOfTheDay PartOfTheDay { get; init; }
+    public Option<PartOfTheDay> PartOfTheDay { get; init; }
     public State State { get; set; } = State.Incomplete;
-    public Reminder Reminder { get; init; }
-    public DateOnly StartDate { get; init; }
-    public DateOnly EndDate { get; init; }
-    public string Description { get; init; }
+    public Option<Reminder> Reminder { get; init; }
+    public Option<DateOnly> StartDate { get; init; }
+    public Option<DateOnly> EndDate { get; init; }
+    public Option<string> Description { get; init; }
     
     public required Regularity Regularity { get; init; }
 }
