@@ -71,5 +71,6 @@ sealed record ConcreteDays(uint MonthDays) : MonthlyRegularity
     {
         return (MonthDays & (1u << (day - 1))) != 0;
     }
-};
+}
+
 sealed record TimesPerMonth(uint Count) : MonthlyRegularity;
