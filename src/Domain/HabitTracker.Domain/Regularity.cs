@@ -55,7 +55,7 @@ sealed record ConcreteDays(uint MonthDays) : MonthlyRegularity
 {
     public ConcreteDays(params ReadOnlySpan<int> days):
         this(PackDayOfWeekSpan(days))
-    {}
+    { }
 
     private static uint PackDayOfWeekSpan(ReadOnlySpan<int> days)
     {
