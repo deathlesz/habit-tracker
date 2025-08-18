@@ -10,20 +10,20 @@ The instructions differ slightly depending on your operating system and editor.
 ### Install Workloads
 
 1. Install **Visual Studio 2022** with the following workloads:
-   - `.NET Multi-platform App UI development`
-   - `Desktop development with C++` (required for Windows target)
+   - `.NET Multi-platform App UI development`;
+   - `Desktop development with C++` (required for Windows target).
 
 ### Run the App
 
 - **Visual Studio (recommended):**
-  1. Open the solution (`.sln`) file.
-  1. Select a target (`Windows Machine`, `Android Emulator`, etc.) from the run dropdown.
+  1. Open the solution (`.sln`) file;
+  1. Select a target (`Windows Machine`, `Android Emulator`, etc.) from the run dropdown;
   1. Press **F5** to build and run.
 - **VS Code:**
-  1. Install [.NET Meteor](https://marketplace.visualstudio.com/items?itemName=nromanov.dotnet-meteor) extension.
-  1. Open the `Run and Debug` tab and click `create a launch.json file`.
-  1. In the opened panel, select `.NET Meteor Debugger`.
-  1. In the status bar, click the device name and select a target device/emulator.
+  1. Install [.NET Meteor](https://marketplace.visualstudio.com/items?itemName=nromanov.dotnet-meteor) extension;
+  1. Open the `Run and Debug` tab and click `create a launch.json file`;
+  1. In the opened panel, select `.NET Meteor Debugger`;
+  1. In the status bar, click the device name and select a target device/emulator;
   1. Press `F5` to debug or `Ctrl + F5` to run without debugging.
 
 ---
@@ -71,7 +71,7 @@ The instructions differ slightly depending on your operating system and editor.
   Follow the same steps as in the [Windows section](#windows).
 
 - **Manual:**
-  1. Enable USB debugging on your Android device and connect it to your PC.
+  1. Enable USB debugging on your Android device and connect it to your PC;
   1. Verify it is detected:
      ```sh
      adb devices
