@@ -21,6 +21,7 @@
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
 
 		<!-- Display name -->
 		<ApplicationTitle>HabitTracker.Presentation</ApplicationTitle>

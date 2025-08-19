@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Graphics;
 
 namespace HabitTracker.Presentation;
@@ -8,22 +8,24 @@ namespace HabitTracker.Presentation;
 public partial class AddPageViewModel : ObservableObject
 {
     // Fields
-    [ObservableProperty] private string habitName;
-    [ObservableProperty] private string habitDescription;
+    [ObservableProperty]
+    private string habitName = "";
+    [ObservableProperty]
+    private string habitDescription = "";
     
     // Button backgrounds and text field states
-    [ObservableProperty] private Color nameBorderColor = Color.FromArgb("#7B9EE0"); // Default border color
-    [ObservableProperty] private Color habitTypeButtonColor = Color.FromArgb("#7B9EE0"); // Default button color
+    [ObservableProperty]
+    private Color nameBorderColor = Color.FromArgb("#7B9EE0"); // Default border color
+    [ObservableProperty]
+    private Color habitTypeButtonColor = Color.FromArgb("#7B9EE0"); // Default button color
     
-    [ObservableProperty] private string habitTypeText = "Select a habit type";
-    [ObservableProperty] private bool isHabitTypeSelected;
-
-    public AddPageViewModel()
-    {
-    }
+    [ObservableProperty]
+    private string habitTypeText = "Select a habit type";
+    [ObservableProperty]
+    private bool isHabitTypeSelected;
 
     // Commands wired from XAML
-    [RelayCommand]
+    // [RelayCommand]
     private async Task SelectHabitTypeAsync()
     {
         var action = await Shell.Current.DisplayActionSheet(
@@ -38,35 +40,35 @@ public partial class AddPageViewModel : ObservableObject
 
 
         // Example: change the name field border background to indicate a filled state
-        nameBorderColor = Color.FromArgb("#9ACD32"); // Green when selected
+        NameBorderColor = Color.FromArgb("#9ACD32"); // Green when selected
     }
 
-    [RelayCommand]
+    // [RelayCommand]
     private async Task EnterGoalAsync()
     {
         // Open a popup/page to enter goal
         await Shell.Current.DisplayAlert("Goal", "Open goal editor here.", "OK");
     }
 
-    [RelayCommand]
+    // [RelayCommand]
     private async Task SelectRegularityAsync()
     {
         await Shell.Current.DisplayAlert("Regularity", "Open regularity selector.", "OK");
     }
 
-    [RelayCommand]
+    // [RelayCommand]
     private async Task SelectIconColorAsync()
     {
         await Shell.Current.DisplayAlert("Icon & Color", "Open icon/color picker.", "OK");
     }
 
-    [RelayCommand]
+    // [RelayCommand]
     private async Task SelectTimeOfDayAsync()
     {
         await Shell.Current.DisplayAlert("Time of day", "Open time picker.", "OK");
     }
 
-    [RelayCommand]
+    // [RelayCommand]
     private async Task SaveAsync()
     {
         // TODO: validate and persist
@@ -74,7 +76,7 @@ public partial class AddPageViewModel : ObservableObject
         await Shell.Current.GoToAsync("..");
     }
 
-    [RelayCommand]
+    // [RelayCommand]
     private async Task CancelAsync()
     {
         await Shell.Current.GoToAsync("..");
@@ -83,7 +85,7 @@ public partial class AddPageViewModel : ObservableObject
     // Automatically notifies UI and runs OnHabitNameChanged when HabitName is set
 
 
-    public void OnHabitNameChanged(string value)
+    partial void OnHabitNameChanged(string value)
     {
         NameBorderColor = string.IsNullOrWhiteSpace(value)
             ? Color.FromArgb("#7B9EE0") // default blue
