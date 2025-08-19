@@ -1,14 +1,13 @@
 # Habit Tracker
 
-*Habit Tracker* is a simple tool that attempts to make your life better.
+## Overview
 
-It makes tracking both good and bad habits easy, visualizes your progress in a
-clear and concise way and helps you to stay accountable.
+Habit Tracker is a tool designed to help users build positive habits and monitor negative ones. It allows tracking habit completion, setting schedules and repetition cycles, receiving timely notifications, and visualizing progress through clear charts and metrics. The goal is to support users in improving daily routines, boosting productivity, and staying motivated by providing a simple, transparent, and flexible system for managing personal goals.
 
 ## Tech stack
 
  - C# 13
- - .NET 9
+ - .NET 8
  - MAUI 9
  - SQLite 3
 
