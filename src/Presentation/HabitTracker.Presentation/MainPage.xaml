@@ -26,9 +26,11 @@
 
             <Button
                 x:Name="CounterBtn"
-                Text="Click me" 
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
+                Text="Add habit" 
+                Command="{Binding NavigateCommand}"
+                CommandParameter="AddPage"
+                SemanticProperties.Hint="Sends you to add page"
+                Clicked="OnAddClicked"
                 HorizontalOptions="Fill" />
         </VerticalStackLayout>
     </ScrollView>
