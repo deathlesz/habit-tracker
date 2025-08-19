@@ -1,6 +1,5 @@
 namespace HabitTracker.Domain;
-
-enum Color
+public enum Color
 {
     Black = 0,
     Red,

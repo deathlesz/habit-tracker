@@ -1,6 +1,6 @@
-namespace HabitTracker.Domain;
+namespace HabitTracker.Domain.Enums;
 
-enum MeasurementUnit
+public enum MeasurementUnit
 {
     Count = 0,
     Steps,
