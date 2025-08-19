@@ -1,6 +1,6 @@
 namespace HabitTracker.Domain.Enums;
 
-public public enum GoodnessKind
+public enum GoodnessKind
 {
     Positive = 0,
     Negative,
