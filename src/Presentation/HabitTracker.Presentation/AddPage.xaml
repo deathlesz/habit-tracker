@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HabitTracker.Presentation.AddPage"
+             Title="AddPage">
+    
+    <ContentPage.Resources>
+        <!-- Colors -->
+
+        <!-- Rounded pill-like style for list buttons -->
+        <Style TargetType="Button" x:Key="ListButton">
+            <Setter Property="CornerRadius" Value="18"/>
+            <Setter Property="Padding" Value="18,12"/>
+            <Setter Property="WidthRequest" Value="300"/>
+            <Setter Property="HeightRequest" Value="60"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="TextColor" Value="{StaticResource ButtonText}"/>
+            <Setter Property="BackgroundColor" Value="{StaticResource PrimaryBlue}"/>
+            <Setter Property="BorderColor" Value="#7A8BB3"/>
+            <Setter Property="BorderWidth" Value="1.5"/>
+            <Setter Property="Shadow">
+                <Setter.Value>
+                    <Shadow Brush="#33000000" Opacity="0.4" Radius="8" Offset="0,3"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Green filled state (when a field is entered) -->
+        <Style TargetType="Button" x:Key="FilledButton" BasedOn="{StaticResource ListButton}">
+            <Setter Property="BackgroundColor" Value="{StaticResource PrimaryBlue}"/>
+            <Setter Property="BorderColor" Value="#7A8BB3"/>
+            <Setter Property="WidthRequest" Value="300"/>
+            <Setter Property="HeightRequest" Value="50"/>
+        </Style>
+
+        <!-- Footer buttons -->
+        <Style TargetType="Button" x:Key="FooterSave">
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="BackgroundColor" Value="{StaticResource SaveGreen}"/>
+            <Setter Property="CornerRadius" Value="14"/>
+            <Setter Property="Padding" Value="18,10"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+        </Style>
+
+        <Style TargetType="Button" x:Key="FooterCancel" BasedOn="{StaticResource FooterSave}">
+            <Setter Property="BackgroundColor" Value="{StaticResource DangerRed}"/>
+        </Style>
+
+    </ContentPage.Resources>
+
+    <Grid 
+        RowDefinitions="Auto,* ,Auto" 
+        Padding="0,10,0,0"
+        BackgroundColor="{StaticResource PageBg}">
+        
+        <!-- Header pill -->
+        <Border
+            Grid.Row="0"
+            BackgroundColor="{StaticResource OrangeHeader}"
+            StrokeShape="RoundRectangle 999"
+            HorizontalOptions="Center"
+            Padding="26,10"
+            Margin="0,6,0,10">
+            <Label 
+                Text="Add habit" 
+                FontAttributes="Bold" 
+                FontSize="32" 
+                TextColor="Black"/>
+        </Border>
+
+        <!-- Scrollable content -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="12">
+
+                <!-- 1. Enter habit type -->
+                <Button
+                    x:Name="BType"
+                    Text="{Binding HabitTypeText}"
+                    BackgroundColor="{Binding HabitTypeButtonColor}"
+                    Style="{StaticResource ListButton}"
+                    Command="{Binding SelectHabitTypeCommand}" />
+
+                    <!-- 2. Enter habit name (filled look after entry) -->
+                    <Border
+                        x:Name="NameBorder"
+                        StrokeShape="RoundRectangle 18"
+                        BackgroundColor="{Binding NameBorderColor}"
+                        Stroke="#7A8BB3"
+                        StrokeThickness="1.5"
+                        Padding="14,8"
+                        WidthRequest="300">
+                        <Entry
+                            Placeholder="Enter habit name"
+                            Text="{Binding HabitName, Mode=TwoWay}"
+                            TextColor="{StaticResource ButtonText}"
+                            FontAttributes="Bold"
+                            BackgroundColor="Transparent"
+                            ReturnCommand="{Binding OnHabitNameChanged}"
+                            TextChanged="OnHabitNameChanged"/>
+                </Border>
+
+                    <!-- 3. Enter your habit goal -->
+                <Button
+                    Text="Enter your habit goal"
+                    Style="{StaticResource ListButton}"
+                    Command="{Binding EnterGoalCommand}" />
+
+                <!-- 4. Select regularity -->
+                <Button
+                    Text="Select your habit regularity"
+                    Style="{StaticResource ListButton}"
+                    Command="{Binding SelectRegularityCommand}" />
+
+                <!-- 5. Select icon & color -->
+                <Button
+                    Text="Select habit icon and color"
+                    Style="{StaticResource ListButton}"
+                    Command="{Binding SelectIconColorCommand}" />
+
+                <!-- Optional: time of day -->
+                <Button
+                    Text="Select time of day"
+                    Style="{StaticResource ListButton}"
+                    Command="{Binding SelectTimeOfDayCommand}" />
+                
+                <!-- Optional: start date -->
+                <Button
+                    Text="Select start date"
+                    Style="{StaticResource ListButton}"
+                    Command="{Binding SelectTimeOfDayCommand}" />
+                
+                <!-- Optional: end date -->
+                <Button
+                    Text="Select end date"
+                    Style="{StaticResource ListButton}"
+                    Command="{Binding SelectTimeOfDayCommand}" />
+                
+                <!-- Optional: reminder -->
+                <Button
+                    Text="Add reminder"
+                    Style="{StaticResource ListButton}"
+                    Command="{Binding SelectTimeOfDayCommand}" />
+                
+                <!-- Optional: description -->
+                <Border
+                    StrokeShape="RoundRectangle 18"
+                    BackgroundColor="{StaticResource PrimaryBlue}"
+                    Stroke="{StaticResource PrimaryBlue}"
+                    StrokeThickness="1.5"
+                    Padding="14,8"
+                    WidthRequest="300"
+                    MinimumHeightRequest="200">
+                    <Editor
+                        Placeholder="Add description"
+                        Text="{Binding HabitDescription}"
+                        TextColor="{StaticResource ButtonText}"
+                        FontAttributes="Bold"
+                        BackgroundColor="Transparent"/>
+                </Border>
+
+                <!-- Space to make room for footer over scroll -->
+                <BoxView HeightRequest="20" Opacity="0"/>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Footer -->
+        <Grid 
+            Grid.Row="2" 
+            ColumnDefinitions="*,*" 
+            Padding="16,8,16,8"
+            BackgroundColor="{StaticResource PageFooter}">
+            <Button
+                Grid.Column="0"
+                Text="Save"
+                Style="{StaticResource FooterSave}"
+                Command="{Binding SaveCommand}"
+                Margin="0,0,8,0"/>
+            <Button
+                Grid.Column="1"
+                Text="Cancel"
+                Style="{StaticResource FooterCancel}"
+                Command="{Binding CancelCommand}"
+                Clicked="OnCancelClicked"
+                Margin="8,0,0,0"/>
+        </Grid>
+    </Grid>
+</ContentPage>

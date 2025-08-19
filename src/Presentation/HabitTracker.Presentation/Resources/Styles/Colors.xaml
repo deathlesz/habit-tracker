@@ -42,4 +42,14 @@
     <SolidColorBrush x:Key="Gray600Brush" Color="{StaticResource Gray600}"/>
     <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}"/>
     <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
+
+    <Color x:Key="PrimaryBlue">#7B9EE0</Color>
+    <Color x:Key="GreenFilled">#9ACD32</Color>
+    <Color x:Key="PageBg">#FFF0DA</Color>
+    <Color x:Key="PageFooter">#FFE0B0</Color>
+    <Color x:Key="ButtonText">#000000</Color>
+    <Color x:Key="DangerRed">#DF3535</Color>
+    <Color x:Key="SaveGreen">#9ACD32</Color>
+    <Color x:Key="OrangeHeader">#FFA000</Color>
+
 </ResourceDictionary>
