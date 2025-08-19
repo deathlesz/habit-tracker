@@ -1,0 +1,77 @@
+﻿using HabitTracker.Application.Interfaces.Repositories;
+using HabitTracker.Domain.Entities;
+using JFomit.Functional.Monads;
+using HabitTracker.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+
+namespace HabitTracker.Infrastructure.Platforms.Android.Repositories
+{
+	public class EfHabitRepository : IHabitRepository
+	{
+		private readonly AppDbContext _db;
+		public EfHabitRepository(AppDbContext db) => _db = db;
+		public IQueryable<HabitEntity> Habits => _db.Habits
+		.Include(h => h.Regularity)
+		.Include(h => h.Reminder)
+		.AsQueryable();
+		public ICollection<HabitEntity> GetAll() => Habits.ToList();
+		public Result<int, string> AddHabit(HabitEntity entity)
+		{
+			try
+			{
+				_db.Habits.Add(entity);
+				_db.SaveChanges();
+				return Result<int, string>.Ok(entity.Id);
+			}
+			catch (Exception ex)
+			{
+				return Result<int, string>.Fail(ex.Message);
+			}
+		}
+
+		public Result<HabitEntity, string> DeleteHabit(int id)
+		{
+			var entity = _db.Habits
+			.Include(h => h.Regularity)
+			.Include(h => h.Reminder)
+			.FirstOrDefault(h => h.Id == id);
+			if (entity == null)
+				return Result<HabitEntity, string>.Fail($"Habit {id} not found");
+			try
+			{
+				_db.Remove(entity);
+				_db.SaveChanges();
+				return Result<HabitEntity, string>.Ok(entity);
+			}
+			catch (Exception ex)
+			{
+				return Result<HabitEntity, string>.Fail(ex.Message);
+			}
+		}
+
+
+		public Result<HabitEntity, string> UpdateHabit(HabitEntity habitEntity, Action<HabitEntity> action)
+		{
+			try
+			{
+				var tracked = _db.Habits
+				.Include(h => h.Regularity)
+				.Include(h => h.Reminder)
+				.FirstOrDefault(h => h.Id == habitEntity.Id);
+
+
+				if (tracked == null)
+					return Result<HabitEntity, string>.Fail($"Habit {habitEntity.Id} not found");
+
+
+				action(tracked);
+				_db.SaveChanges();
+				return Result<HabitEntity, string>.Ok(tracked);
+			}
+			catch (Exception ex)
+			{
+				return Result<HabitEntity, string>.Fail(ex.Message);
+			}
+		}
+	}
+}

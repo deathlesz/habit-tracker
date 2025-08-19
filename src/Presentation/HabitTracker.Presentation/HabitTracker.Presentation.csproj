@@ -2,7 +2,6 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net8.0-android</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('ios'))">$(TargetFrameworks);net8.0-ios</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('maccatalyst'))">$(TargetFrameworks);net8.0-maccatalyst</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
@@ -41,6 +40,7 @@
 
 		<AndroidFastDeploymentType>None</AndroidFastDeploymentType>
 		<EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+		<Platforms>AnyCPU;ARM64</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -72,6 +72,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Application\HabitTracker.Application\HabitTracker.Application.csproj" />
 	  <ProjectReference Include="..\..\Domain\HabitTracker.Domain\HabitTracker.Domain.csproj" />
+	  <ProjectReference Include="..\..\Infrastructure\HabitTracker.Infrastructure\HabitTracker.Infrastructure.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
