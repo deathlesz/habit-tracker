@@ -1,9 +1,9 @@
 ﻿namespace HabitTracker.Domain.Enums
 {
-    public enum HabitRegularityType 
+    public enum HabitRegularityType
     {
         Daily = 0,
-        Weekly, 
+        Weekly,
         Monthly
     }
 }

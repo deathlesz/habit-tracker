@@ -21,7 +21,7 @@ public record Habit(int Id)
     /// <summary>
     /// Kind, either <see cref="GoodnessKind.Positive"/> or <see cref="GoodnessKind.Negative"/>.
     /// </summary>
-    public required GoodnessKind Kind { get; init; } 
+    public required GoodnessKind Kind { get; init; }
     /// <summary>
     /// The habit's name.
     /// </summary>

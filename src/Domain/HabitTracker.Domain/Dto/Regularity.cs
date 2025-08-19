@@ -84,7 +84,7 @@ public sealed record TimesPerWeek(uint Count) : DailyRegularity;
 /// </summary>
 public sealed record ConcreteDays(uint MonthDays) : MonthlyRegularity
 {
-    public ConcreteDays(params ReadOnlySpan<int> days):
+    public ConcreteDays(params ReadOnlySpan<int> days) :
         this(PackDayOfWeekSpan(days))
     { }
 
@@ -94,7 +94,7 @@ public sealed record ConcreteDays(uint MonthDays) : MonthlyRegularity
         for (int i = 0; i < days.Length; i++)
         {
             result |= 1u << (days[i] - 1);
-        } 
+        }
         return result;
     }
 
