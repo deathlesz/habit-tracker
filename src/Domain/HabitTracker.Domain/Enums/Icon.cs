@@ -1,9 +1,8 @@
-namespace HabitTracker.Domain;
+namespace HabitTracker.Domain.Enums;
 
-enum Icon
+public enum Icon
 {
     Default = 0,
-
     Training,
     Running,
     DrinkingWater
