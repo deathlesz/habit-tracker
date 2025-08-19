@@ -14,7 +14,7 @@ namespace HabitTracker.Application.Interfaces.Services
         /// Starting from StartDate, a notification should be sent to the phone on each specified day of the pattern. 
         /// This loop is repeated CyclesToRun times (null => infinitely).
         /// </summary>
-        public Result<HabitReminderEntity, string> SetRepetitiveNotification(string message, DateOnly StartDate, int CyclePatternLength, ICollection<int> DaysToNotificate, int? CyclesToRun = null);
+        public Result<HabitReminderEntity, string> SetRepetitiveNotification(string message, DateOnly startDate, int cyclePatternLength, ICollection<int> daysToNotificate, int? cyclesToRun = null);
         public Result<HabitReminderEntity, string> DeleteRepetitiveNotification(int id);
     }
 }

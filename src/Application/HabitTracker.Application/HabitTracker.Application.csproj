@@ -29,10 +29,5 @@
 	  <ProjectReference Include="..\..\Domain\HabitTracker.Domain\HabitTracker.Domain.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Interfaces\Repositories\" />
-	  <Folder Include="Interfaces\Services\" />
-	</ItemGroup>
-
 
 </Project>

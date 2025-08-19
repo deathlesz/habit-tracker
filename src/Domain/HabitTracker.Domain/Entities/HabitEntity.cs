@@ -16,12 +16,12 @@ namespace HabitTracker.Domain.Entities
         /// Name of Habit
         /// </summary>
         public required string Name { get; init; }
-        public string Description { get; init; }
+        public string? Description { get; init; }
         public required GoalInfo Goal { get; init; }
         /// <summary>
         /// Info about notification
         /// </summary>
-        public HabitReminderEntity Reminder { get; init; }
+        public HabitReminderEntity? Reminder { get; init; }
         /// <summary>
         /// Info about schedule and its completing stage
         /// </summary>
