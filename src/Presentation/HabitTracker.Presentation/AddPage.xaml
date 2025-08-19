@@ -99,11 +99,19 @@
                             TextChanged="OnHabitNameChanged"/>
                 </Border>
 
-                    <!-- 3. Enter your habit goal -->
+                <!-- 3. Enter your habit goal -->
                 <Button
                     Text="Enter your habit goal"
+                    BackgroundColor="{Binding HabitGoalMUnitButtonColor}"
                     Style="{StaticResource ListButton}"
                     Command="{Binding EnterGoalCommand}" />
+
+                <!-- 3.5. Enter your habit goal measurement unit -->
+                <Button
+                    x:Name="BGoalMUnit"
+                    Text="Enter your habit goal measurement unit"
+                    Style="{StaticResource ListButton}"
+                    Command="{Binding EnterGoalMUnitCommand}" />
 
                 <!-- 4. Select regularity -->
                 <Button
