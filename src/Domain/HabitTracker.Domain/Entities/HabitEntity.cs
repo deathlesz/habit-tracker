@@ -15,9 +15,9 @@ namespace HabitTracker.Domain.Entities
         /// <summary>
         /// Name of Habit
         /// </summary>
-        public required string Name { get; init; }
+        public string Name { get; init; }
         public string? Description { get; init; }
-        public required GoalInfo Goal { get; init; }
+        public GoalInfo Goal { get; init; }
         /// <summary>
         /// Info about notification
         /// </summary>
@@ -25,10 +25,10 @@ namespace HabitTracker.Domain.Entities
         /// <summary>
         /// Info about schedule and its completing stage
         /// </summary>
-        public required HabitScheduleEntity Regularity { get; init; }
-        public required GoodnessKind Kind { get; init; }
-        public required Icon Icon { get; init; }
-        public required Color Color { get; init; }
+        public HabitScheduleEntity Regularity { get; init; }
+        public GoodnessKind Kind { get; init; }
+        public Icon Icon { get; init; }
+        public Color Color { get; init; }
         public PartOfTheDay? PartOfTheDay { get; init; }
         public State State { get; set; } = State.Incomplete;
         public DateOnly? StartDate { get; init; }

@@ -36,7 +36,7 @@ public sealed record EveryNDays(uint Count) : Regularity;
 /// </summary>
 public sealed record DaysOfTheWeek(byte WeekDays) : DailyRegularity
 {
-    public DaysOfTheWeek(params ReadOnlySpan<DayOfWeek> days)
+    public DaysOfTheWeek(ReadOnlySpan<DayOfWeek> days)
         : this(PackDayOfWeekSpan(days))
     { }
 

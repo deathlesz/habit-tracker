@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using HabitTracker.Infrastructure.Platforms.Android.ProgramConfiguration;
+using HabitTracker.Infrastructure;
 namespace HabitTracker.Presentation
 {
     public static class MauiProgram
@@ -13,12 +15,13 @@ namespace HabitTracker.Presentation
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-
+			builder.Services.AddInfrastructureLayer();
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
-
-            return builder.Build();
-        }
+            var application = builder.Build();
+			application.UseInfrastructureLayerSystems();
+			return application;
+		}
     }
 }
