@@ -1,12 +1,37 @@
 namespace HabitTracker.Domain.Dto;
 
+/// <summary>
+/// A kind of regularity. Can be one of <see cref="DailyRegularity"/>, <see cref="MonthlyRegularity"/> or <see cref="EveryNDays"/>.
+/// </summary>
+/// <remarks>
+/// Use pattern matching to extract the concrete regularity record:
+/// </remarks>
+/// <seealso href="https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/functional/pattern-matching"/>
 public abstract record Regularity;
+/// <summary>
+/// A kind of daily regularity.
+/// </summary>
 public abstract record DailyRegularity;
+/// <summary>
+/// A kind of monthly regularity.
+/// </summary>
 public abstract record MonthlyRegularity;
+/// <summary>
+/// A variant of <see cref="Regularity"/>, the daily one.
+/// </summary>
 public sealed record Daily(DailyRegularity DailyRegularity) : Regularity;
+/// <summary>
+/// A variant of <see cref="Regularity"/>, the monthly one.
+/// </summary>
 public sealed record Monthly(MonthlyRegularity MonthlyRegularity) : Regularity;
+/// <summary>
+/// A variant of <see cref="Regularity"/>, the <i>Every N days</i> one.
+/// </summary>
 public sealed record EveryNDays(uint Count) : Regularity;
 
+/// <summary>
+/// A variant of <see cref="DailyRegularity"/>, the <i>Days per week</i> one.
+/// </summary>
 public sealed record DaysOfTheWeek(byte WeekDays) : DailyRegularity
 {
     public DaysOfTheWeek(params ReadOnlySpan<DayOfWeek> days)
@@ -49,8 +74,14 @@ public sealed record DaysOfTheWeek(byte WeekDays) : DailyRegularity
         _ => false,
     };
 }
+/// <summary>
+/// A variant of <see cref="DailyRegularity"/>, a times per week one.
+/// </summary>
 public sealed record TimesPerWeek(uint Count) : DailyRegularity;
 
+/// <summary>
+/// A variant of <see cref="MonthlyRegularity"/>.
+/// </summary>
 public sealed record ConcreteDays(uint MonthDays) : MonthlyRegularity
 {
     public ConcreteDays(params ReadOnlySpan<int> days):
@@ -73,4 +104,7 @@ public sealed record ConcreteDays(uint MonthDays) : MonthlyRegularity
     }
 }
 
+/// <summary>
+/// A variant of <see cref="MonthlyRegularity"/>, a times per month one.
+/// </summary>
 public sealed record TimesPerMonth(uint Count) : MonthlyRegularity;
