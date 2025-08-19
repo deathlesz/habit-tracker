@@ -9,6 +9,6 @@ namespace HabitTracker.Application.Interfaces.Repositories
         public ICollection<HabitEntity> GetAll();
         public Result<int, string> AddHabit(HabitEntity entity);
         public Result<HabitEntity, string> DeleteHabit(int id);
-		public Result<HabitEntity, string> UpdateHabit(HabitEntity habitEntity, Action<HabitEntity> action);
-	}
+        public Result<HabitEntity, string> UpdateHabit(HabitEntity habitEntity, Action<HabitEntity> action);
+    }
 }
