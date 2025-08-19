@@ -14,6 +14,6 @@ namespace HabitTracker.Application.Interfaces.Repositories
         public ICollection<HabitReminderEntity> GetAll();
         public Result<int, string> AddHabit(HabitReminderEntity entity);
         public Result<HabitReminderEntity, string> DeleteHabit(int id);
-		public Result<HabitReminderEntity, string> UpdateHabit(HabitReminderEntity habitReminderEntity, Action<HabitReminderEntity> action);
-	}
+        public Result<HabitReminderEntity, string> UpdateHabit(HabitReminderEntity habitReminderEntity, Action<HabitReminderEntity> action);
+    }
 }
