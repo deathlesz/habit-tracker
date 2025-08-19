@@ -7,7 +7,8 @@ namespace HabitTracker.Application.Interfaces.Repositories
     {
         IQueryable<HabitEntity> Habits { get; }
         public ICollection<HabitEntity> GetAll();
-        public Result<int, string> WriteHabit(HabitEntity entity);
+        public Result<int, string> AddHabit(HabitEntity entity);
         public Result<HabitEntity, string> DeleteHabit(int id);
-    }
+		public Result<HabitEntity, string> UpdateHabit(HabitEntity habitEntity, Action<HabitEntity> action);
+	}
 }
