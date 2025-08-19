@@ -1,13 +1,13 @@
-namespace HabitTracker.Domain;
+namespace HabitTracker.Domain.Dto;
 
-abstract record Regularity;
-abstract record DailyRegularity;
-abstract record MonthlyRegularity;
-sealed record Daily(DailyRegularity DailyRegularity) : Regularity;
-sealed record Monthly(MonthlyRegularity MonthlyRegularity) : Regularity;
-sealed record EveryNDays(uint Count) : Regularity;
+public abstract record Regularity;
+public abstract record DailyRegularity;
+public abstract record MonthlyRegularity;
+public sealed record Daily(DailyRegularity DailyRegularity) : Regularity;
+public sealed record Monthly(MonthlyRegularity MonthlyRegularity) : Regularity;
+public sealed record EveryNDays(uint Count) : Regularity;
 
-sealed record DaysOfTheWeek(byte WeekDays) : DailyRegularity
+public sealed record DaysOfTheWeek(byte WeekDays) : DailyRegularity
 {
     public DaysOfTheWeek(params ReadOnlySpan<DayOfWeek> days)
         : this(PackDayOfWeekSpan(days))
@@ -49,9 +49,9 @@ sealed record DaysOfTheWeek(byte WeekDays) : DailyRegularity
         _ => false,
     };
 }
-sealed record TimesPerWeek(uint Count) : DailyRegularity;
+public sealed record TimesPerWeek(uint Count) : DailyRegularity;
 
-sealed record ConcreteDays(uint MonthDays) : MonthlyRegularity
+public sealed record ConcreteDays(uint MonthDays) : MonthlyRegularity
 {
     public ConcreteDays(params ReadOnlySpan<int> days):
         this(PackDayOfWeekSpan(days))
@@ -73,4 +73,4 @@ sealed record ConcreteDays(uint MonthDays) : MonthlyRegularity
     }
 }
 
-sealed record TimesPerMonth(uint Count) : MonthlyRegularity;
+public sealed record TimesPerMonth(uint Count) : MonthlyRegularity;
