@@ -45,12 +45,12 @@ namespace HabitTracker.Domain.Entities.Regularity
         /// <summary>
         /// In a recurring habit, which days from the beginning should be repeated in each cycle
         /// </summary>
-        public ICollection<int> RepeatingDatesToMatch { get; set; }
+        public ICollection<int>? RepeatingDatesToMatch { get; set; }
 
         /// <summary>
         /// A field for storing the days when the habit was successfully marked
         /// </summary>
-        public ICollection<DateOnly> DatesMatched { get; set; }
+        public required ICollection<DateOnly> DatesMatched { get; set; }
         /// <summary>
         /// The number of marked days per cycle.
         /// </summary>
