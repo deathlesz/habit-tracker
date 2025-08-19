@@ -1,0 +1,122 @@
+name: Build & Test
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/**'
+  pull_request:
+    paths:
+      - 'src/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      DOTNET_VERSION: "9.x"
+      ANDROID_CLI_VERSION: "11076708"
+      ANDROID_PLATFORM_VERSION: "34"
+      ANDROID_BUILD_TOOLS_VERSION: "34.0.0"
+
+      ANDROID_HOME: ${{ github.workspace }}/android-sdk
+      ANDROID_SDK_ROOT: ${{ github.workspace }}/android-sdk
+      DOTNET_ROOT: /usr/share/dotnet
+
+      PROJECT_ROOT: src/Presentation/HabitTracker.Presentation
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore .NET tools
+        run: dotnet tool restore
+
+      - name: Install JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: 17
+
+      - name: Cache Android CLI tools
+        uses: actions/cache@v4
+        id: android-cli-cache
+        with:
+          path: ${{ env.ANDROID_HOME }}/cmdline-tools
+          key: ${{ runner.os }}-android-cli-${{ env.ANDROID_CLI_VERSION }}
+          restore-keys: |
+            ${{ runner.os }}-android-cli-
+
+      - name: Download Android CLI tools
+        if: steps.android-cli-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p "$ANDROID_HOME/cmdline-tools"
+          curl -sSL "https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_CLI_VERSION}_latest.zip" -o cmdline-tools.zip
+          unzip -q cmdline-tools.zip -d "$ANDROID_HOME/cmdline-tools"
+          mv "$ANDROID_HOME/cmdline-tools/cmdline-tools" "$ANDROID_HOME/cmdline-tools/latest"
+
+      - name: Add Android SDK to PATH
+        run: |
+          echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> $GITHUB_PATH
+          echo "$ANDROID_HOME/platform-tools" >> $GITHUB_PATH
+          echo "$ANDROID_HOME/build-tools" >> $GITHUB_PATH
+
+      - name: Cache Android SDK components
+        uses: actions/cache@v4
+        id: android-sdk-cache
+        with:
+          path: |
+            ${{ env.ANDROID_HOME }}/platforms
+            ${{ env.ANDROID_HOME }}/platform-tools
+            ${{ env.ANDROID_HOME }}/build-tools
+          key: ${{ runner.os }}-android-sdk-${{ env.ANDROID_PLATFORM_VERSION }}-${{ env.ANDROID_BUILD_TOOLS_VERSION }}
+          restore-keys: |
+            ${{ runner.os }}-android-sdk-
+
+      - name: Install Android SDK components
+        if: steps.android-sdk-cache.outputs.cache-hit != 'true'
+        run: |
+          yes | sdkmanager --licenses
+          sdkmanager "platform-tools" "platforms;android-${ANDROID_PLATFORM_VERSION}" "build-tools;${ANDROID_BUILD_TOOLS_VERSION}"
+
+      - name: Cache MAUI workloads
+        uses: actions/cache@v4
+        id: maui-cache
+        with:
+          path: |
+            ${{ env.DOTNET_ROOT }}/packs
+            ${{ env.DOTNET_ROOT }}/sdk-manifests
+            ${{ env.DOTNET_ROOT }}/toolResolverCache
+          key: ${{ runner.os }}-maui-${{ env.DOTNET_VERSION }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-maui-${{ env.DOTNET_VERSION }}-
+            ${{ runner.os }}-maui-
+
+      - name: Install MAUI workloads
+        if: steps.maui-cache.outputs.cache-hit != 'true'
+        run: dotnet workload install maui-android --skip-manifest-update
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ env.DOTNET_VERSION }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-${{ env.DOTNET_VERSION }}-
+            ${{ runner.os }}-nuget-
+
+      - name: Restore NuGet packages
+        run: dotnet restore "${{ env.PROJECT_ROOT }}"
+
+      - name: Check code style
+        run: dotnet format "${{ env.PROJECT_ROOT }}/HabitTracker.Presentation.sln" --verify-no-changes
+
+      - name: Build solution
+        run: dotnet build "${{ env.PROJECT_ROOT }}" --configuration Release --no-restore 
+
+      - name: Run tests
+        run: dotnet test "${{ env.PROJECT_ROOT }}" --configuration Release --no-build
