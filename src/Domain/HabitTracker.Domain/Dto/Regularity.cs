@@ -104,10 +104,7 @@ public sealed record ConcreteDays(uint MonthDays) : MonthlyRegularity
     }
 }
 
-<<<<<<< HEAD
 /// <summary>
 /// A variant of <see cref="MonthlyRegularity"/>, a times per month one.
 /// </summary>
-=======
->>>>>>> 1394844 (refactor: moved dtos to a dedicated directory)
 public sealed record TimesPerMonth(uint Count) : MonthlyRegularity;
