@@ -141,25 +141,55 @@
 
                 <!-- Optional: time of day -->
                 <Button
-                    Text="Select time of day"
+                    Text="{Binding Path=HabitTimeOfDayButton.Value}"
                     Style="{StaticResource ListButton}"
                     BackgroundColor="{Binding HabitTimeOfDayButton.Color}"
                     Command="{Binding HabitTimeOfDayButton.Command}" />
                 
                 <!-- Optional: start date -->
-                <Button
-                    Text="Select start date"
-                    Style="{StaticResource ListButton}"
-                    BackgroundColor="{Binding HabitStartDateButton.Color}"
-                    Command="{Binding HabitStartDateButton.Command}" />
-                
+                <Border
+                    x:Name="StartDateBorder"
+                    StrokeShape="RoundRectangle 18"
+                    BackgroundColor="{Binding Path=HabitStartDatePicker.Color}"
+                    Stroke="#7A8BB3"
+                    StrokeThickness="1.5"
+                    Padding="14,8"
+                    WidthRequest="300">
+                    <VerticalStackLayout>
+                        <Label
+                            Text="Choose habit start date:"
+                            TextColor="Black"
+                            FontSize="16"/>
+                        <DatePicker
+                            Date="{Binding Path=HabitStartDatePicker.Value}"
+                            TextColor="Black"
+                            FontSize="16"
+                            BackgroundColor="Transparent" />
+                    </VerticalStackLayout>
+                </Border>
+
                 <!-- Optional: end date -->
-                <Button
-                    Text="Select end date"
-                    Style="{StaticResource ListButton}"
-                    BackgroundColor="{Binding HabitEndDateButton.Color}"
-                    Command="{Binding HabitEndDateButton.Command}" />
-                
+                <Border
+                    x:Name="EnaDateBorder"
+                    StrokeShape="RoundRectangle 18"
+                    BackgroundColor="{Binding Path=HabitEndDatePicker.Color}"
+                    Stroke="#7A8BB3"
+                    StrokeThickness="1.5"
+                    Padding="14,8"
+                    WidthRequest="300">
+                    <VerticalStackLayout>
+                        <Label
+                            Text="Choose habit end date:"
+                            TextColor="Black"
+                            FontSize="16"/>
+                        <DatePicker
+                            Date="{Binding Path=HabitEndDatePicker.Value}"
+                            TextColor="Black"
+                            FontSize="16"
+                            BackgroundColor="Transparent" />
+                    </VerticalStackLayout>
+                </Border>
+
                 <!-- Optional: reminder -->
                 <Button
                     Text="Add reminder"

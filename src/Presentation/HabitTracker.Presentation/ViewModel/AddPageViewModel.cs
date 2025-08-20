@@ -17,8 +17,8 @@ public partial class AddPageViewModel
     public ColorChangingElement HabitIconColorButton { get; init; }
     public ColorChangingElement HabitTimeOfDayButton { get; init; }
     public ColorChangingElement HabitReminderButton { get; init; }
-    public ColorChangingElement HabitStartDateButton { get; init; }
-    public ColorChangingElement HabitEndDateButton { get; init; }
+    public ColorChangingElement HabitStartDatePicker { get; init; }
+    public ColorChangingElement HabitEndDatePicker { get; init; }
     public ColorChangingElement HabitDescriptionEditor { get; init; }
 
     public ICommand SaveCommand { get; }
@@ -44,7 +44,7 @@ public partial class AddPageViewModel
         {
             Command = new Command(async () => await SelectIconColorAsync())
         };
-        HabitTimeOfDayButton = new(ElementColorStyle.Default)
+        HabitTimeOfDayButton = new(ElementColorStyle.Default, "Select time of day")
         {
             Command = new Command(async () => await SelectTimeOfDayAsync())
         };
@@ -52,11 +52,11 @@ public partial class AddPageViewModel
         {
             Command = new Command(async () => await SelectReminderAsync())
         };
-        HabitStartDateButton = new(ElementColorStyle.Default)
+        HabitStartDatePicker = new(ElementColorStyle.Default)
         {
             Command = new Command(async () => await SelectStartDateAsync())
         };
-        HabitEndDateButton = new(ElementColorStyle.Default)
+        HabitEndDatePicker = new(ElementColorStyle.Default)
         {
             Command = new Command(async () => await SelectEndDateAsync())
         };
@@ -116,7 +116,7 @@ public partial class AddPageViewModel
             return;
         }
 
-        HabitTimeOfDayButton.SetValue("Measurement unit:", action);
+        HabitTimeOfDayButton.SetValue("Chosen time:", action);
     }
 
     private async Task SelectReminderAsync() => await Shell.Current.DisplayAlert("Reminder", "Open reminder window.", "Ok");
