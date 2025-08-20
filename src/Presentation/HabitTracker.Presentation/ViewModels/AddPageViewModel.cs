@@ -39,6 +39,21 @@ public partial class AddPageViewModel : INotifyPropertyChanged
         }
     }
 
+    private string habitGoal = "";
+    public string HabitGoal
+    {
+        get => habitGoal;
+        set
+        {
+            if (habitGoal != value)
+            {
+                habitGoal = value;
+                OnPropertyChanged();
+                UpdateGoalBorderColor();
+            }
+        }
+    }
+
     private string habitDescription = "";
     public string HabitDescription
     {
@@ -62,6 +77,20 @@ public partial class AddPageViewModel : INotifyPropertyChanged
             if (nameBorderColor != value)
             {
                 nameBorderColor = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private Color goalBorderColor = Color.FromArgb("#7B9EE0");
+    public Color GoalBorderColor
+    {
+        get => goalBorderColor;
+        set
+        {
+            if (goalBorderColor != value)
+            {
+                goalBorderColor = value;
                 OnPropertyChanged();
             }
         }
@@ -123,7 +152,7 @@ public partial class AddPageViewModel : INotifyPropertyChanged
         }
     }
 
-    private string habitGoalMUnitText = "Select a habit type";
+    private string habitGoalMUnitText = "Select your habit goal measurement unit";
     public string HabitGoalMUnitText
     {
         get => habitGoalMUnitText;
@@ -174,7 +203,6 @@ public partial class AddPageViewModel : INotifyPropertyChanged
         HabitTypeButtonColor = Color.FromArgb("#9ACD32");
         IsHabitGoalMUnitSelected = true;
 
-        NameBorderColor = Color.FromArgb("#9ACD32"); // Also change name field to green
     }
 
     private async Task EnterGoalMUnitAsync()
@@ -185,11 +213,10 @@ public partial class AddPageViewModel : INotifyPropertyChanged
         if (string.IsNullOrEmpty(action) || action == "Cancel")
             return;
 
-        HabitGoalMUnitText = "Habit type: " + action;
+        HabitGoalMUnitText = "Measurement unit: " + action;
         HabitGoalMUnitButtonColor = Color.FromArgb("#9ACD32");
-        IsHabitTypeSelected = true;
+        IsHabitGoalMUnitSelected = true;
 
-        NameBorderColor = Color.FromArgb("#9ACD32"); // Also change name field to green
     }
 
     private async Task SelectRegularityAsync()
@@ -231,7 +258,7 @@ public partial class AddPageViewModel : INotifyPropertyChanged
 
     private void UpdateGoalBorderColor()
     {
-        NameBorderColor = string.IsNullOrWhiteSpace(HabitName)
+        GoalBorderColor = string.IsNullOrWhiteSpace(HabitGoal)
             ? Color.FromArgb("#7B9EE0")
             : Color.FromArgb("#9ACD32");
     }

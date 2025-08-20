@@ -35,6 +35,11 @@ public partial class AddPage : ContentPage
 
     }
 
+    private void OnHabitGoalChanged(object sender, TextChangedEventArgs e)
+    {
+
+    }
+
     private async void OnGoalClicked(object sender, EventArgs e)
     {
     
