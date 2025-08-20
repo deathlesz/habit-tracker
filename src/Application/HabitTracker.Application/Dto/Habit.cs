@@ -1,6 +1,8 @@
 using Android.Media;
 using HabitTracker.Domain.Enums;
 using JFomit.Functional.Monads;
+using Color = HabitTracker.Domain.Color;
+using State = HabitTracker.Domain.Enums.State;
 
 namespace HabitTracker.Application.Dto;
 
@@ -44,9 +46,9 @@ public record Habit(int Id)
     /// </summary>
     public Option<PartOfTheDay> PartOfTheDay { get; init; }
     /// <summary>
-    /// The habit's state, either <see cref="Enums.State.Complete"/> or <see cref="Enums.State.Incomplete"/>.
+    /// The habit's state, either <see cref="State.Complete"/> or <see cref="State.Incomplete"/>.
     /// </summary>
-    public Enums.State State { get; set; } = Enums.State.Incomplete;
+    public State State { get; set; } = State.Incomplete;
     /// <summary>
     /// The <see cref="Dto.Reminder"/> associated with the habit, if any.
     /// </summary>
