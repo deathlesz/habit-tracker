@@ -75,23 +75,23 @@
                 <!-- 1. Enter habit type -->
                 <Button
                     x:Name="BType"
-                    Text="{Binding HabitTypeText}"
-                    BackgroundColor="{Binding HabitTypeButtonColor}"
+                    Text="{Binding Path=HabitTypeButton.Value}"
+                    BackgroundColor="{Binding Path=HabitTypeButton.Color}"
                     Style="{StaticResource ListButton}"
-                    Command="{Binding SelectHabitTypeCommand}" />
+                    Command="{Binding Path=HabitTypeButton.Command}" />
 
                     <!-- 2. Enter habit name (filled look after entry) -->
                     <Border
                         x:Name="NameBorder"
                         StrokeShape="RoundRectangle 18"
-                        BackgroundColor="{Binding NameBorderColor}"
+                        BackgroundColor="{Binding Path=HabitNameEntry.Color}"
                         Stroke="#7A8BB3"
                         StrokeThickness="1.5"
                         Padding="14,8"
                         WidthRequest="300">
                         <Entry
                             Placeholder="Enter habit name"
-                            Text="{Binding HabitName, Mode=TwoWay}"
+                            Text="{Binding Path=HabitNameEntry.Value, Mode=TwoWay}"
                             TextColor="{StaticResource ButtonText}"
                             FontAttributes="Bold"
                             BackgroundColor="Transparent"
