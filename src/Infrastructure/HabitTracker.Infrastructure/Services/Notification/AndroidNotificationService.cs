@@ -4,14 +4,32 @@ using JFomit.Functional.Monads;
 using HabitTracker.Application.Interfaces.Services;
 
 namespace HabitTracker.Infrastructure.Services.Notification;
-
+/// <summary>
+/// Service responsible for managing habit reminders on the Android platform.
+/// Provides functionality to create and delete repetitive notifications.
+/// </summary>
 public class AndroidNotificationService : INotificationService
 {
     private IHabitReminderRepository _habitReminderRepository;
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AndroidNotificationService"/> class.
+    /// </summary>
     public AndroidNotificationService(IHabitReminderRepository habitReminderRepository)
     {
         _habitReminderRepository = habitReminderRepository;
     }
+    /// <summary>
+    ///Creates a new repetitive habit reminder with the specified parameters.
+    /// </summary>
+    /// <param name="message">The notification message to display.</param>
+    /// <param name="startDate">The date when the reminder starts.</param>
+    /// <param name="cyclePatternLength">The number of days in one cycle.</param>
+    /// <param name="daysToNotificate">The specific days in the cycle when reminders should be sent.</param>
+    /// <param name="cyclesToRun">Optional. Number of cycles to run. If null, the reminder will repeat indefinitely.</param>
+    /// <returns>
+    /// A <see cref="Result{T, string}"/> containing the created <see cref="HabitReminderEntity"/> 
+    /// if successful, or an error message if validation or saving fails.
+    /// </returns>
     public Result<HabitReminderEntity, string> SetRepetitiveNotification(
         string message, 
         DateOnly startDate, 
@@ -57,7 +75,14 @@ public class AndroidNotificationService : INotificationService
             return Result<HabitReminderEntity, string>.Fail(result.Error);
         }
     }
-
+    /// <summary>
+    /// Deletes an existing repetitive notification by its identifier.
+    /// </summary>
+    /// <param name="id">The identifier of the habit reminder to delete.</param>
+    /// <returns>
+    /// A <see cref="Result{T, string}"/> containing the deleted <see cref="HabitReminderEntity"/> 
+    /// if successful, or an error message if not found or deletion fails.
+    /// </returns>
     public Result<HabitReminderEntity, string> DeleteRepetitiveNotification(int id)
     {
         return _habitReminderRepository.DeleteHabit(id);
