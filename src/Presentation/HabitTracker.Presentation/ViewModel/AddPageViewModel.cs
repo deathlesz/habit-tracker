@@ -2,263 +2,88 @@
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
 
 namespace HabitTracker.Presentation.ViewModel;
 
-public record ElementColorStyle(Color DefaultColor, Color SetColor, Color DefaultStrokeColor, Color SetStrokeColor)
+public partial class AddPageViewModel
 {
-    public static ElementColorStyle Default => new(
-        Color.FromArgb("#7B9EE0"),
-        Color.FromArgb("#9ACD32"),
-        Color.FromArgb("#393A9A"), // TODO: maybe better to use #7A8BB3?
-        Color.FromArgb("#78AA60")
-    );
-}
-
-public partial class ColorChangingElement(ElementColorStyle style, string defaultValue = "") : ObservableObject
-{
-    public required ICommand? Command { get; init; }
-    public ElementColorStyle Style { get; init; } = style;
-
-    [ObservableProperty]
-    private Color color = style.DefaultColor;
-    [ObservableProperty]
-    private Color strokeColor = style.DefaultStrokeColor;
-
-    [ObservableProperty]
-    private string value = defaultValue;
-
-    partial void OnValueChanged(string value)
-    {
-        Color = string.IsNullOrWhiteSpace(value)
-            ? Style.DefaultColor
-            : Style.SetColor;
-
-        StrokeColor = string.IsNullOrWhiteSpace(value)
-                ? Style.DefaultStrokeColor
-                : Style.SetStrokeColor;
-    }
-}
-
-public partial class AddPageViewModel : INotifyPropertyChanged
-{
-    public event PropertyChangedEventHandler PropertyChanged;
-
     public ColorChangingElement HabitTypeButton { get; init; }
     public ColorChangingElement HabitNameEntry { get; init; }
     public ColorChangingElement HabitGoalEntry { get; init; }
     public ColorChangingElement HabitGoalMUnitButton { get; init; }
+    public ColorChangingElement HabitRegularityButton { get; init; }
+    public ColorChangingElement HabitIconColorButton { get; init; }
+    public ColorChangingElement HabitTimeOfDayButton { get; init; }
+    public ColorChangingElement HabitReminderButton { get; init; }
+    public ColorChangingElement HabitStartDateButton { get; init; }
+    public ColorChangingElement HabitEndDateButton { get; init; }
+    public ColorChangingElement HabitDescriptionEditor { get; init; }
 
-    // Constructor
+    public ICommand SaveCommand { get; }
+    public ICommand CancelCommand { get; }
+
     public AddPageViewModel()
     {
         HabitTypeButton = new(ElementColorStyle.Default, "Enter your habit type")
         {
             Command = new Command(async () => await SelectHabitTypeAsync())
         };
-        HabitNameEntry = new(ElementColorStyle.Default)
-        {
-            Command = null
-        };
-        HabitGoalEntry = new(ElementColorStyle.Default)
-        {
-            Command = null
-        };
+        HabitNameEntry = new(ElementColorStyle.Default);
+        HabitGoalEntry = new(ElementColorStyle.Default);
         HabitGoalMUnitButton = new(ElementColorStyle.Default, "Select your habit goal measurement unit")
         {
             Command = new Command(async () => await SelectGoalMUnitAsync())
         };
-        
+        HabitRegularityButton = new(ElementColorStyle.Default)
+        {
+            Command = new Command(async () => await SelectRegularityAsync())
+        };
+        HabitIconColorButton = new(ElementColorStyle.Default)
+        {
+            Command = new Command(async () => await SelectIconColorAsync())
+        };
+        HabitTimeOfDayButton = new(ElementColorStyle.Default)
+        {
+            Command = new Command(async () => await SelectTimeOfDayAsync())
+        };
+        HabitReminderButton = new(ElementColorStyle.Default)
+        {
+            Command = new Command(async () => await SelectReminderAsync())
+        };
+        HabitStartDateButton = new(ElementColorStyle.Default)
+        {
+            Command = new Command(async () => await SelectStartDateAsync())
+        };
+        HabitEndDateButton = new(ElementColorStyle.Default)
+        {
+            Command = new Command(async () => await SelectEndDateAsync())
+        };
+        HabitDescriptionEditor = new(ElementColorStyle.Default);
 
-        SelectHabitTypeCommand = new Command(async () => await SelectHabitTypeAsync());
-        EnterGoalMUnitCommand = new Command(async () => await SelectGoalMUnitAsync());
-        SelectRegularityCommand = new Command(async () => await SelectRegularityAsync());
-        SelectIconColorCommand = new Command(async () => await SelectIconColorAsync());
-        SelectTimeOfDayCommand = new Command(async () => await SelectTimeOfDayAsync());
+        // SelectIconColorCommand = new Command(async () => await SelectIconColorAsync());
+        // SelectTimeOfDayCommand = new Command(async () => await SelectTimeOfDayAsync());
         SaveCommand = new Command(async () => await SaveAsync());
         CancelCommand = new Command(async () => await CancelAsync());
     }
 
-    // Fields
-    private string habitName = "";
-    public string HabitName
-    {
-        get => habitName;
-        set
-        {
-            if (habitName != value)
-            {
-                habitName = value;
-                OnPropertyChanged();
-                UpdateNameBorderColor();
-            }
-        }
-    }
-
-    private string habitGoal = "";
-    public string HabitGoal
-    {
-        get => habitGoal;
-        set
-        {
-            if (habitGoal != value)
-            {
-                habitGoal = value;
-                OnPropertyChanged();
-                UpdateGoalBorderColor();
-            }
-        }
-    }
-
-    private string habitDescription = "";
-    public string HabitDescription
-    {
-        get => habitDescription;
-        set
-        {
-            if (habitDescription != value)
-            {
-                habitDescription = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    private Color nameBorderColor = Color.FromArgb("#7B9EE0");
-    public Color NameBorderColor
-    {
-        get => nameBorderColor;
-        set
-        {
-            if (nameBorderColor != value)
-            {
-                nameBorderColor = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    private Color goalBorderColor = Color.FromArgb("#7B9EE0");
-    public Color GoalBorderColor
-    {
-        get => goalBorderColor;
-        set
-        {
-            if (goalBorderColor != value)
-            {
-                goalBorderColor = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    private Color habitTypeButtonColor = Color.FromArgb("#7B9EE0");
-    public Color HabitTypeButtonColor
-    {
-        get => habitTypeButtonColor;
-        set
-        {
-            if (habitTypeButtonColor != value)
-            {
-                habitTypeButtonColor = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    private string habitTypeText = "Select a habit type";
-    public string HabitTypeText
-    {
-        get => habitTypeText;
-        set
-        {
-            if (habitTypeText != value)
-            {
-                habitTypeText = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    private bool isHabitTypeSelected;
-    public bool IsHabitTypeSelected
-    {
-        get => isHabitTypeSelected;
-        set
-        {
-            if (isHabitTypeSelected != value)
-            {
-                isHabitTypeSelected = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    private Color habitGoalMUnitButtonColor = Color.FromArgb("#7B9EE0");
-    public Color HabitGoalMUnitButtonColor
-    {
-        get => habitGoalMUnitButtonColor;
-        set
-        {
-            if (habitGoalMUnitButtonColor != value)
-            {
-                habitGoalMUnitButtonColor = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    private string habitGoalMUnitText = "Select your habit goal measurement unit";
-    public string HabitGoalMUnitText
-    {
-        get => habitGoalMUnitText;
-        set
-        {
-            if (habitGoalMUnitText != value)
-            {
-                habitGoalMUnitText = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    private bool isHabitGoalMUnitSelected;
-    public bool IsHabitGoalMUnitSelected
-    {
-        get => isHabitGoalMUnitSelected;
-        set
-        {
-            if (isHabitGoalMUnitSelected != value)
-            {
-                isHabitGoalMUnitSelected = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    // Commands
-    public ICommand SelectHabitTypeCommand { get; }
-    public ICommand EnterGoalCommand { get; }
-    public ICommand EnterGoalMUnitCommand { get; }
-    public ICommand SelectRegularityCommand { get; }
-    public ICommand SelectIconColorCommand { get; }
-    public ICommand SelectTimeOfDayCommand { get; }
-    public ICommand SaveCommand { get; }
-    public ICommand CancelCommand { get; }
-
-    // Command Methods
-    private async Task SelectHabitTypeAsync()
+    async Task SelectHabitTypeAsync()
     {
         var action = await Shell.Current.DisplayActionSheet(
-            "Choose your habit type", "Cancel", null, "Positive", "Negative");
+                "Choose your habit type",
+                "Cancel",
+                null,
+                "Positive",
+                "Negative"
+            );
 
         if (string.IsNullOrEmpty(action) || action == "Cancel")
+        {
             return;
+        }
 
-        HabitTypeButton.Value = "Habit type: " + action;
+        HabitTypeButton.SetValue("Habit type:", action);
     }
 
     private async Task SelectGoalMUnitAsync()
@@ -267,53 +92,41 @@ public partial class AddPageViewModel : INotifyPropertyChanged
             "Choose your goal", "Cancel", null, "Km", "Sec", "Count", "Step");
 
         if (string.IsNullOrEmpty(action) || action == "Cancel")
+        {
             return;
+        }
 
-        HabitGoalMUnitButton.Value = "Measurement unit: " + action;
-
+        HabitGoalMUnitButton.SetValue("Measurement unit:", action);
     }
 
-    private async Task SelectRegularityAsync()
-    {
-        await Shell.Current.DisplayAlert("Regularity", "Open regularity selector.", "OK");
-    }
-
-    private async Task SelectIconColorAsync()
-    {
-        await Shell.Current.DisplayAlert("Icon & Color", "Open icon/color picker.", "OK");
-    }
-
+    private async Task SelectRegularityAsync() => await Shell.Current.DisplayAlert("Regularity", "Open regularity selector.", "OK");
+    private async Task SelectIconColorAsync() => await Shell.Current.DisplayAlert("Icon & Color", "Open icon/color picker.", "OK");
     private async Task SelectTimeOfDayAsync()
     {
-        await Shell.Current.DisplayAlert("Time of day", "Open time picker.", "OK");
+        var action = await Shell.Current.DisplayActionSheet(
+            "Choose preferred time of day",
+            "Cancel",
+            null,
+            "Morning",
+            "Afternoon",
+            "Night");
+
+        if (string.IsNullOrEmpty(action) || action == "Cancel")
+        {
+            return;
+        }
+
+        HabitTimeOfDayButton.SetValue("Measurement unit:", action);
     }
+
+    private async Task SelectReminderAsync() => await Shell.Current.DisplayAlert("Reminder", "Open reminder window.", "Ok");
+    private async Task SelectStartDateAsync() => await Shell.Current.DisplayAlert("Start date", "Open time picker.", "OK");
+    private async Task SelectEndDateAsync() => await Shell.Current.DisplayAlert("End date", "Open time picker.", "OK");
 
     private async Task SaveAsync()
     {
         await Shell.Current.DisplayAlert("Saved", "Your habit has been saved.", "OK");
         await Shell.Current.GoToAsync("..");
     }
-
-    private async Task CancelAsync()
-    {
-        await Shell.Current.GoToAsync("..");
-    }
-
-    // Helpers
-    private void UpdateNameBorderColor()
-    {
-        NameBorderColor = string.IsNullOrWhiteSpace(HabitName)
-            ? Color.FromArgb("#7B9EE0")
-            : Color.FromArgb("#9ACD32");
-    }
-
-    protected void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-    private void UpdateGoalBorderColor()
-    {
-        GoalBorderColor = string.IsNullOrWhiteSpace(HabitGoal)
-            ? Color.FromArgb("#7B9EE0")
-            : Color.FromArgb("#9ACD32");
-    }
+    private async Task CancelAsync() => await Shell.Current.GoToAsync("..");
 }
