@@ -100,22 +100,36 @@
                 </Border>
 
                 <!-- 3. Enter your habit goal -->
-                <Button
-                    Text="Enter your habit goal"
-                    BackgroundColor="{Binding HabitGoalMUnitButtonColor}"
-                    Style="{StaticResource ListButton}"
-                    Command="{Binding EnterGoalCommand}" />
+                <Border
+                    x:Name="GoalBorder"
+                    StrokeShape="RoundRectangle 18"
+                    BackgroundColor="{Binding GoalBorderColor}"
+                    Stroke="#7A8BB3"
+                    StrokeThickness="1.5"
+                    Padding="14,8"
+                    WidthRequest="300">
+                    <Entry
+                        Placeholder="Enter habit goal"
+                        Text="{Binding HabitGoal, Mode=TwoWay}"
+                        TextColor="{StaticResource ButtonText}"
+                        FontAttributes="Bold"
+                        BackgroundColor="Transparent"
+                        ReturnCommand="{Binding OnHabitGoalChanged}"
+                        TextChanged="OnHabitGoalChanged"/>
+                </Border>
 
                 <!-- 3.5. Enter your habit goal measurement unit -->
                 <Button
                     x:Name="BGoalMUnit"
-                    Text="Enter your habit goal measurement unit"
+                    Text="{Binding HabitGoalMUnitText}"
+                    BackgroundColor="{Binding HabitGoalMUnitButtonColor}"
                     Style="{StaticResource ListButton}"
                     Command="{Binding EnterGoalMUnitCommand}" />
 
                 <!-- 4. Select regularity -->
                 <Button
                     Text="Select your habit regularity"
+                    BackgroundColor="{Binding HabitRegularityColor}"
                     Style="{StaticResource ListButton}"
                     Command="{Binding SelectRegularityCommand}" />
 
@@ -135,19 +149,19 @@
                 <Button
                     Text="Select start date"
                     Style="{StaticResource ListButton}"
-                    Command="{Binding SelectTimeOfDayCommand}" />
+                    Command="{Binding SelectSatrtDateCommand}" />
                 
                 <!-- Optional: end date -->
                 <Button
                     Text="Select end date"
                     Style="{StaticResource ListButton}"
-                    Command="{Binding SelectTimeOfDayCommand}" />
+                    Command="{Binding SelectEndDateCommand}" />
                 
                 <!-- Optional: reminder -->
                 <Button
                     Text="Add reminder"
                     Style="{StaticResource ListButton}"
-                    Command="{Binding SelectTimeOfDayCommand}" />
+                    Command="{Binding SelectReminderCommand}" />
                 
                 <!-- Optional: description -->
                 <Border
