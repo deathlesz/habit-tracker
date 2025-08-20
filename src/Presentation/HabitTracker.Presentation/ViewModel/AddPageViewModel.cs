@@ -2,18 +2,66 @@
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
 
-namespace HabitTracker.Presentation;
+namespace HabitTracker.Presentation.ViewModel;
+
+public record ElementColorStyle(Color DefaultColor, Color SetColor, Color DefaultStrokeColor, Color SetStrokeColor)
+{
+    public static ElementColorStyle Default => new(
+        Color.FromArgb("#7B9EE0"),
+        Color.FromArgb("#9ACD32"),
+        Color.FromArgb("#393A9A"), // TODO: maybe better to use #7A8BB3?
+        Color.FromArgb("#78AA60")
+    );
+}
+
+public partial class ColorChangingElement(ElementColorStyle style, string defaultValue = "") : ObservableObject
+{
+    public required ICommand? Command { get; init; }
+    public ElementColorStyle Style { get; init; } = style;
+
+    [ObservableProperty]
+    private Color color = style.DefaultColor;
+    [ObservableProperty]
+    private Color strokeColor = style.DefaultStrokeColor;
+
+    [ObservableProperty]
+    private string value = defaultValue;
+
+    partial void OnValueChanged(string value)
+    {
+        Color = string.IsNullOrWhiteSpace(value)
+            ? Style.DefaultColor
+            : Style.SetColor;
+
+        StrokeColor = string.IsNullOrWhiteSpace(value)
+                ? Style.DefaultStrokeColor
+                : Style.SetStrokeColor;
+    }
+}
 
 public partial class AddPageViewModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler PropertyChanged;
 
+    public ColorChangingElement HabitTypeButton { get; init; }
+    public ColorChangingElement HabitNameEntry { get; init; }
+
     // Constructor
     public AddPageViewModel()
     {
+        HabitTypeButton = new(ElementColorStyle.Default, "Enter your habit type")
+        {
+            Command = new Command(async () => await SelectHabitTypeAsync())
+        };
+        HabitNameEntry = new(ElementColorStyle.Default)
+        {
+            Command = null
+        };
+
         SelectHabitTypeCommand = new Command(async () => await SelectHabitTypeAsync());
         EnterGoalMUnitCommand = new Command(async () => await EnterGoalMUnitAsync());
         SelectRegularityCommand = new Command(async () => await SelectRegularityAsync());
@@ -199,10 +247,7 @@ public partial class AddPageViewModel : INotifyPropertyChanged
         if (string.IsNullOrEmpty(action) || action == "Cancel")
             return;
 
-        HabitTypeText = "Habit type: " + action;
-        HabitTypeButtonColor = Color.FromArgb("#9ACD32");
-        IsHabitGoalMUnitSelected = true;
-
+        HabitTypeButton.Value = "Habit type: " + action;
     }
 
     private async Task EnterGoalMUnitAsync()
