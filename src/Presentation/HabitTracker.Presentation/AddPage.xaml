@@ -128,52 +128,57 @@
                 <!-- 4. Select regularity -->
                 <Button
                     Text="Select your habit regularity"
-                    BackgroundColor="{Binding HabitRegularityColor}"
+                    BackgroundColor="{Binding HabitRegularityButton.Color}"
                     Style="{StaticResource ListButton}"
-                    Command="{Binding SelectRegularityCommand}" />
+                    Command="{Binding HabitRegularityButton.Command}" />
 
                 <!-- 5. Select icon & color -->
                 <Button
                     Text="Select habit icon and color"
+                    BackgroundColor="{Binding HabitIconColorButton.Color}"
                     Style="{StaticResource ListButton}"
-                    Command="{Binding SelectIconColorCommand}" />
+                    Command="{Binding HabitIconColorButton.Command}" />
 
                 <!-- Optional: time of day -->
                 <Button
                     Text="Select time of day"
                     Style="{StaticResource ListButton}"
-                    Command="{Binding SelectTimeOfDayCommand}" />
+                    BackgroundColor="{Binding HabitTimeOfDayButton.Color}"
+                    Command="{Binding HabitTimeOfDayButton.Command}" />
                 
                 <!-- Optional: start date -->
                 <Button
                     Text="Select start date"
                     Style="{StaticResource ListButton}"
-                    Command="{Binding SelectSatrtDateCommand}" />
+                    BackgroundColor="{Binding HabitStartDateButton.Color}"
+                    Command="{Binding HabitStartDateButton.Command}" />
                 
                 <!-- Optional: end date -->
                 <Button
                     Text="Select end date"
                     Style="{StaticResource ListButton}"
-                    Command="{Binding SelectEndDateCommand}" />
+                    BackgroundColor="{Binding HabitEndDateButton.Color}"
+                    Command="{Binding HabitEndDateButton.Command}" />
                 
                 <!-- Optional: reminder -->
                 <Button
                     Text="Add reminder"
+                    BackgroundColor="{Binding HabitReminderButton.Color}"
                     Style="{StaticResource ListButton}"
-                    Command="{Binding SelectReminderCommand}" />
+                    Command="{Binding HabitReminderButton.Command}" />
                 
                 <!-- Optional: description -->
                 <Border
                     StrokeShape="RoundRectangle 18"
-                    BackgroundColor="{StaticResource PrimaryBlue}"
-                    Stroke="{StaticResource PrimaryBlue}"
+                    BackgroundColor="{Binding Path=HabitDescriptionEditor.Color}"
+                    Stroke="#7A8BB3"
                     StrokeThickness="1.5"
                     Padding="14,8"
                     WidthRequest="300"
                     MinimumHeightRequest="200">
                     <Editor
                         Placeholder="Add description"
-                        Text="{Binding HabitDescription}"
+                        Text="{Binding HabitDescriptionEditor.Value, Mode=TwoWay}"
                         TextColor="{StaticResource ButtonText}"
                         FontAttributes="Bold"
                         BackgroundColor="Transparent"/>
