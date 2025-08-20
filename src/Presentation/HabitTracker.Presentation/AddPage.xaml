@@ -3,9 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HabitTracker.Presentation.AddPage"
              Title="AddPage">
-    
+
     <ContentPage.Resources>
-        <!-- Colors -->
 
         <!-- Rounded pill-like style for list buttons -->
         <Style TargetType="Button" x:Key="ListButton">
@@ -103,14 +102,14 @@
                 <Border
                     x:Name="GoalBorder"
                     StrokeShape="RoundRectangle 18"
-                    BackgroundColor="{Binding GoalBorderColor}"
+                    BackgroundColor="{Binding Path=HabitGoalEntry.Color}"
                     Stroke="#7A8BB3"
                     StrokeThickness="1.5"
                     Padding="14,8"
                     WidthRequest="300">
                     <Entry
                         Placeholder="Enter habit goal"
-                        Text="{Binding HabitGoal, Mode=TwoWay}"
+                        Text="{Binding Path=HabitGoalEntry.Value, Mode=TwoWay}"
                         TextColor="{StaticResource ButtonText}"
                         FontAttributes="Bold"
                         BackgroundColor="Transparent"
@@ -121,10 +120,10 @@
                 <!-- 3.5. Enter your habit goal measurement unit -->
                 <Button
                     x:Name="BGoalMUnit"
-                    Text="{Binding HabitGoalMUnitText}"
-                    BackgroundColor="{Binding HabitGoalMUnitButtonColor}"
+                    Text="{Binding Path=HabitGoalMUnitButton.Value}"
+                    BackgroundColor="{Binding Path=HabitGoalMUnitButton.Color}"
                     Style="{StaticResource ListButton}"
-                    Command="{Binding EnterGoalMUnitCommand}" />
+                    Command="{Binding Path=HabitGoalMUnitButton.Command}" />
 
                 <!-- 4. Select regularity -->
                 <Button
