@@ -49,6 +49,8 @@ public partial class AddPageViewModel : INotifyPropertyChanged
 
     public ColorChangingElement HabitTypeButton { get; init; }
     public ColorChangingElement HabitNameEntry { get; init; }
+    public ColorChangingElement HabitGoalEntry { get; init; }
+    public ColorChangingElement HabitGoalMUnitButton { get; init; }
 
     // Constructor
     public AddPageViewModel()
@@ -61,9 +63,18 @@ public partial class AddPageViewModel : INotifyPropertyChanged
         {
             Command = null
         };
+        HabitGoalEntry = new(ElementColorStyle.Default)
+        {
+            Command = null
+        };
+        HabitGoalMUnitButton = new(ElementColorStyle.Default, "Select your habit goal measurement unit")
+        {
+            Command = new Command(async () => await SelectGoalMUnitAsync())
+        };
+        
 
         SelectHabitTypeCommand = new Command(async () => await SelectHabitTypeAsync());
-        EnterGoalMUnitCommand = new Command(async () => await EnterGoalMUnitAsync());
+        EnterGoalMUnitCommand = new Command(async () => await SelectGoalMUnitAsync());
         SelectRegularityCommand = new Command(async () => await SelectRegularityAsync());
         SelectIconColorCommand = new Command(async () => await SelectIconColorAsync());
         SelectTimeOfDayCommand = new Command(async () => await SelectTimeOfDayAsync());
@@ -250,7 +261,7 @@ public partial class AddPageViewModel : INotifyPropertyChanged
         HabitTypeButton.Value = "Habit type: " + action;
     }
 
-    private async Task EnterGoalMUnitAsync()
+    private async Task SelectGoalMUnitAsync()
     {
         var action = await Shell.Current.DisplayActionSheet(
             "Choose your goal", "Cancel", null, "Km", "Sec", "Count", "Step");
@@ -258,9 +269,7 @@ public partial class AddPageViewModel : INotifyPropertyChanged
         if (string.IsNullOrEmpty(action) || action == "Cancel")
             return;
 
-        HabitGoalMUnitText = "Measurement unit: " + action;
-        HabitGoalMUnitButtonColor = Color.FromArgb("#9ACD32");
-        IsHabitGoalMUnitSelected = true;
+        HabitGoalMUnitButton.Value = "Measurement unit: " + action;
 
     }
 
