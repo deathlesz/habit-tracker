@@ -1,4 +1,4 @@
-namespace HabitTracker.Domain.Dto;
+namespace HabitTracker.Application.Dto;
 
 /// <summary>
 /// A kind of regularity. Can be one of <see cref="DailyRegularity"/>, <see cref="MonthlyRegularity"/> or <see cref="EveryNDays"/>.

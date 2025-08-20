@@ -1,4 +1,4 @@
-using HabitTracker.Domain.Dto;
+using HabitTracker.Application.Dto;
 using JFomit.Functional;
 using JFomit.Functional.Monads;
 
