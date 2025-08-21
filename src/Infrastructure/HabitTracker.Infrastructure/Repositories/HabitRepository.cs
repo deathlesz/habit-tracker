@@ -62,7 +62,7 @@ namespace HabitTracker.Infrastructure.Platforms.Android.Repositories
 					return Result<HabitEntity, string>.Fail($"Habit {habitEntity.Id} not found");
 				action(entry);
 				_db.SaveChanges();
-				return Result<HabitEntity, string>.Ok(entry);
+				return Ok(entry);
 			}
 			catch (Exception ex)
 			{
