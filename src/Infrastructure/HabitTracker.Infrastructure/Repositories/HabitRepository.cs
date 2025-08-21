@@ -45,7 +45,7 @@ namespace HabitTracker.Infrastructure.Platforms.Android.Repositories
 			}
 			catch (Exception ex)
 			{
-				return Result<HabitEntity, string>.Fail(ex.Message);
+				return Error(ex.Message);
 			}
 		}
 
