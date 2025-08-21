@@ -2,11 +2,20 @@
 {
     public partial class App : Microsoft.Maui.Controls.Application
     {
-        public App()
+        public App(IServiceProvider serviceProvider)
         {
             InitializeComponent();
-
-            MainPage = new AppShell();
+            try
+            {
+                MainPage = serviceProvider.GetService<MainPage>();
+            }
+            catch (Exception ex)
+            {
+                MainPage = new ContentPage
+                {
+                    Content = new Label { Text = $"Ошибка: {ex.Message}" }
+                };
+            }
         }
     }
 }
