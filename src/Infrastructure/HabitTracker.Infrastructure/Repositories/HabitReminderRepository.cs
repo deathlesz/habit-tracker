@@ -3,6 +3,7 @@ using HabitTracker.Domain.Entities;
 using HabitTracker.Infrastructure;
 using JFomit.Functional.Monads; 
 using System;
+using static JFomit.Functional.Prelude;
 
 namespace HabitTracker.Infrastructure.Platforms.Android.Repositories
 {
