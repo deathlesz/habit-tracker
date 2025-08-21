@@ -1,12 +1,17 @@
 using HabitTracker.Application.Interfaces;
+using HabitTracker.Application.Interfaces.Repositories;
+using HabitTracker.Application.Interfaces.Services;
 using HabitTracker.Domain.Dto;
 using JFomit.Functional;
 using JFomit.Functional.Monads;
 
 namespace HabitTracker.Application;
 
-public class PresentationGateway : IPresentation
+public class PresentationGateway(IHabitRepository habitRepository, INotificationService notificationService) : IPresentation
 {
+    public IHabitRepository HabitRepository { get; } = habitRepository;
+    public INotificationService NotificationService { get; } = notificationService;
+
     public Result<Habit, string> CreateHabit(Habit habit)
     {
         throw new NotImplementedException();

@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace HabitTracker.Domain.Dto;
 
 /// <summary>
@@ -73,6 +75,43 @@ public sealed record DaysOfTheWeek(byte WeekDays) : DailyRegularity
 
         _ => false,
     };
+
+    /// <summary>
+    /// From 0 to 6, 0 is <see cref="DayOfWeek.Monday"/>.
+    /// </summary>
+    /// <returns></returns>
+    public List<int> UnpackDays()
+    {
+        var lst = new List<int>();
+
+        AppendIfPresent(lst, DayOfWeek.Monday);
+        AppendIfPresent(lst, DayOfWeek.Tuesday);
+        AppendIfPresent(lst, DayOfWeek.Wednesday);
+        AppendIfPresent(lst, DayOfWeek.Thursday);
+        AppendIfPresent(lst, DayOfWeek.Friday);
+        AppendIfPresent(lst, DayOfWeek.Saturday);
+        AppendIfPresent(lst, DayOfWeek.Sunday);
+
+        return lst;
+    }
+    private void AppendIfPresent(List<int> days, DayOfWeek day)
+    {
+        if (IsDaySet(day))
+        {
+            days.Add(day switch
+            {
+                DayOfWeek.Monday => 0,
+                DayOfWeek.Tuesday => 1,
+                DayOfWeek.Wednesday => 2,
+                DayOfWeek.Thursday => 3,
+                DayOfWeek.Friday => 4,
+                DayOfWeek.Saturday => 5,
+                DayOfWeek.Sunday => 6,
+
+                _ => throw new UnreachableException(),
+            });
+        }
+    }
 }
 /// <summary>
 /// A variant of <see cref="DailyRegularity"/>, a times per week one.
@@ -101,6 +140,29 @@ public sealed record ConcreteDays(uint MonthDays) : MonthlyRegularity
     public bool IsDaySet(int day)
     {
         return (MonthDays & (1u << (day - 1))) != 0;
+    }
+
+    /// <summary>
+    /// From 1 to 31.
+    /// </summary>
+    /// <returns></returns>
+    public List<int> UnpackDays()
+    {
+        var lst = new List<int>();
+
+        for (int i = 1; i <= 31; i++)
+        {
+            AppendIfPresent(lst, i);
+        }
+
+        return lst;
+    }
+    private void AppendIfPresent(List<int> days, int day)
+    {
+        if (IsDaySet(day))
+        {
+            days.Add(day);
+        }
     }
 }
 
