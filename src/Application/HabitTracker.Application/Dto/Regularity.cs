@@ -1,3 +1,5 @@
+using Javax.Security.Auth;
+
 namespace HabitTracker.Application.Dto;
 
 /// <summary>
@@ -73,7 +75,49 @@ public sealed record DaysOfTheWeek(byte WeekDays) : DailyRegularity
 
         _ => false,
     };
+
+    public List<int> Extract()
+    {
+        var lst = new List<int>();
+        lst
+            .AppendIfSet(this, DayOfWeek.Monday)
+            .AppendIfSet(this, DayOfWeek.Thursday)
+            .AppendIfSet(this, DayOfWeek.Wednesday)
+            .AppendIfSet(this, DayOfWeek.Thursday)
+            .AppendIfSet(this, DayOfWeek.Friday)
+            .AppendIfSet(this, DayOfWeek.Saturday)
+            .AppendIfSet(this, DayOfWeek.Sunday);
+            
+        return lst;
+    }
+
 }
+
+file static class ListExtensions
+{
+    internal static List<int> AppendIfSet(this List<int> lst, DaysOfTheWeek obj, DayOfWeek dayOfWeek)
+    {
+        if (obj.IsDaySet(dayOfWeek))
+        {
+            lst.Add(dayOfWeek switch
+            {
+                DayOfWeek.Monday => 0,
+                DayOfWeek.Tuesday => 1,
+                DayOfWeek.Wednesday => 2,
+                DayOfWeek.Thursday => 3,
+                DayOfWeek.Friday => 4,
+                DayOfWeek.Saturday => 5,
+                DayOfWeek.Sunday => 6,
+
+                _ => 0
+            });
+        }
+
+        return lst;
+    }
+}
+
+
 /// <summary>
 /// A variant of <see cref="DailyRegularity"/>, a times per week one.
 /// </summary>

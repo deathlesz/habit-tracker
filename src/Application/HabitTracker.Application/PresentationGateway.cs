@@ -6,6 +6,8 @@ using JFomit.Functional.Extensions;
 using static JFomit.Functional.Prelude;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using HabitTracker.Domain.Entities;
+using HabitTracker.Domain.Entities.Regularity;
 
 namespace HabitTracker.Application;
 
@@ -14,15 +16,15 @@ public class PresentationGateway : IPresentation
     public Result<Habit, string> CreateHabit(Habit habit)
     {
         Result<Habit, string> result = Ok(habit);
-        
+
         return result
-            .Where(static habit => Enum.IsDefined(habit.Kind), "Invalid kind.")
+            // .Where(static habit => Enum.IsDefined(habit.Kind), "Invalid kind.")
             .Where(static habit => !string.IsNullOrWhiteSpace(habit.Name), "Empty name.")
-            .Where(static habit => Enum.IsDefined(habit.Icon), "Invalid icon.")
-            .Where(static habit => Enum.IsDefined(habit.Color), "Invalid color.")
+            // .Where(static habit => Enum.IsDefined(habit.Icon), "Invalid icon.")
+            // .Where(static habit => Enum.IsDefined(habit.Color), "Invalid color.")
             .Where(static habit => !string.IsNullOrWhiteSpace(habit.Goal.Name), "Invalid goal name.")
-            .Where(static habit => Enum.IsDefined(habit.Goal.Unit), "Invalid measurement unit.")
-            .Where(static habit => habit.PartOfTheDay.TryUnwrap(out var part) && Enum.IsDefined(part), "Invalid part of the day.")
+            // .Where(static habit => Enum.IsDefined(habit.Goal.Unit), "Invalid measurement unit.")
+            // .Where(static habit => habit.PartOfTheDay.TryUnwrap(out var part) && Enum.IsDefined(part), "Invalid part of the day.")
             .Where(static habit => habit.Description.TryUnwrap(out var d) && !string.IsNullOrWhiteSpace(d), "Invalid description.")
             .Where(static habit => habit.Regularity switch
             {
@@ -41,7 +43,89 @@ public class PresentationGateway : IPresentation
                 EveryNDays(var days) => days > 0,
                 _ => throw new UnreachableException()
             },
-            "Invalid regularity.");
+            "Invalid regularity.")
+            .Select(habit =>
+                new HabitEntity()
+                {
+                    Kind = habit.Kind,
+                    Color = habit.Color,
+                    Goal = new GoalInfo(habit.Goal.Name, habit.Goal.Unit)0,
+                    Description = habit.Description.ToNullable(),
+                    Icon = habit.Icon,
+                    Name = habit.Name,
+                    EndDate = habit.EndDate.ToNullable(),
+                    StartDate = habit.StartDate.ToNullable(),
+                    Regularity = CreateFromRegularity(habit.Regularity)
+                }
+            );
+    }
+
+    private static HabitScheduleEntity CreateFromRegularity(Regularity regularity)
+    {
+        return regularity switch
+        {
+            Daily(var dailyRegularity) => ConvertDaily(dailyRegularity),
+            Monthly(var monthlyRegularity) => ConvertMonthly(monthlyRegularity),
+
+            _ => throw new UnreachableException()
+        };
+
+        static HabitScheduleEntity ConvertDaily(DailyRegularity dailyRegularity)
+        {
+            return dailyRegularity switch
+            {
+                DaysOfTheWeek daysOfTheWeek => new HabitScheduleEntity()
+                {
+                    RepeatingCycleDays = 7,
+                    IsAnyDay = false,
+                    IsAllMachedDays = true,
+                    DatesMatched = [],
+                    RepeatingDatesToMatch = daysOfTheWeek.Extract(),
+                    StartDate = GetStartOfTheWeekDate(DateTime.Now),
+                },
+                TimesPerWeek timesPerWeek => new HabitScheduleEntity()
+                {
+                    RepeatingCycleDays = 7,
+                    IsAnyDay = true,
+                    IsAllMachedDays = false,
+                    DatesMatched = [],
+                    RepeatingDatesToMatch = null,
+                    StartDate = GetStartOfTheWeekDate(DateTime.Now),
+                    CycleMachedDaysGoal = (int)timesPerWeek.Count,
+                },
+
+                _ => throw new UnreachableException()
+            };
+        }
+
+        static HabitScheduleEntity ConvertMonthly(MonthlyRegularity monthlyRegularity)
+        {
+            return monthlyRegularity switch
+            {
+                TimesPerMonth timesPerMonth => new HabitScheduleEntity()
+                {
+                    // what to put here?????
+                    RepeatingCycleDays = null,
+                    IsAnyDay = true,
+                    IsAllMachedDays = false,
+                    
+                },
+
+                _ => throw new UnreachableException()
+            };
+        }
+    }
+
+    private static DateOnly GetStartOfTheWeekDate(DateTime anchor)
+    {
+        // Skipping to the start of the week. Is probably bad
+        // because of Unix time
+        while (anchor.DayOfWeek != DayOfWeek.Monday)
+        {
+            anchor.Subtract(TimeSpan.FromDays(1));
+        }
+
+        return DateOnly.FromDateTime(anchor);
     }
 
     public Result<Unit, string> DeleteHabit(int id)
