@@ -41,7 +41,7 @@ namespace HabitTracker.Infrastructure.Platforms.Android.Repositories
 			{
 				_db.Remove(entity);
 				_db.SaveChanges();
-				return Result<HabitEntity, string>.Ok(entity);
+				return Ok(entity);
 			}
 			catch (Exception ex)
 			{
