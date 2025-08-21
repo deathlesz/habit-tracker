@@ -62,3 +62,6 @@ appsettings.Development.json
 
 #Rider files
 .idea/
+
+# User-specific properties
+*.csproj.user
