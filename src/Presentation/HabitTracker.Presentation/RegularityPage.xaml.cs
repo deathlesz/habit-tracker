@@ -4,9 +4,9 @@ namespace HabitTracker.Presentation;
 
 public partial class RegularityPage : ContentPage
 {
-	public RegularityPage()
-	{
-		InitializeComponent();
+    public RegularityPage()
+    {
+        InitializeComponent();
         BindingContext = new RegularityPageViewModel();
     }
     private async void OnCancelClicked(object sender, EventArgs e) //return to home page

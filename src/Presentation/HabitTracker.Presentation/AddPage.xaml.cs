@@ -9,8 +9,8 @@ public partial class AddPage : ContentPage
     public string ItemId { get; set; } // must be public set
 
     public AddPage()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         BindingContext = new AddPageViewModel();
     }
 
@@ -43,18 +43,18 @@ public partial class AddPage : ContentPage
 
     private async void OnGoalClicked(object sender, EventArgs e)
     {
-    
+
     }
     private async void OnStartDateClicked(object sender, EventArgs e)
     {
-       
+
     }
     private async void OnEndDateClicked(object sender, EventArgs e)
     {
-    
+
     }
     private async void OnReminderClicked(object sender, EventArgs e)
     {
-    
+
     }
 }
