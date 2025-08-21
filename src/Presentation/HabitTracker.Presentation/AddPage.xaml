@@ -24,14 +24,6 @@
             </Setter>
         </Style>
 
-        <!-- Green filled state (when a field is entered) -->
-        <Style TargetType="Button" x:Key="FilledButton" BasedOn="{StaticResource ListButton}">
-            <Setter Property="BackgroundColor" Value="{StaticResource PrimaryBlue}"/>
-            <Setter Property="BorderColor" Value="#7A8BB3"/>
-            <Setter Property="WidthRequest" Value="300"/>
-            <Setter Property="HeightRequest" Value="50"/>
-        </Style>
-
         <!-- Footer buttons -->
         <Style TargetType="Button" x:Key="FooterSave">
             <Setter Property="TextColor" Value="Black"/>
@@ -137,7 +129,7 @@
                     Text="Select habit icon and color"
                     BackgroundColor="{Binding HabitIconColorButton.Color}"
                     Style="{StaticResource ListButton}"
-                    Command="{Binding HabitIconColorButton.Command}" />
+                    Command="{Binding HabitIconColorButton.Command}"/>
 
                 <!-- Optional: time of day -->
                 <Button
