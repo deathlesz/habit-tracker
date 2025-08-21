@@ -1,10 +1,9 @@
-using Android.Media;
 using HabitTracker.Domain.Enums;
 using JFomit.Functional.Monads;
 using Color = HabitTracker.Domain.Color;
 using State = HabitTracker.Domain.Enums.State;
 
-namespace HabitTracker.Application.Dto;
+namespace HabitTracker.Domain.Dto;
 
 /// <summary>
 /// The goal to achieve.
@@ -44,7 +43,7 @@ public record Habit(int Id)
     /// <summary>
     /// The part of the day the habit should be finished by.
     /// </summary>
-    public Option<PartOfTheDay> PartOfTheDay { get; init; }
+    public PartOfTheDay? PartOfTheDay { get; init; }
     /// <summary>
     /// The habit's state, either <see cref="State.Complete"/> or <see cref="State.Incomplete"/>.
     /// </summary>
@@ -52,19 +51,19 @@ public record Habit(int Id)
     /// <summary>
     /// The <see cref="Dto.Reminder"/> associated with the habit, if any.
     /// </summary>
-    public Option<Reminder> Reminder { get; init; }
+    public Reminder? Reminder { get; init; }
     /// <summary>
     /// The date by which the habit tracking is started.
     /// </summary>
-    public Option<DateOnly> StartDate { get; init; }
+    public DateOnly? StartDate { get; init; }
     /// <summary>
     /// The date by which the habit tracking is to end.
     /// </summary>
-    public Option<DateOnly> EndDate { get; init; }
+    public DateOnly? EndDate { get; init; }
     /// <summary>
     /// Optional description.
     /// </summary>
-    public Option<string> Description { get; init; }
+    public string? Description { get; init; }
     /// <summary>
     /// Regularity (how often) of the habit.
     /// </summary>

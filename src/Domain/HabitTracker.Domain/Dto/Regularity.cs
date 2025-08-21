@@ -1,6 +1,4 @@
-using Javax.Security.Auth;
-
-namespace HabitTracker.Application.Dto;
+namespace HabitTracker.Domain.Dto;
 
 /// <summary>
 /// A kind of regularity. Can be one of <see cref="DailyRegularity"/>, <see cref="MonthlyRegularity"/> or <see cref="EveryNDays"/>.
