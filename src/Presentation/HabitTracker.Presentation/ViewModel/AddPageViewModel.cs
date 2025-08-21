@@ -115,12 +115,12 @@ public partial class AddPageViewModel
         HabitTimeOfDayButton.SetValue("Chosen time:", action);
     }
 
-    private async Task SelectReminderAsync() => await Shell.Current.DisplayAlert("Reminder", "Open reminder window.", "Ok");
+    private async Task SelectReminderAsync() => await Shell.Current.GoToAsync($"{nameof(ReminderPage)}");
 
     private async Task SaveAsync()
     {
         await Shell.Current.DisplayAlert("Saved", "Your habit has been saved.", "OK"); // TODO: implement habit saving
         await Shell.Current.GoToAsync("..");
     }
-    private async Task CancelAsync() => await Shell.Current.GoToAsync("..");
+    private async Task CancelAsync() => await Shell.Current.GoToAsync(".."); // return to home page
 }

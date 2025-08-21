@@ -188,7 +188,7 @@
                     BackgroundColor="{Binding HabitReminderButton.Color}"
                     Style="{StaticResource ListButton}"
                     Command="{Binding HabitReminderButton.Command}" />
-                
+
                 <!-- Optional: description -->
                 <Border
                     StrokeShape="RoundRectangle 18"
