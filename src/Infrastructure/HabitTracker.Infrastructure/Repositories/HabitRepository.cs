@@ -1,5 +1,6 @@
 ﻿using HabitTracker.Application.Interfaces.Repositories;
 using HabitTracker.Domain.Entities;
+using static JFomit.Functional.Prelude;
 using JFomit.Functional.Monads;
 using HabitTracker.Infrastructure;
 using Microsoft.EntityFrameworkCore;
