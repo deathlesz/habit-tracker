@@ -5,6 +5,10 @@ using JFomit.Functional.Monads;
 using Microsoft.Extensions.Logging;
 namespace HabitTracker.Presentation
 {
+    /// <summary>
+    /// A dummy implementation of the <see cref="IHabitReminderRepository"/> interface.
+    /// This class provides placeholder methods for testing or development purposes without actual data persistence.
+    /// </summary>
     public class DummyHabitReminderRepository : IHabitReminderRepository
     {
         public IQueryable<HabitReminderEntity> Habits => Enumerable.Empty<HabitReminderEntity>().AsQueryable();
@@ -18,8 +22,17 @@ namespace HabitTracker.Presentation
         public Result<HabitReminderEntity, string> UpdateHabit(HabitReminderEntity entity, Action<HabitReminderEntity> action)
             => Result<HabitReminderEntity, string>.Fail("Not implemented");
     }
+    /// <summary>
+    /// Provides configuration and startup logic for the MAUI application.
+    /// </summary>
     public static class MauiProgram
     {
+        /// <summary>
+        /// Creates and configures the <see cref="MauiApp"/> instance for the application.
+        /// </summary>
+        /// <returns>
+        /// A fully configured <see cref="MauiApp"/> instance.
+        /// </returns>
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();

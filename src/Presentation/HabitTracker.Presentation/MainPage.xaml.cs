@@ -4,16 +4,28 @@ using HabitTracker.Infrastructure.Services.Notification;
 using JFomit.Functional.Monads;
 namespace HabitTracker.Presentation
 {
+    /// <summary>
+    /// Represents the main page of the application where users can create and display notifications.
+    /// </summary>
     public partial class MainPage : ContentPage
     {
         private AndroidNotificationService _androidNotificationService;
         private Result<HabitReminderEntity, string> result;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainPage"/> class.
+        /// </summary>
+        /// <param name="androidNotificationService">
+        /// The service responsible for scheduling repetitive notifications.
+        /// </param>
         public MainPage(AndroidNotificationService androidNotificationService)
         {
             InitializeComponent();
             _androidNotificationService = androidNotificationService;
         }
-
+        /// <summary>
+        /// Handles the click event of the "Create Notification" button.
+        /// Validates user input, creates a habit reminder, and stores the result.
+        /// </summary>
         private void OnCreateNotificationServiceClicked(object sender, EventArgs e)
         {
             string message = MessageEntry.Text;
@@ -71,7 +83,10 @@ namespace HabitTracker.Presentation
                 ResultLabel.TextColor = Colors.Red;
             }
         }
-
+        /// <summary>
+        /// Handles the click event of the "Show Notification" button.
+        /// If a valid habit reminder exists, displays it as an Android notification.
+        /// </summary>
         private void OnShowNotificationButtonClicked(object sender, EventArgs e)
         {
 
