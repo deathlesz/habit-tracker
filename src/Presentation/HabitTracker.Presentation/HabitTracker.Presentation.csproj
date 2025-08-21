@@ -75,7 +75,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="RegularityPage.xaml.cs">
+	    <DependentUpon>RegularityPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="AddPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="RegularityPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

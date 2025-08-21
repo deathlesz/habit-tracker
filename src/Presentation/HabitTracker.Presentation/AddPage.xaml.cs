@@ -15,7 +15,7 @@ public partial class AddPage : ContentPage
     }
 
     // OnClicked methods
-    // TODO: pack the entered data in struct (or what suits here best) and save in into DB
+    // I dunno how or why they work, but when deleted they cause compiler errors
     private async void OnCancelClicked(object sender, EventArgs e) // pop-up window & return to home page
     {
 
