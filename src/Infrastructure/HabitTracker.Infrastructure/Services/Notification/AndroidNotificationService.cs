@@ -31,8 +31,8 @@ public class AndroidNotificationService : INotificationService
     /// if successful, or an error message if validation or saving fails.
     /// </returns>
     public Result<HabitReminderEntity, string> SetRepetitiveNotification(
-        string message, 
-        DateOnly startDate, 
+        string message,
+        DateOnly startDate,
         int cyclePatternLength,
         ICollection<int> daysToNotificate,
         int? cyclesToRun = null
@@ -54,7 +54,7 @@ public class AndroidNotificationService : INotificationService
         {
             return Result<HabitReminderEntity, string>.Fail("cycles toRun must be greater than zero.");
         }
-        
+
         var remider = new HabitReminderEntity
         {
             StartDate = startDate,
@@ -63,7 +63,7 @@ public class AndroidNotificationService : INotificationService
             CyclesToRun = cyclesToRun,
             Message = message,
         };
-        
+
         var result = _habitReminderRepository.AddHabit(remider);
 
         if (result.IsSuccess)

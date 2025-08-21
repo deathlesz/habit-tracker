@@ -6,7 +6,7 @@ namespace HabitTracker.Presentation
 {
     public partial class MainPage : ContentPage
     {
-        private AndroidNotificationService  _androidNotificationService;
+        private AndroidNotificationService _androidNotificationService;
         private Result<HabitReminderEntity, string> result;
         public MainPage(AndroidNotificationService androidNotificationService)
         {
@@ -16,9 +16,9 @@ namespace HabitTracker.Presentation
 
         private void OnCreateNotificationServiceClicked(object sender, EventArgs e)
         {
-            string message = MessageEntry.Text; 
+            string message = MessageEntry.Text;
             DateOnly startDate = DateOnly.FromDateTime(DatePicker.Date);
-            if(!int.TryParse(CyclePatternLength.Text, out int cyclePatternLength))
+            if (!int.TryParse(CyclePatternLength.Text, out int cyclePatternLength))
             {
                 ResultLabel.TextColor = Colors.Red;
                 ResultLabel.Text = "Invalid cycle pattern length";
@@ -31,7 +31,7 @@ namespace HabitTracker.Presentation
             {
                 daysToNotifycate = days.Split(',').Select(d => int.Parse(d.Trim())).ToList();
             }
-            catch 
+            catch
             {
                 ResultLabel.TextColor = Colors.Red;
                 ResultLabel.Text = "Invalid days format! Use: 1,3,5";
@@ -47,7 +47,7 @@ namespace HabitTracker.Presentation
                 }
                 else
                 {
-                    ResultLabel.Text =  "Invalid cycle pattern length";
+                    ResultLabel.Text = "Invalid cycle pattern length";
                     ResultLabel.TextColor = Colors.Red;
                     return;
                 }
@@ -62,21 +62,21 @@ namespace HabitTracker.Presentation
             );
             if (result.IsSuccess)
             {
-                ResultLabel.Text =  "Success";
+                ResultLabel.Text = "Success";
                 ResultLabel.TextColor = Colors.Green;
             }
             else
             {
-                ResultLabel.Text =  result.Error;
+                ResultLabel.Text = result.Error;
                 ResultLabel.TextColor = Colors.Red;
             }
         }
 
         private void OnShowNotificationButtonClicked(object sender, EventArgs e)
         {
-            if (result.IsSuccess && result.Error != null)
+
+            if (result.TryUnwrap2(out var habitReminder, out var error))
             {
-                var habitReminder = result.Success;
                 var notification = new ShowAndroidNotification();
                 notification.OnShowAndroidNotification(habitReminder);
                 ResultShowNotification.Text = $"Success: {habitReminder}";
@@ -84,7 +84,7 @@ namespace HabitTracker.Presentation
             }
             else
             {
-                ResultShowNotification.Text = result.Error;
+                ResultShowNotification.Text = error;
                 ResultShowNotification.TextColor = Colors.Red;
             }
         }
