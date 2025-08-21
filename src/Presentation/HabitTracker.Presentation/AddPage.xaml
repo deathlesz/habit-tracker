@@ -124,12 +124,39 @@
                     Style="{StaticResource ListButton}"
                     Command="{Binding HabitRegularityButton.Command}" />
 
-                <!-- 5. Select icon & color -->
+                <!-- 5. Select icon -->
                 <Button
-                    Text="Select habit icon and color"
-                    BackgroundColor="{Binding HabitIconColorButton.Color}"
+                    Text="{Binding Path=HabitIconButton.Value}"
+                    BackgroundColor="{Binding HabitIconButton.Color}"
                     Style="{StaticResource ListButton}"
-                    Command="{Binding HabitIconColorButton.Command}"/>
+                    Command="{Binding HabitIconButton.Command}"/>
+
+                <CollectionView
+                    ItemsSource="{Binding Icons}"
+                    SelectionMode="Single"
+                    SelectedItem="{Binding SelectedIcon, Mode=TwoWay}"
+                    Margin="18,5,5,5"
+                    WidthRequest="300">
+
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Horizontal"/>
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Margin="10" HasShadow="False" BorderColor="#ccc" CornerRadius="12">
+                                <Image Source="{Binding .}" WidthRequest="48" HeightRequest="48"/>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- 5. Select color -->
+                <Button
+                    Text="{Binding Path=HabitColorButton.Value}"
+                    BackgroundColor="{Binding HabitColorButton.Color}"
+                    Style="{StaticResource ListButton}"
+                    Command="{Binding HabitColorButton.Command}"/>
 
                 <!-- Optional: time of day -->
                 <Button
