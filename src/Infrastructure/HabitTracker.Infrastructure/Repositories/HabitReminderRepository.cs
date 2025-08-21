@@ -19,7 +19,7 @@ namespace HabitTracker.Infrastructure.Platforms.Android.Repositories
 			{
 				_db.HabitReminders.Add(entity);
 				_db.SaveChanges();
-				return Result<int, string>.Ok(entity.Id);
+				return Ok(entity.Id);
 			}
 			catch (Exception ex)
 			{
