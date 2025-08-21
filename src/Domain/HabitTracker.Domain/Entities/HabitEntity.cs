@@ -9,10 +9,6 @@ namespace HabitTracker.Domain.Entities
     {
         public int Id { get; set; }
         /// <summary>
-        /// Discriminator of habits regularity type
-        /// </summary>
-        public HabitRegularityType HabitRegularityType { get; set; }
-        /// <summary>
         /// Name of Habit
         /// </summary>
         public string Name { get; init; }

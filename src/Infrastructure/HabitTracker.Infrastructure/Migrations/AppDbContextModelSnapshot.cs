@@ -32,9 +32,6 @@ namespace HabitTracker.Infrastructure.Migrations
                     b.Property<string>("EndDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("HabitRegularityType")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("Icon")
                         .HasColumnType("INTEGER");
 
@@ -107,6 +104,9 @@ namespace HabitTracker.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("DaysMachedInCycle")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("HabitRegularityType")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsAllMachedDays")

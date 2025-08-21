@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HabitTracker.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250819231532_Initial")]
-    partial class Initial
+    [Migration("20250821094455_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,9 +34,6 @@ namespace HabitTracker.Infrastructure.Migrations
 
                     b.Property<string>("EndDate")
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("HabitRegularityType")
-                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Icon")
                         .HasColumnType("INTEGER");
@@ -110,6 +107,9 @@ namespace HabitTracker.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("DaysMachedInCycle")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("HabitRegularityType")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsAllMachedDays")

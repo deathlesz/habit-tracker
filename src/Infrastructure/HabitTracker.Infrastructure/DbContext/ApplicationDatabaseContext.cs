@@ -29,8 +29,6 @@ public class AppDbContext : DbContext
 		modelBuilder.Entity<HabitEntity>(builder =>
 		{
 			builder.HasKey(h => h.Id);
-			builder.Property(h => h.HabitRegularityType)
-			.HasConversion<int>();
 			builder.Property(h => h.Kind).HasConversion<int>();
 			builder.Property(h => h.Icon).HasConversion<int>();
 			builder.Property(h => h.Color).HasConversion<int>();
@@ -69,6 +67,8 @@ public class AppDbContext : DbContext
 		{
 			builder.HasKey(s => s.Id);
 			builder.Property<DateOnly?>("CycleStart").HasConversion(dateOnlyToString); // если есть в домене
+			builder.Property(h => h.HabitRegularityType)
+				.HasConversion<int>();
 		});
 
 
