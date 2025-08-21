@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HabitTracker.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,7 +16,6 @@ namespace HabitTracker.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false),
-                    HabitRegularityType = table.Column<int>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     Goal_Name = table.Column<string>(type: "TEXT", nullable: false),
@@ -69,6 +68,7 @@ namespace HabitTracker.Infrastructure.Migrations
                     RepeatingDatesToMatch = table.Column<string>(type: "TEXT", nullable: false),
                     DatesMatched = table.Column<string>(type: "TEXT", nullable: false),
                     DaysMachedInCycle = table.Column<int>(type: "INTEGER", nullable: false),
+                    HabitRegularityType = table.Column<int>(type: "INTEGER", nullable: false),
                     CycleStart = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>

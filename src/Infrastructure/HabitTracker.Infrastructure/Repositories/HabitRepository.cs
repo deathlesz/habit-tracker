@@ -54,19 +54,15 @@ namespace HabitTracker.Infrastructure.Platforms.Android.Repositories
 		{
 			try
 			{
-				var tracked = _db.Habits
+				var entry = _db.Habits
 				.Include(h => h.Regularity)
 				.Include(h => h.Reminder)
 				.FirstOrDefault(h => h.Id == habitEntity.Id);
-
-
-				if (tracked == null)
+				if (entry == null)
 					return Result<HabitEntity, string>.Fail($"Habit {habitEntity.Id} not found");
-
-
-				action(tracked);
+				action(entry);
 				_db.SaveChanges();
-				return Result<HabitEntity, string>.Ok(tracked);
+				return Result<HabitEntity, string>.Ok(entry);
 			}
 			catch (Exception ex)
 			{

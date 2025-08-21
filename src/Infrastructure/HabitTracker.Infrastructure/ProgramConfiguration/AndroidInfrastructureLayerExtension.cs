@@ -20,10 +20,10 @@ namespace HabitTracker.Infrastructure.Platforms.Android.ProgramConfiguration
 		public static string ConnectionString = $"Filename={Filename}";
 		public static void AddInfrastructureLayer(this IServiceCollection services)
 		{
-			services.AddDbContext<Infrastructure.AppDbContext>(cfg => cfg.UseSqlite(ConnectionString)); // TODO Перенести в конфиг файлы
-			services.AddScoped<IHabitRepository, EfHabitRepository>();
-			services.AddScoped<IHabitReminderRepository, EfHabitReminderRepository>();
-			//services.AddScoped<INotificationService, {SERVICE_IMPLEMENTATION_NAME}>();
+			services.AddDbContext<AppDbContext>(cfg => cfg.UseSqlite(ConnectionString)); // TODO Перенести в конфиг файлы
+			services.AddSingleton<IHabitRepository, EfHabitRepository>();
+			services.AddSingleton<IHabitReminderRepository, EfHabitReminderRepository>();
+			//services.AddSingleton<INotificationService, {SERVICE_IMPLEMENTATION_NAME}>();
 		}
 
 		public static void UseInfrastructureLayerSystems(this MauiApp app)
