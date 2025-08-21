@@ -43,7 +43,7 @@ public record Habit(int Id)
     /// <summary>
     /// The part of the day the habit should be finished by.
     /// </summary>
-    public PartOfTheDay? PartOfTheDay { get; init; }
+    public Option<PartOfTheDay> PartOfTheDay { get; init; }
     /// <summary>
     /// The habit's state, either <see cref="State.Complete"/> or <see cref="State.Incomplete"/>.
     /// </summary>
@@ -51,19 +51,19 @@ public record Habit(int Id)
     /// <summary>
     /// The <see cref="Dto.Reminder"/> associated with the habit, if any.
     /// </summary>
-    public Reminder? Reminder { get; init; }
+    public Option<Reminder> Reminder { get; init; }
     /// <summary>
     /// The date by which the habit tracking is started.
     /// </summary>
-    public DateOnly? StartDate { get; init; }
+    public Option<DateOnly> StartDate { get; init; }
     /// <summary>
     /// The date by which the habit tracking is to end.
     /// </summary>
-    public DateOnly? EndDate { get; init; }
+    public Option<DateOnly> EndDate { get; init; }
     /// <summary>
     /// Optional description.
     /// </summary>
-    public string? Description { get; init; }
+    public Option<string> Description { get; init; }
     /// <summary>
     /// Regularity (how often) of the habit.
     /// </summary>
