@@ -59,7 +59,7 @@ namespace HabitTracker.Infrastructure.Platforms.Android.Repositories
 				.Include(h => h.Reminder)
 				.FirstOrDefault(h => h.Id == habitEntity.Id);
 				if (entry == null)
-					return Result<HabitEntity, string>.Fail($"Habit {habitEntity.Id} not found");
+					return Error($"Habit {habitEntity.Id} not found");
 				action(entry);
 				_db.SaveChanges();
 				return Ok(entry);
