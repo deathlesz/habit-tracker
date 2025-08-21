@@ -3,19 +3,21 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Maui.Controls;
+using System.Collections.ObjectModel;
 using Microsoft.Maui.Graphics;
 
 namespace HabitTracker.Presentation.ViewModel;
 
 
-public partial class AddPageViewModel
+public partial class AddPageViewModel : INotifyPropertyChanged
 {
     public ColorChangingElement HabitTypeButton { get; init; }
     public ColorChangingElement HabitNameEntry { get; init; }
     public ColorChangingElement HabitGoalEntry { get; init; }
     public ColorChangingElement HabitGoalMUnitButton { get; init; }
     public ColorChangingElement HabitRegularityButton { get; init; }
-    public ColorChangingElement HabitIconColorButton { get; init; }
+    public ColorChangingElement HabitIconButton { get; init; }
+    public ColorChangingElement HabitColorButton { get; init; }
     public ColorChangingElement HabitTimeOfDayButton { get; init; }
     public ColorChangingElement HabitReminderButton { get; init; }
     public ColorChangingElement HabitStartDatePicker { get; init; }
@@ -41,9 +43,13 @@ public partial class AddPageViewModel
         {
             Command = new Command(async () => await SelectRegularityAsync())
         };
-        HabitIconColorButton = new(ElementColorStyle.Default)
+        HabitIconButton = new(ElementColorStyle.Default, "Choose the icon from the list:")
         {
-            Command = new Command(async () => await SelectIconColorAsync())
+            Command = new Command(async () => await SelectIconAsync())
+        };
+        HabitColorButton = new(ElementColorStyle.Default, "Choose the color from the list:")
+        {
+            Command = new Command(async () => await SelectColorAsync())
         };
         HabitTimeOfDayButton = new(ElementColorStyle.Default, "Select time of day")
         {
@@ -56,9 +62,6 @@ public partial class AddPageViewModel
         HabitStartDatePicker = new(ElementColorStyle.Default);
         HabitEndDatePicker = new(ElementColorStyle.Default);
         HabitDescriptionEditor = new(ElementColorStyle.Default);
-
-        // SelectIconColorCommand = new Command(async () => await SelectIconColorAsync());
-        // SelectTimeOfDayCommand = new Command(async () => await SelectTimeOfDayAsync());
         SaveCommand = new Command(async () => await SaveAsync());
         CancelCommand = new Command(async () => await CancelAsync());
     }
@@ -96,7 +99,47 @@ public partial class AddPageViewModel
     }
 
     private async Task SelectRegularityAsync() => await Shell.Current.GoToAsync($"{nameof(RegularityPage)}");
-    private async Task SelectIconColorAsync() => await Shell.Current.DisplayAlert("Icon & Color", "Open icon/color picker.", "OK");
+    async Task SelectIconAsync()
+    {
+        var action = await Shell.Current.DisplayActionSheet(
+                "Choose your icon",
+                "Cancel",
+                null,
+                "Bottle",
+                "GYM",
+                "Run"
+            );
+
+        if (string.IsNullOrEmpty(action) || action == "Cancel")
+        {
+            return;
+        }
+
+        HabitIconButton.SetValue("Icon selected:", action);
+    }
+    async Task SelectColorAsync()
+    {
+        var action = await Shell.Current.DisplayActionSheet(
+                "Choose your habit color",
+                "Cancel",
+                null,
+                "Black",
+                "Red",
+                "Green",
+                "Yellow",
+                "Blue",
+                "Magenta",
+                "Cyan",
+                "White"
+            );
+
+        if (string.IsNullOrEmpty(action) || action == "Cancel")
+        {
+            return;
+        }
+
+        HabitColorButton.SetValue("Habit color:", action);
+    }
     private async Task SelectTimeOfDayAsync()
     {
         var action = await Shell.Current.DisplayActionSheet(
@@ -123,4 +166,31 @@ public partial class AddPageViewModel
         await Shell.Current.GoToAsync("..");
     }
     private async Task CancelAsync() => await Shell.Current.GoToAsync(".."); // return to home page
+
+
+    private string? _selectedIcon;
+
+    public ObservableCollection<string> Icons { get; } = new()
+    {
+        "run_icon.png",
+        "gym_icon.png",
+        "bottle_icon.png"
+    };
+
+    public string? SelectedIcon
+    {
+        get => _selectedIcon;
+        set
+        {
+            if (_selectedIcon != value)
+            {
+                _selectedIcon = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+    private void OnPropertyChanged([CallerMemberName] string? name = null)
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 }
