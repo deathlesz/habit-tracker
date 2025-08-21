@@ -32,7 +32,7 @@ namespace HabitTracker.Infrastructure.Platforms.Android.Repositories
 		{
 			var entity = _db.HabitReminders.FirstOrDefault(r => r.Id == id);
 			if (entity == null)
-				return Result<HabitReminderEntity, string>.Fail($"Reminder {id} not found");
+				return Error($"Reminder {id} not found");
 			try
 			{
 				_db.HabitReminders.Remove(entity);
