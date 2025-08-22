@@ -91,9 +91,8 @@ jobs:
             ${{ env.DOTNET_ROOT }}/packs
             ${{ env.DOTNET_ROOT }}/sdk-manifests
             ${{ env.DOTNET_ROOT }}/toolResolverCache
-          key: ${{ runner.os }}-maui-${{ env.DOTNET_VERSION }}-${{ hashFiles('**/*.csproj') }}
+          key: ${{ runner.os }}-maui-${{ env.DOTNET_VERSION }}
           restore-keys: |
-            ${{ runner.os }}-maui-${{ env.DOTNET_VERSION }}-
             ${{ runner.os }}-maui-
 
       - name: Install MAUI workloads
