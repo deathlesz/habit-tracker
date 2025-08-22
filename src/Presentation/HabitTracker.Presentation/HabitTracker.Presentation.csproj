@@ -84,6 +84,9 @@
 	  <MauiXaml Update="AddPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="EditPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="RegularityPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
