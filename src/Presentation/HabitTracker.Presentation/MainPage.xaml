@@ -1,38 +1,111 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HabitTracker.Presentation.MainPage">
+             x:Class="HabitTracker.Presentation.MainPage"
+             BackgroundColor="#FFF0DA">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
-            <Image
-                Source="dotnet_bot.png"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a race car number eight" />
+    <Grid RowDefinitions="Auto,*,Auto"
+          Padding="20"
+          RowSpacing="15">
 
-            <Label
-                Text="Hello, World!"
-                Style="{StaticResource Headline}"
-                SemanticProperties.HeadingLevel="Level1" />
+        <!-- Header -->
+        <Frame Grid.Row="0"
+               BackgroundColor="#FF9900"
+               BorderColor="Transparent"
+               WidthRequest="200"
+               CornerRadius="20"
+               Padding="20"
+               HasShadow="True">
+            
+            <Label Text="Main"
+                   TextColor="White"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+        </Frame>
 
-            <Label
-                Text="Welcome to &#10;.NET Multi-platform App UI"
-                Style="{StaticResource SubHeadline}"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
+        <!-- Habits Vertilac Scroll -->
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Habits}"
+                        VerticalScrollBarVisibility="Never"
+                        SelectionMode="None">
+            
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="20" />
+            </CollectionView.ItemsLayout>
+            
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BackgroundColor="#ACC4F3"
+                           CornerRadius="15"
+                           Padding="20"
+                           HorizontalOptions="Fill"
+                           HeightRequest="80">
+                        
+                        <StackLayout Spacing="8">
+                            <StackLayout Orientation="Horizontal" Spacing="10">
+                                <!-- Name Habit -->
+                                <Frame BackgroundColor="#3463BC"
+                                    BorderColor="Transparent"
+                                    VerticalOptions="Fill"
+                                    HasShadow="True">
+                                    
+                                    <Label Text="{Binding Name}"
+                                        TextColor="White"
+                                        FontSize="18"
+                                        FontAttributes="Bold"/>
+                                </Frame>
 
-            <Button
-                x:Name="CounterBtn"
-                Text="Add habit" 
-                Command="{Binding NavigateCommand}"
-                CommandParameter="AddPage"
-                SemanticProperties.Hint="Sends you to add page"
-                Clicked="OnAddClicked"
-                HorizontalOptions="Fill" />
-        </VerticalStackLayout>
-    </ScrollView>
+                                
+                                <Label Text="{Binding Progress}"
+                                    FontSize="16"
+                                    TextColor="{Binding StatusColor}"/>
+                                
+                                <Label Text="{Binding Status}"
+                                    FontSize="14"
+                                    TextColor="{Binding StatusColor}"/>
+                                </StackLayout>
+                                
+                            <ProgressBar Progress="{Binding ProgressPercentage}"
+                                       ProgressColor="{Binding StatusColor}"
+                                       HeightRequest="8"
+                                       IsVisible="{Binding ShowProgressBar}"/>
+                        </StackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
+        <!-- Action Buttons -->
+        <Frame Grid.Row="3"
+               Padding="15"
+               HasShadow="True"
+               BackgroundColor="#FFE0B0"
+               HorizontalOptions="FillAndExpand">
+
+            <Grid ColumnDefinitions="*,*"
+                  ColumnSpacing="10">
+
+                <Button Grid.Column="0" Text="H" FontSize="16" BackgroundColor="Transparent"/>
+                <Button Grid.Column="1" Text="S" FontSize="16" BackgroundColor="Transparent"/>
+            </Grid>
+        </Frame>
+
+        <!-- Add Habit Floating Button -->
+        <Button Grid.Row="1"
+                Text="+"
+                WidthRequest="60"
+                HeightRequest="60"
+                CornerRadius="30"
+                Padding="0"
+                BackgroundColor="#FF9900"
+                TextColor="White"
+                FontSize="48"
+                FontAttributes="Bold"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Margin="0,0,0,0">
+        </Button>
+
+    </Grid>
 </ContentPage>
