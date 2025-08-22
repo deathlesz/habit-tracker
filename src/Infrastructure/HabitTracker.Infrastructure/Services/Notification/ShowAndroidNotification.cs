@@ -3,7 +3,6 @@ using Android.Content;
 using Android.OS;
 using AndroidX.Core.App;
 using HabitTracker.Domain.Entities;
-using Microsoft.Maui.Controls.PlatformConfiguration;
 
 namespace HabitTracker.Infrastructure.Services.Notification;
 /// <summary>
@@ -31,7 +30,7 @@ public class ShowAndroidNotification
     {
         if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
         {
-            var channel = new NotificationChannel(CHANNEL_ID, "Habit Notifications", NotificationImportance.Default);
+            var channel = new NotificationChannel(CHANNEL_ID, "Habit Notifications", NotificationImportance.High);
             var manager = (NotificationManager)Android.App.Application.Context.GetSystemService(Context.NotificationService);
             manager.CreateNotificationChannel(channel);
         }
@@ -48,7 +47,7 @@ public class ShowAndroidNotification
 
         var builder = new NotificationCompat.Builder(context, CHANNEL_ID).SetContentTitle("Habit Notifications")
             .SetContentText(habitReminder.Message).SetSmallIcon(Android.Resource.Drawable.IcDialogInfo)
-            .SetPriority((int)NotificationPriority.Default);
+            .SetPriority((int)NotificationPriority.High);
         var manager = NotificationManagerCompat.From(context);
         manager.Notify(habitReminder.Id, builder.Build());
     }
