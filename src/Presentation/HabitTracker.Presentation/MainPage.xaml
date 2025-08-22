@@ -25,13 +25,19 @@
                 SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
 
             <Button
-                x:Name="CounterBtn"
                 Text="Add habit" 
                 Command="{Binding NavigateCommand}"
                 CommandParameter="AddPage"
                 SemanticProperties.Hint="Sends you to add page"
                 Clicked="OnAddClicked"
                 HorizontalOptions="Fill" />
+            <Button
+            Text="Edit habit" 
+            Command="{Binding NavigateCommand}"
+            CommandParameter="AddPage"
+            SemanticProperties.Hint="Sends you to add page"
+            Clicked="OnEditClicked"
+            HorizontalOptions="Fill" />
         </VerticalStackLayout>
     </ScrollView>
 

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HabitTracker.Presentation.EditPage"
+             Title="EditPage">
+    <ContentPage.Resources>
+
+        <!-- Rounded pill-like style for list buttons -->
+        <Style TargetType="Button" x:Key="ListButton">
+            <Setter Property="CornerRadius" Value="18"/>
+            <Setter Property="Padding" Value="18,12"/>
+            <Setter Property="WidthRequest" Value="300"/>
+            <Setter Property="HeightRequest" Value="60"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="TextColor" Value="{StaticResource ButtonText}"/>
+            <Setter Property="BackgroundColor" Value="{StaticResource PrimaryBlue}"/>
+            <Setter Property="BorderColor" Value="#7A8BB3"/>
+            <Setter Property="BorderWidth" Value="1.5"/>
+            <Setter Property="Shadow">
+                <Setter.Value>
+                    <Shadow Brush="#33000000" Opacity="0.4" Radius="8" Offset="0,3"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Footer buttons -->
+        <Style TargetType="Button" x:Key="FooterSave">
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="BackgroundColor" Value="{StaticResource SaveGreen}"/>
+            <Setter Property="CornerRadius" Value="14"/>
+            <Setter Property="Padding" Value="18,10"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+        </Style>
+
+        <Style TargetType="Button" x:Key="FooterCancel" BasedOn="{StaticResource FooterSave}">
+            <Setter Property="BackgroundColor" Value="{StaticResource DangerRed}"/>
+        </Style>
+
+    </ContentPage.Resources>
+
+    <Grid 
+        RowDefinitions="Auto,* ,Auto" 
+        Padding="0,10,0,0"
+        BackgroundColor="{StaticResource PageBg}">
+
+        <!-- Header pill -->
+        <Border
+            Grid.Row="0"
+            BackgroundColor="{StaticResource OrangeHeader}"
+            StrokeShape="RoundRectangle 999"
+            HorizontalOptions="Center"
+            Padding="26,10"
+            Margin="0,6,0,10">
+            <Label 
+                Text="Edit habit" 
+                FontAttributes="Bold" 
+                FontSize="32" 
+                TextColor="Black"/>
+        </Border>
+
+        <!-- Scrollable content -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="12">
+
+                <!-- 1. Enter habit type -->
+                <Button
+                    x:Name="BType"
+                    Text="{Binding Path=HabitTypeButton.Value}"
+                    BackgroundColor="{Binding Path=HabitTypeButton.Color}"
+                    Style="{StaticResource ListButton}"
+                    Command="{Binding Path=HabitTypeButton.Command}" />
+
+                <!-- 2. Enter habit name (filled look after entry) -->
+                <Border
+                        x:Name="NameBorder"
+                        StrokeShape="RoundRectangle 18"
+                        BackgroundColor="{Binding Path=HabitNameEntry.Color}"
+                        Stroke="#7A8BB3"
+                        StrokeThickness="1.5"
+                        Padding="14,8"
+                        WidthRequest="300">
+                    <Entry
+                            Placeholder="Enter habit name"
+                            Text="{Binding Path=HabitNameEntry.Value, Mode=TwoWay}"
+                            TextColor="{StaticResource ButtonText}"
+                            FontAttributes="Bold"
+                            BackgroundColor="Transparent"
+                            ReturnCommand="{Binding OnHabitNameChanged}"/>
+                </Border>
+
+                <!-- 3. Enter your habit goal -->
+                <Border
+                    x:Name="GoalBorder"
+                    StrokeShape="RoundRectangle 18"
+                    BackgroundColor="{Binding Path=HabitGoalEntry.Color}"
+                    Stroke="#7A8BB3"
+                    StrokeThickness="1.5"
+                    Padding="14,8"
+                    WidthRequest="300">
+                    <Entry
+                        Placeholder="Enter habit goal"
+                        Text="{Binding Path=HabitGoalEntry.Value, Mode=TwoWay}"
+                        TextColor="{StaticResource ButtonText}"
+                        FontAttributes="Bold"
+                        BackgroundColor="Transparent"
+                        ReturnCommand="{Binding OnHabitGoalChanged}"/>
+                </Border>
+
+                <!-- 3.5. Enter your habit goal measurement unit -->
+                <Button
+                    x:Name="BGoalMUnit"
+                    Text="{Binding Path=HabitGoalMUnitButton.Value}"
+                    BackgroundColor="{Binding Path=HabitGoalMUnitButton.Color}"
+                    Style="{StaticResource ListButton}"
+                    Command="{Binding Path=HabitGoalMUnitButton.Command}" />
+
+                <!-- 4. Select regularity -->
+                <Button
+                    Text="Select your habit regularity"
+                    BackgroundColor="{Binding HabitRegularityButton.Color}"
+                    Style="{StaticResource ListButton}"
+                    Command="{Binding HabitRegularityButton.Command}" />
+
+                <!-- 5. Select icon -->
+                <Button
+                    Text="{Binding Path=HabitIconButton.Value}"
+                    BackgroundColor="{Binding HabitIconButton.Color}"
+                    Style="{StaticResource ListButton}"
+                    Command="{Binding HabitIconButton.Command}"/>
+
+                <CollectionView
+                    ItemsSource="{Binding Icons}"
+                    SelectionMode="Single"
+                    SelectedItem="{Binding SelectedIcon, Mode=TwoWay}"
+                    Margin="18,5,5,5"
+                    WidthRequest="300">
+
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Horizontal"/>
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Margin="10" HasShadow="False" BorderColor="#ccc" CornerRadius="12">
+                                <Image Source="{Binding .}" WidthRequest="48" HeightRequest="48"/>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- 5. Select color -->
+                <Button
+                    Text="{Binding Path=HabitColorButton.Value}"
+                    BackgroundColor="{Binding HabitColorButton.Color}"
+                    Style="{StaticResource ListButton}"
+                    Command="{Binding HabitColorButton.Command}"/>
+
+                <!-- Optional: time of day -->
+                <Button
+                    Text="{Binding Path=HabitTimeOfDayButton.Value}"
+                    Style="{StaticResource ListButton}"
+                    BackgroundColor="{Binding HabitTimeOfDayButton.Color}"
+                    Command="{Binding HabitTimeOfDayButton.Command}" />
+
+                <!-- Optional: start date -->
+                <Border
+                    x:Name="StartDateBorder"
+                    StrokeShape="RoundRectangle 18"
+                    BackgroundColor="{Binding Path=HabitStartDatePicker.Color}"
+                    Stroke="#7A8BB3"
+                    StrokeThickness="1.5"
+                    Padding="14,8"
+                    WidthRequest="300">
+                    <VerticalStackLayout>
+                        <Label
+                            Text="Choose habit start date:"
+                            TextColor="Black"
+                            FontSize="16"/>
+                        <DatePicker
+                            Date="{Binding Path=HabitStartDatePicker.Value}"
+                            TextColor="Black"
+                            FontSize="16"
+                            BackgroundColor="Transparent" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Optional: end date -->
+                <Border
+                    x:Name="EnaDateBorder"
+                    StrokeShape="RoundRectangle 18"
+                    BackgroundColor="{Binding Path=HabitEndDatePicker.Color}"
+                    Stroke="#7A8BB3"
+                    StrokeThickness="1.5"
+                    Padding="14,8"
+                    WidthRequest="300">
+                    <VerticalStackLayout>
+                        <Label
+                            Text="Choose habit end date:"
+                            TextColor="Black"
+                            FontSize="16"/>
+                        <DatePicker
+                            Date="{Binding Path=HabitEndDatePicker.Value}"
+                            TextColor="Black"
+                            FontSize="16"
+                            BackgroundColor="Transparent" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Optional: reminder -->
+                <Button
+                    Text="Add reminder"
+                    BackgroundColor="{Binding HabitReminderButton.Color}"
+                    Style="{StaticResource ListButton}"
+                    Command="{Binding HabitReminderButton.Command}" />
+
+                <!-- Optional: description -->
+                <Border
+                    StrokeShape="RoundRectangle 18"
+                    BackgroundColor="{Binding Path=HabitDescriptionEditor.Color}"
+                    Stroke="#7A8BB3"
+                    StrokeThickness="1.5"
+                    Padding="14,8"
+                    WidthRequest="300"
+                    MinimumHeightRequest="200">
+                    <Editor
+                        Placeholder="Add description"
+                        Text="{Binding HabitDescriptionEditor.Value, Mode=TwoWay}"
+                        TextColor="{StaticResource ButtonText}"
+                        FontAttributes="Bold"
+                        BackgroundColor="Transparent"/>
+                </Border>
+
+                <!-- Space to make room for footer over scroll -->
+                <BoxView HeightRequest="20" Opacity="0"/>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Footer -->
+        <Grid 
+            Grid.Row="2" 
+            ColumnDefinitions="*,*" 
+            Padding="16,8,16,8"
+            BackgroundColor="{StaticResource PageFooter}">
+            <Button
+                Grid.Column="0"
+                Text="Save"
+                Style="{StaticResource FooterSave}"
+                Command="{Binding SaveCommand}"
+                Margin="0,0,8,0"/>
+            <Button
+                Grid.Column="1"
+                Text="Cancel"
+                Style="{StaticResource FooterCancel}"
+                Command="{Binding CancelCommand}"
+                Margin="8,0,0,0"/>
+        </Grid>
+    </Grid>
+</ContentPage>
