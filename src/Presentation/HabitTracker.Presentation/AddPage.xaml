@@ -86,8 +86,7 @@
                             TextColor="{StaticResource ButtonText}"
                             FontAttributes="Bold"
                             BackgroundColor="Transparent"
-                            ReturnCommand="{Binding OnHabitNameChanged}"
-                            TextChanged="OnHabitNameChanged"/>
+                            ReturnCommand="{Binding OnHabitNameChanged}"/>
                 </Border>
 
                 <!-- 3. Enter your habit goal -->
@@ -105,8 +104,7 @@
                         TextColor="{StaticResource ButtonText}"
                         FontAttributes="Bold"
                         BackgroundColor="Transparent"
-                        ReturnCommand="{Binding OnHabitGoalChanged}"
-                        TextChanged="OnHabitGoalChanged"/>
+                        ReturnCommand="{Binding OnHabitGoalChanged}"/>
                 </Border>
 
                 <!-- 3.5. Enter your habit goal measurement unit -->
@@ -255,7 +253,6 @@
                 Text="Cancel"
                 Style="{StaticResource FooterCancel}"
                 Command="{Binding CancelCommand}"
-                Clicked="OnCancelClicked"
                 Margin="8,0,0,0"/>
         </Grid>
     </Grid>
