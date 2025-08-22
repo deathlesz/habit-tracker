@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HabitTracker.Presentation.MainPage"
+             Padding="0"
              BackgroundColor="#FFF0DA">
 
     <Grid RowDefinitions="Auto,*,Auto"
@@ -13,8 +14,9 @@
                BackgroundColor="#FF9900"
                BorderColor="Transparent"
                WidthRequest="200"
+               HeightRequest="60"
                CornerRadius="20"
-               Padding="20"
+               Padding="12"
                HasShadow="True">
             
             <Label Text="Main"
@@ -38,32 +40,53 @@
                 <DataTemplate>
                     <Frame BackgroundColor="#ACC4F3"
                            CornerRadius="15"
-                           Padding="20"
+                           Padding="10"
                            HorizontalOptions="Fill"
-                           HeightRequest="80">
+                           HeightRequest="70">
                         
-                        <StackLayout Spacing="8">
+                        <StackLayout Spacing="2">
                             <StackLayout Orientation="Horizontal" Spacing="10">
                                 <!-- Name Habit -->
                                 <Frame BackgroundColor="#3463BC"
                                     BorderColor="Transparent"
-                                    VerticalOptions="Fill"
-                                    HasShadow="True">
-                                    
-                                    <Label Text="{Binding Name}"
-                                        TextColor="White"
-                                        FontSize="18"
-                                        FontAttributes="Bold"/>
-                                </Frame>
+                                    CornerRadius="10"
+                                    Padding="5"
+                                    HeightRequest="50"
+                                    HasShadow="True"
+                                    HorizontalOptions="Fill">
 
-                                
-                                <Label Text="{Binding Progress}"
-                                    FontSize="16"
-                                    TextColor="{Binding StatusColor}"/>
-                                
-                                <Label Text="{Binding Status}"
-                                    FontSize="14"
-                                    TextColor="{Binding StatusColor}"/>
+                                    <Grid ColumnDefinitions="*,Auto,Auto"
+                                        ColumnSpacing="10"
+                                        VerticalOptions="Center">
+
+                                        <!-- Название привычки - растягивается -->
+                                        <Label Grid.Column="0"
+                                            Text="{Binding Name}"
+                                            TextColor="White"
+                                            FontSize="18"
+                                            FontAttributes="Bold"
+                                            HorizontalOptions="Start"
+                                            VerticalOptions="Center"
+                                            LineBreakMode="TailTruncation"/>  <!-- Обрезать длинный текст -->
+
+                                        <!-- Progress - выравнивание по правому краю -->
+                                        <Label Grid.Column="1"
+                                            Text="{Binding Progress}"
+                                            FontSize="16"
+                                            TextColor="{Binding StatusColor}"
+                                            HorizontalOptions="End"
+                                            VerticalOptions="Center"/>
+
+                                        <!-- Status - выравнивание по правому краю -->
+                                        <Label Grid.Column="2"
+                                            Text="{Binding Status}"
+                                            FontSize="16"
+                                            TextColor="{Binding StatusColor}"
+                                            HorizontalOptions="End"
+                                            VerticalOptions="Center"/>
+
+                                    </Grid>
+                                </Frame>
                                 </StackLayout>
                                 
                             <ProgressBar Progress="{Binding ProgressPercentage}"
@@ -97,7 +120,7 @@
                 WidthRequest="60"
                 HeightRequest="60"
                 CornerRadius="30"
-                Padding="0"
+                Padding="-10"
                 BackgroundColor="#FF9900"
                 TextColor="White"
                 FontSize="48"

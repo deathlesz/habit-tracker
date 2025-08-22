@@ -28,21 +28,22 @@ namespace HabitTracker.Presentation
             Habits.Add(new Habit
             {
                 Name = "Чтение книги",
-                Progress = "Complete",
+                Progress = "",
                 Status = "Completed",
                 StatusColor = Color.FromArgb("#10B981"),
-                ShowProgressBar = false
+                ProgressPercentage = 3000.0 / 3000.0,
+                ShowProgressBar = true
             });
 
             Habits.Add(new Habit
             {
                 Name = "Чтение книги",
-                Progress = "Complete",
+                Progress = "",
                 Status = "Completed",
                 StatusColor = Color.FromArgb("#10B981"),
-                ShowProgressBar = false
+                ShowProgressBar = true
             });
-            
+
             Habits.Add(new Habit
             {
                 Name = "Чтение книги",
