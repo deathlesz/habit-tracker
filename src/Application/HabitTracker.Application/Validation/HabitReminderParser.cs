@@ -2,11 +2,62 @@ using System.Diagnostics;
 using HabitTracker.Domain.Dto;
 using HabitTracker.Domain.Entities.Regularity;
 using HabitTracker.Domain.Enums;
+using JFomit.Functional.Monads;
+using static JFomit.Functional.Prelude;
 
 namespace HabitTracker.Application.Validation;
 
 static class HabitReminderParser
 {
+    public static HabitScheduleEntity ToEntity(this Regularity regularity, Habit habit) => ConvertRegularity(regularity, habit);
+    public static Regularity ToDto(this HabitScheduleEntity habitSchedule)
+    {
+        switch (habitSchedule.HabitRegularityType)
+        {
+            case HabitRegularityType.Weekly:
+                if (habitSchedule.IsAnyDay)
+                {
+                    // times per week
+                    return new Daily(new TimesPerWeek((uint)habitSchedule.CycleMachedDaysGoal));
+                }
+                else
+                {
+                    // week days
+                    var days = habitSchedule.RepeatingDatesToMatch!.Select(ConvertWeekDayToEnum).ToArray();
+                    return new Daily(new DaysOfTheWeek(days));
+                }
+            case HabitRegularityType.Monthly:
+                if (habitSchedule.IsAnyDay)
+                {
+                    // times per month
+                    // cast is valid provided that habitSchedule is valid
+                    return new Monthly(new TimesPerMonth((uint)habitSchedule.CycleMachedDaysGoal));
+                }
+                else
+                {
+                    // concrete days
+                    var days = habitSchedule.RepeatingDatesToMatch!.Select(d => d + 1).ToArray(); // from offset to numbers
+                    return new Monthly(new ConcreteDays(days));
+                }
+            default: // N days
+                return new EveryNDays((uint)habitSchedule.RepeatingCycleDays); // is valid provided that habitSchedule is valid
+        }
+
+        static DayOfWeek ConvertWeekDayToEnum(int day) => day switch
+        {
+            0 => DayOfWeek.Monday,
+            1 => DayOfWeek.Tuesday,
+            2 => DayOfWeek.Wednesday,
+            3 => DayOfWeek.Thursday,
+            4 => DayOfWeek.Friday,
+            5 => DayOfWeek.Saturday,
+            6 => DayOfWeek.Sunday,
+
+            _ => throw new UnreachableException(),
+        };
+    }
+
+
     public static HabitScheduleEntity ConvertRegularity(Regularity regularity, Habit habit) => regularity switch
     {
         Daily(var daily) => ConvertDaily(daily, habit),

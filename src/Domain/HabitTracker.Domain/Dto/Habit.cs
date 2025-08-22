@@ -10,7 +10,7 @@ public record Goal(string Name, MeasurementUnit Unit);
 /// <summary>
 /// A reminder.
 /// </summary>
-public record Reminder(TimeOnly Time, string Message);
+public record Reminder(TimeOnly Time, string? Message);
 
 /// <summary>
 /// A habit.

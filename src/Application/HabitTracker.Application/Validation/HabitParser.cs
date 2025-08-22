@@ -25,6 +25,36 @@ static class HabitParser
             .Select(ConvertToEntity);
     }
 
+    public static Result<Habit, string> ToDto(this HabitEntity habitEntity)
+    {
+        Result<HabitEntity, string> result = Ok(habitEntity);
+        return result.Select(ConvertToDto);
+    }
+
+    private static Habit ConvertToDto(HabitEntity entity)
+    {
+        var reminder = entity.Reminder
+                .ToOption()
+                .Select(r => new Reminder(r.Time, r.Message))
+                .ToNullable();
+
+        return new(entity.Id)
+        {
+            Color = entity.Color,
+            Goal = new Goal(entity.Goal.Name, entity.Goal.Unit),
+            Kind = entity.Kind,
+            Icon = entity.Icon,
+            Name = entity.Name,
+            State = entity.State,
+            StartDate = entity.StartDate,
+            EndDate = entity.EndDate,
+            Regularity = entity.Regularity.ToDto(),
+            Description = entity.Description,
+            PartOfTheDay = entity.PartOfTheDay,
+            Reminder = reminder
+        };
+    }
+
     static Result<T, E> Where<T, E>(this Result<T, E> result, Func<T, bool> predicate, E orElse)
     {
         if (result.TryUnwrap2(out var success, out var originalError))
