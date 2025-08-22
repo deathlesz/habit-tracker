@@ -150,13 +150,27 @@ public partial class AddPageViewModel : INotifyPropertyChanged
 
     private async Task SaveAsync()
     {
-        if (!HabitTypeButton.StoredValue.TryUnwrap(out var type) ||
-            !HabitNameEntry.StoredValue.TryUnwrap(out var name) ||
-            !HabitIconButton.StoredValue.TryUnwrap(out var icon) ||
-            !HabitColorButton.StoredValue.TryUnwrap(out var color) ||
-            !HabitGoalEntry.StoredValue.TryUnwrap(out var goal) ||
-            !HabitGoalMUnitButton.StoredValue.TryUnwrap(out var mUnit) ||
-            !_regularity.TryUnwrap(out var reg))
+        var name = HabitNameEntry.Value;
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            await Shell.Current.DisplayAlert("Error", "Please enter habit name", "OK");
+            return;
+        }
+
+        var goalText = HabitGoalEntry.Value;
+        if (string.IsNullOrWhiteSpace(goalText))
+        {
+            await Shell.Current.DisplayAlert("Error", "Please enter goal text", "OK");
+            return;
+        }
+        
+        var typeOk = HabitTypeButton.StoredValue.TryUnwrap(out var type);
+        var iconOk = HabitIconButton.StoredValue.TryUnwrap(out var icon);
+        var colorOk = HabitColorButton.StoredValue.TryUnwrap(out var color);
+        var mUnitOk = HabitGoalMUnitButton.StoredValue.TryUnwrap(out var mUnit);
+        var regOk = _regularity.TryUnwrap(out var reg);
+
+        if (!typeOk || !iconOk || !colorOk || !mUnitOk || !regOk)
         {
             await Shell.Current.DisplayAlert("Error", "Not all required fields are filled", "OK");
             return;
@@ -169,7 +183,7 @@ public partial class AddPageViewModel : INotifyPropertyChanged
             Name = name,
             Icon = habitParse.ParseIcon(icon),
             Color = habitParse.ParseColor(color),
-            Goal = habitParse.CreateGoalInfo(goal, mUnit),
+            Goal = habitParse.CreateGoalInfo(goalText, mUnit),
             Regularity = habitParse.ParseRegularity(reg)
         };
         _presentation.CreateHabit(habit);

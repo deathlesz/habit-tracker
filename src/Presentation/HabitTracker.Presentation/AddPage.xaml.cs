@@ -23,7 +23,7 @@ public partial class AddPage : ContentPage
     public AddPage()
     {
         InitializeComponent();
-        BindingContext = new AddPageViewModel();
+        BindingContext = new AddPageViewModel(new DummyPresentation());
     }
 
     // OnClicked methods
