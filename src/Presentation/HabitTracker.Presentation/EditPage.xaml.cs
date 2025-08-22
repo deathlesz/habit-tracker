@@ -3,9 +3,9 @@ using HabitTracker.Presentation.ViewModel;
 
 public partial class EditPage : ContentPage
 {
-	public EditPage()
-	{
-		InitializeComponent();
+    public EditPage()
+    {
+        InitializeComponent();
         BindingContext = new EditPageViewModel();
     }
 }

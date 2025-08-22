@@ -8,7 +8,7 @@ using Microsoft.Maui.Graphics;
 
 namespace HabitTracker.Presentation.ViewModel;
 public partial class EditPageViewModel
-    {
+{
     public ColorChangingElement HabitTypeButton { get; init; }
     public ColorChangingElement HabitNameEntry { get; init; }
     public ColorChangingElement HabitGoalEntry { get; init; }

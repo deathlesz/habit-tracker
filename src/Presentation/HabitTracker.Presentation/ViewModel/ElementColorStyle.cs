@@ -1,6 +1,6 @@
 namespace HabitTracker.Presentation.ViewModel;
 
-public record ElementColorStyle(Color DefaultColor, Color SetColor, Color DefaultStrokeColor, 
+public record ElementColorStyle(Color DefaultColor, Color SetColor, Color DefaultStrokeColor,
                                 Color SetStrokeColor, Color UnsetPropertyColor, Color UnsetPropertyStrokeColor)
 {
     public static ElementColorStyle Default => new(
