@@ -15,23 +15,23 @@ namespace HabitTracker.Domain.Entities
         /// <summary>
         /// Name of Habit
         /// </summary>
-        public required string Name { get; init; }
-        public string? Description { get; init; }
-        public required GoalInfo Goal { get; init; }
+        public required string Name { get; set; }
+        public string? Description { get; set; }
+        public required GoalInfo Goal { get; set; }
         /// <summary>
         /// Info about notification
         /// </summary>
-        public HabitReminderEntity? Reminder { get; init; }
+        public HabitReminderEntity? Reminder { get; set; }
         /// <summary>
         /// Info about schedule and its completing stage
         /// </summary>
-        public required HabitScheduleEntity Regularity { get; init; }
-        public required GoodnessKind Kind { get; init; }
-        public required Icon Icon { get; init; }
-        public required Color Color { get; init; }
-        public PartOfTheDay? PartOfTheDay { get; init; }
+        public required HabitScheduleEntity Regularity { get; set; }
+        public required GoodnessKind Kind { get; set; }
+        public required Icon Icon { get; set; }
+        public required Color Color { get; set; }
+        public PartOfTheDay? PartOfTheDay { get; set; }
         public State State { get; set; } = State.Incomplete;
-        public DateOnly? StartDate { get; init; }
-        public DateOnly? EndDate { get; init; }
+        public DateOnly? StartDate { get; set; }
+        public DateOnly? EndDate { get; set; }
     }
 }
