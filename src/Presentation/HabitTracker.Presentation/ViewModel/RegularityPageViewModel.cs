@@ -170,7 +170,8 @@ public class RegularityPageViewModel : INotifyPropertyChanged
             DailyEveryDay = _dailyEveryDay,
             DailyDaysPerWeek = _dailyDaysPerWeek,
             MonthlyDaysPerMonth = _monthlyDaysPerMonth,
-            IntervalDays = IntervalDays,
+            MonthlyDays =  _monthlyDays,
+            IntervalDays = _intervalDays,
         };
         var serialized = System.Text.Json.JsonSerializer.Serialize(dto);
         await Shell.Current.GoToAsync("..", true, new Dictionary<string, object>

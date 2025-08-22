@@ -11,6 +11,8 @@ using HabitTracker.Domain.Entities;
 using HabitTracker.Domain.Entities.Regularity;
 using HabitTracker.Domain.Enums;
 using HabitTracker.Infrastructure.Services;
+using JFomit.Functional;
+using JFomit.Functional.Monads;
 using Microsoft.Maui.Graphics;
 using Color = HabitTracker.Domain.Color;
 
@@ -19,11 +21,12 @@ namespace HabitTracker.Presentation.ViewModel;
 public partial class AddPageViewModel : INotifyPropertyChanged
 {
     private IPresentation _presentation;
-
+    private Option<RegularityDto> _regularity;
     public void SetRegularity(RegularityDto dto)
     {
         HabitRegularityButton.SetValue("Regularity:", dto.IsDaily ? "Daily" :
             dto.IsMonthly ? "Monthly" : "Interval");
+        _regularity = Prelude.Some(dto);
     }
 
     public ColorChangingElement HabitTypeButton { get; init; }
@@ -152,8 +155,8 @@ public partial class AddPageViewModel : INotifyPropertyChanged
             !HabitIconButton.StoredValue.TryUnwrap(out var icon) ||
             !HabitColorButton.StoredValue.TryUnwrap(out var color) ||
             !HabitGoalEntry.StoredValue.TryUnwrap(out var goal) ||
-            !HabitRegularityButton.StoredValue.TryUnwrap(out var reg) ||
-            !HabitGoalMUnitButton.StoredValue.TryUnwrap(out var mUnit))
+            !HabitGoalMUnitButton.StoredValue.TryUnwrap(out var mUnit) ||
+            !_regularity.TryUnwrap(out var reg))
         {
             await Shell.Current.DisplayAlert("Error", "Not all required fields are filled", "OK");
             return;
@@ -167,7 +170,7 @@ public partial class AddPageViewModel : INotifyPropertyChanged
             Icon = habitParse.ParseIcon(icon),
             Color = habitParse.ParseColor(color),
             Goal = habitParse.CreateGoalInfo(goal, mUnit),
-            Regularity = null
+            Regularity = habitParse.ParseRegularity(reg)
         };
         _presentation.CreateHabit(habit);
         await Shell.Current.DisplayAlert("Saved", "Your habit has been saved.", "OK"); // TODO: implement habit saving

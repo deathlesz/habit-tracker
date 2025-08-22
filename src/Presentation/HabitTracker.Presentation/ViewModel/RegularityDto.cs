@@ -9,4 +9,5 @@ public class RegularityDto
     public int DailyDaysPerWeek { get; set; }
     public int MonthlyDaysPerMonth { get; set; }
     public string? IntervalDays { get; set; }
+    public bool[] MonthlyDays { get; set; }
 }
