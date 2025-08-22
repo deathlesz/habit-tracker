@@ -4,6 +4,7 @@ using HabitTracker.Application.Interfaces.Services;
 using HabitTracker.Domain.Dto;
 using JFomit.Functional;
 using JFomit.Functional.Monads;
+using JFomit.Functional.Extensions;
 
 namespace HabitTracker.Application;
 
@@ -19,7 +20,9 @@ public class PresentationGateway(IHabitRepository habitRepository, INotification
 
     public Result<Unit, string> DeleteHabit(int id)
     {
-        throw new NotImplementedException();
+        return HabitRepository.DeleteHabit(id)
+            .SelectMany(_ => NotificationService.DeleteRepetitiveNotification(id).Select2(ok => ok, error => "couldn't delete notification: " + error))
+            .Select2(_ => Prelude.Unit, error => "couldn't delete habit: " + error);
     }
 
     public Result<ICollection<Habit>, string> GetAllHabits()
