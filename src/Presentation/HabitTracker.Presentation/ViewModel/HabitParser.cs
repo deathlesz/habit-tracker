@@ -3,61 +3,62 @@ using HabitTracker.Domain.Entities;
 using HabitTracker.Domain.Entities.Regularity;
 using HabitTracker.Domain.Enums;
 using HabitTracker.Presentation.ViewModel;
+using JFomit.Functional.Monads;
 
 namespace HabitTracker.Infrastructure.Services;
 
 public class HabitParser
 {
-    public Goal CreateGoalInfo(string name, string unitString)
+    public Result<Goal, string> CreateGoalInfo(string name, string unitString)
     {
         if (!Enum.TryParse<MeasurementUnit>(unitString, true, out var unit))
         {
-            throw new ArgumentException("Invalid measurement unit");
+            return Result<Goal, string>.Fail("Invalid measurement unit");
         }
-        return new Goal(name, unit);
+        return Result<Goal, string>.Ok(new Goal(name, unit));
     }
 
-    public GoodnessKind ParseKind(string value)
+    public Result<GoodnessKind, string> ParseKind(string value)
     {
         return value switch
         {
-            "Positive" => GoodnessKind.Positive,
-            "Negative" => GoodnessKind.Negative,
-            _ => throw new ArgumentException($"Invalid value GoodnessKind {value}"),
+            "Positive" => Result<GoodnessKind, string>.Ok(GoodnessKind.Positive),
+            "Negative" => Result<GoodnessKind, string>.Ok(GoodnessKind.Negative),
+            _ => Result<GoodnessKind, string>.Fail($"Invalid value GoodnessKind {value}"),
         };
     }
 
-    public Icon ParseIcon(string value)
+    public Result<Icon, string> ParseIcon(string value)
     {
         return value switch
         {
-            "Bottle" => Icon.DrinkingWater,
-            "GYM" =>Icon.Training ,
-            "Run" => Icon.Running,
-            _ => Icon.Default
+            "Bottle" => Result<Icon, string>.Ok(Icon.DrinkingWater),
+            "GYM" => Result<Icon, string>.Ok(Icon.Training) ,
+            "Run" => Result<Icon, string>.Ok(Icon.Running),
+            _ => Result<Icon, string>.Ok(Icon.Default)
         };
     }
-    public Domain.Color ParseColor(string value)
+    public Result<Domain.Color, string> ParseColor(string value)
     {
         if (Enum.TryParse<Domain.Color>(value, true, out var color))
         {
-            return color;
+            return Result<Domain.Color, string>.Ok(color);
         }
-        throw new ArgumentException($"Invalid value Color {value}");
+        return Result<Domain.Color, string>.Fail($"Invalid value Color {value}");
     }
 
-    public PartOfTheDay? ParsePartOfTheDay(string value)
+    public Result<PartOfTheDay, string> ParsePartOfTheDay(string value)
     {
         return value switch
         {
-            "Morning" =>  PartOfTheDay.Morning,
-            "Afternoon" => PartOfTheDay.Afternoon,
-            "Night" => PartOfTheDay.Night,
-            _ => throw new ArgumentException($"Invalid value PartOfTheDay {value}"),
+            "Morning" => Result<PartOfTheDay, string>.Ok(PartOfTheDay.Morning),
+            "Afternoon" => Result<PartOfTheDay, string>.Ok(PartOfTheDay.Afternoon),
+            "Night" => Result<PartOfTheDay, string>.Ok(PartOfTheDay.Night),
+            _ => Result<PartOfTheDay, string>.Fail($"Invalid value PartOfTheDay {value}"),
         };
     }
 
-    public Regularity ParseRegularity(RegularityDto dto)
+    public Result<Regularity, string> ParseRegularity(RegularityDto dto)
     {
         if (dto == null) throw new ArgumentNullException(nameof(dto));
 
@@ -78,7 +79,7 @@ public class HabitParser
                 daily = new TimesPerWeek((uint)dto.DailyDaysPerWeek);
             }
 
-            return new Daily(daily);
+            return Result<Regularity, string>.Ok(new Daily(daily));
         }
         if (dto.IsMonthly)
         {
@@ -97,16 +98,16 @@ public class HabitParser
                 monthly = new TimesPerMonth((uint)dto.MonthlyDaysPerMonth);
             }
 
-            return new Monthly(monthly);
+            return Result<Regularity, string>.Ok(new Monthly(monthly));
         }
         if (dto.IsInterval)
         {
             if (!uint.TryParse(dto.IntervalDays, out var count) || count == 0)
                 throw new ArgumentException("Invalid interval days");
 
-            return new EveryNDays(count);
+            return Result<Regularity, string>.Ok(new EveryNDays(count));
         }
 
-        throw new ArgumentException("Invalid RegularityDto: no regularity type selected");
+        return Result<Regularity, string>.Fail("Invalid RegularityDto: no regularity type selected");
     }
 }
