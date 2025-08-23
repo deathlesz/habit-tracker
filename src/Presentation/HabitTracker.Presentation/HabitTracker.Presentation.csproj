@@ -62,8 +62,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="JFomit.Functional" Version="3.1.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
@@ -73,24 +71,6 @@
 	  <ProjectReference Include="..\..\Application\HabitTracker.Application\HabitTracker.Application.csproj" />
 	  <ProjectReference Include="..\..\Domain\HabitTracker.Domain\HabitTracker.Domain.csproj" />
 	  <ProjectReference Include="..\..\Infrastructure\HabitTracker.Infrastructure\HabitTracker.Infrastructure.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Update="RegularityPage.xaml.cs">
-	    <DependentUpon>RegularityPage.xaml</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiXaml Update="AddPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="RegularityPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="ReminderPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

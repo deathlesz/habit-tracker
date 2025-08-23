@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HabitTracker.Domain.Enums;
 
 namespace HabitTracker.Domain.Entities.Regularity
 {
@@ -56,9 +55,5 @@ namespace HabitTracker.Domain.Entities.Regularity
         /// The number of marked days per cycle.
         /// </summary>
         public int DaysMachedInCycle { get; set; }
-        /// <summary>
-		/// Discriminator of habits regularity type
-		/// </summary>
-		public HabitRegularityType HabitRegularityType { get; set; }
     }
 }
