@@ -152,9 +152,14 @@ static class HabitParser
         return entity;
     }
 
-    private static HabitReminderEntity? ConvertReminder(Reminder? reminderOption, Habit habit, HabitScheduleEntity habitSchedule)
+    private static HabitReminderEntity? ConvertReminder(Reminder? reminder, Habit habit, HabitScheduleEntity habitSchedule)
     {
-        if (reminderOption is Reminder reminder && habitSchedule.IsAllMachedDays)
+        if (reminder is null)
+        {
+            return null;
+        }
+
+        if (habitSchedule.IsAllMachedDays)
         {
             // TODO: smb, figure out how to set notifications for habits w/o strict schedules and go fix this mess
             return new()
@@ -164,6 +169,19 @@ static class HabitParser
                 Id = -1, // will be set by db
                 Message = reminder.Message,
                 DaysToNotificate = habitSchedule.RepeatingDatesToMatch!,
+                CyclePatternLength = habitSchedule.RepeatingCycleDays,
+                CyclesToRun = null, // idk, infinite for now
+            };
+        } else if (habitSchedule.IsAnyDay)
+        {
+            return new()
+            {
+                Time = reminder.Time,
+                StartDate = habitSchedule.StartDate ?? DateOnly.FromDateTime(DateTime.Now), // idk what to do if unset
+                Id = -1, // will be set by db
+                Message = reminder.Message,
+                // Well, is sucks. I know it, you know it, but at least it will not break when month changes }:)
+                DaysToNotificate = [28 - 1],
                 CyclePatternLength = habitSchedule.RepeatingCycleDays,
                 CyclesToRun = null, // idk, infinite for now
             };

@@ -71,13 +71,13 @@ static class HabitReminderParser
     {
         HabitRegularityType = HabitRegularityType.Daily, // basically unset
         DatesMatched = [], // none so far
-        IsAllMachedDays = false,
-        IsAnyDay = true,
+        IsAllMachedDays = true,
+        IsAnyDay = false,
         StartDate = habit.StartDate,
         RepeatingCycleDays = (int)count, // will not overflow, since habit is valid
         DaysMachedInCycle = 0, // none so far
-        RepeatingDatesToMatch = null, // IsAnyDay == true
-        CycleMachedDaysGoal = 1, // only 1 is required
+        RepeatingDatesToMatch = [(int)count - 1], // On every nth day
+        CycleMachedDaysGoal = 0, // unset
 
         Id = -1 // set by db
     };

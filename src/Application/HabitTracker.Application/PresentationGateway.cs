@@ -1,8 +1,10 @@
 using HabitTracker.Application.Interfaces;
 using HabitTracker.Application.Interfaces.Repositories;
 using HabitTracker.Application.Interfaces.Services;
+using HabitTracker.Application.Pipeline;
 using HabitTracker.Domain.Dto;
 using JFomit.Functional;
+using JFomit.Functional.Extensions;
 using JFomit.Functional.Monads;
 
 namespace HabitTracker.Application;
@@ -27,8 +29,5 @@ public class PresentationGateway(IHabitRepository habitRepository, INotification
         throw new NotImplementedException();
     }
 
-    public Result<Unit, string> UpdateHabit(Habit habit)
-    {
-        throw new NotImplementedException();
-    }
+    public Result<Unit, string> UpdateHabit(Habit habit) => UpdatingHabit.DoUpdate(habit);
 }
