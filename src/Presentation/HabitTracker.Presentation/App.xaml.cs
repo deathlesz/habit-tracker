@@ -5,7 +5,17 @@
         public App(IServiceProvider serviceProvider)
         {
             InitializeComponent();
-            MainPage = serviceProvider.GetRequiredService<MainPage>();
+            try
+            {
+                MainPage = serviceProvider.GetService<MainPage>();
+            }
+            catch (Exception ex)
+            {
+                MainPage = new ContentPage
+                {
+                    Content = new Label { Text = $"Ошибка: {ex.Message}" }
+                };
+            }
         }
     }
 }

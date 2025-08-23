@@ -43,8 +43,7 @@ namespace HabitTracker.Presentation
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 });
             builder.Services.AddSingleton<IHabitReminderRepository, DummyHabitReminderRepository>();
-            builder.Services.AddTransient<ReminderPage>();
-            builder.Services.AddTransient<AddPage>();
+            builder.Services.AddSingleton<AndroidNotificationService>();
             builder.Services.AddSingleton<MainPage>();
 
 #if DEBUG
