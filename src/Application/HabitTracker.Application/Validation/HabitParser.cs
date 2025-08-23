@@ -172,7 +172,8 @@ static class HabitParser
                 CyclePatternLength = habitSchedule.RepeatingCycleDays,
                 CyclesToRun = null, // idk, infinite for now
             };
-        } else if (habitSchedule.IsAnyDay)
+        }
+        else if (habitSchedule.IsAnyDay)
         {
             return new()
             {
