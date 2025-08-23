@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Maui.Controls;
 using System.Collections.ObjectModel;
+using AndroidX.Navigation;
 using Microsoft.Maui.Graphics;
 
 namespace HabitTracker.Presentation.ViewModel;
@@ -26,9 +27,11 @@ public partial class AddPageViewModel : INotifyPropertyChanged
 
     public ICommand SaveCommand { get; }
     public ICommand CancelCommand { get; }
-
-    public AddPageViewModel()
+    private IServiceProvider _serviceProvider;
+    
+    public AddPageViewModel(IServiceProvider serviceProvider)
     {
+        _serviceProvider = serviceProvider;
         HabitTypeButton = new(ElementColorStyle.Default, "Enter your habit type")
         {
             Command = new Command(async () => await SelectHabitTypeAsync())

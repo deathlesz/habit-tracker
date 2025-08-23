@@ -7,11 +7,10 @@ namespace HabitTracker.Presentation;
 public partial class AddPage : ContentPage
 {
     public string ItemId { get; set; } // must be public set
-
-    public AddPage()
+    public AddPage(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        BindingContext = new AddPageViewModel();
+        BindingContext = new AddPageViewModel(serviceProvider);
     }
 
     // OnClicked methods

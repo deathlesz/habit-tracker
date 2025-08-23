@@ -7,22 +7,6 @@
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
-<<<<<<< HEAD
-            <Label Text="Message"></Label>
-            <Entry x:Name="MessageEntry" Placeholder="Enter notification message"></Entry>
-            <Label Text="Start Date"></Label>
-            <DatePicker x:Name="DatePicker"></DatePicker>
-            <Label Text="Cycle Pattern Length:"></Label>
-            <Entry x:Name="CyclePatternLength" Placeholder="Enter cycle length" Keyboard="Numeric"></Entry>
-            <Label Text="Days to Notify (comma separated):"></Label>
-            <Entry x:Name="DaysToNotify" Placeholder="e.g. 1,3,5"></Entry>
-            <Label Text="Cycles to Run (optional):"></Label>
-            <Entry x:Name="CyclesToRun" Placeholder="Leave empty for infinite" Keyboard="Numeric"></Entry>
-            <Button Text="Create Notification" Clicked="OnCreateNotificationServiceClicked"/>
-            <Label x:Name="ResultLabel" TextColor="Green" FontAttributes="Bold" />
-            <Button Text="Show Notification" Clicked="OnShowNotificationButtonClicked"/>
-            <Label x:Name="ResultShowNotification" TextColor="Green" FontAttributes="Bold" />
-=======
             <Image
                 Source="dotnet_bot.png"
                 HeightRequest="185"
@@ -48,7 +32,6 @@
                 SemanticProperties.Hint="Sends you to add page"
                 Clicked="OnAddClicked"
                 HorizontalOptions="Fill" />
->>>>>>> 68a3ab6dc71a42c6204dc11005724db777322944
         </VerticalStackLayout>
     </ScrollView>
 
