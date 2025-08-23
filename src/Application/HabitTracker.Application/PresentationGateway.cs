@@ -9,10 +9,15 @@ using JFomit.Functional.Monads;
 
 namespace HabitTracker.Application;
 
-public class PresentationGateway(IHabitRepository habitRepository, INotificationService notificationService) : IPresentation
+public class PresentationGateway(
+    IHabitRepository habitRepository,
+    IHabitReminderRepository habitReminderRepository,
+    INotificationService notificationService) : IPresentation
 {
     public IHabitRepository HabitRepository { get; } = habitRepository;
     public INotificationService NotificationService { get; } = notificationService;
+
+    private readonly UpdatingHabit _updatingHabit = new(habitRepository, habitReminderRepository);
 
     public Result<Habit, string> CreateHabit(Habit habit)
     {
@@ -29,5 +34,5 @@ public class PresentationGateway(IHabitRepository habitRepository, INotification
         throw new NotImplementedException();
     }
 
-    public Result<Unit, string> UpdateHabit(Habit habit) => UpdatingHabit.DoUpdate(habit);
+    public Result<Unit, string> UpdateHabit(Habit habit) => _updatingHabit.DoUpdate(habit);
 }

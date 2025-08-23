@@ -27,9 +27,15 @@ class UpdatingHabit(IHabitRepository habitRepository, IHabitReminderRepository h
     private Result<Unit, string> DoUpdate(HabitEntity habit)
     {
         Debug.Assert(habit.Id >= 0); // a sanity check
-        return UpdateDb(habit).SelectMany(habit, UpdateNotification);
+        var oldHabit = HabitRepository.Habits.FirstOrDefault(h => h.Id == habit.Id);
+        if (oldHabit is null)
+        {
+            return Error($"No habit with id {habit.Id}.");
+        }
 
-        Result<Unit, string> UpdateDb(HabitEntity habit)
+        return UpdateNotification(oldHabit, habit).SelectMany(habit, UpdateDb);
+
+        Result<Unit, string> UpdateDb(Unit _, HabitEntity habit)
         {
             var dummy = MakeDummyHabitWithId(habit.Id);
 
@@ -52,15 +58,51 @@ class UpdatingHabit(IHabitRepository habitRepository, IHabitReminderRepository h
             }).Select(Discard<HabitEntity>);
         }
 
-        Result<Unit, string> UpdateNotification(Unit _, HabitEntity habit)
+        Result<Unit, string> UpdateNotification(HabitEntity oldHabit, HabitEntity newHabit)
         {
-            var reminder =
-                from aHabit in HabitRepository.Habits
-                select aHabit;
-
-            
+            var newReminder = newHabit.Reminder;
+            if (newReminder is null)
+            {
+                // delete
+                return DeleteNotificationFor(oldHabit);
+            }
+            else if (oldHabit.Reminder is null)
+            {
+                // add
+                return AddNotificationFor(oldHabit, newHabit);
+            }
+            else
+            {
+                // update
+                var oldReminder = oldHabit.Reminder;
+                return HabitReminderRepository.UpdateHabit(oldReminder, r =>
+                {
+                    r.CyclePatternLength = newReminder.CyclePatternLength;
+                    r.CyclesToRun = newReminder.CyclesToRun;
+                    r.DaysToNotificate = newReminder.DaysToNotificate.ToArray();
+                    r.Message = newReminder.Message;
+                    r.StartDate = newReminder.StartDate;
+                    r.Time = newReminder.Time;
+                }).Select(Discard<HabitReminderEntity>);
+            }
         }
     }
+
+    private Result<Unit, string> AddNotificationFor(HabitEntity oldHabit, HabitEntity newHabit)
+    {
+        return HabitReminderRepository.AddHabit(newHabit.Reminder!).SelectMany(newReminderId =>
+            HabitRepository.UpdateHabit(oldHabit, h =>
+            {
+                h.Reminder = newHabit.Reminder;
+                h.Reminder!.Id = newReminderId;
+            })
+        ).Select(Discard<HabitEntity>);
+    }
+
+    private Result<Unit, string> DeleteNotificationFor(HabitEntity habit)
+        => HabitReminderRepository
+            .DeleteHabit(habit.Reminder!.Id)
+            .Select(Discard<HabitReminderEntity>);
 
     // I should say, this is a very bad design
     private static HabitEntity MakeDummyHabitWithId(int id) => new()
@@ -71,12 +113,6 @@ class UpdatingHabit(IHabitRepository habitRepository, IHabitReminderRepository h
         Kind = default,
         Name = null!,
         Regularity = null!,
-
-        Id = id,
-    };
-    private static HabitReminderEntity MakeDummyReminderWithId(int id) => new()
-    {
-        DaysToNotificate = null!,
 
         Id = id,
     };
