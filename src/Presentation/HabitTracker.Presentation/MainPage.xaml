@@ -7,6 +7,7 @@
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
+<<<<<<< HEAD
             <Label Text="Message"></Label>
             <Entry x:Name="MessageEntry" Placeholder="Enter notification message"></Entry>
             <Label Text="Start Date"></Label>
@@ -21,6 +22,33 @@
             <Label x:Name="ResultLabel" TextColor="Green" FontAttributes="Bold" />
             <Button Text="Show Notification" Clicked="OnShowNotificationButtonClicked"/>
             <Label x:Name="ResultShowNotification" TextColor="Green" FontAttributes="Bold" />
+=======
+            <Image
+                Source="dotnet_bot.png"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="dot net bot in a race car number eight" />
+
+            <Label
+                Text="Hello, World!"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+
+            <Label
+                Text="Welcome to &#10;.NET Multi-platform App UI"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
+
+            <Button
+                x:Name="CounterBtn"
+                Text="Add habit" 
+                Command="{Binding NavigateCommand}"
+                CommandParameter="AddPage"
+                SemanticProperties.Hint="Sends you to add page"
+                Clicked="OnAddClicked"
+                HorizontalOptions="Fill" />
+>>>>>>> 68a3ab6dc71a42c6204dc11005724db777322944
         </VerticalStackLayout>
     </ScrollView>
 

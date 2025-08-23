@@ -5,6 +5,9 @@
         public AppShell()
         {
             InitializeComponent();
+            Routing.RegisterRoute(nameof(AddPage), typeof(AddPage));
+            Routing.RegisterRoute(nameof(RegularityPage), typeof(RegularityPage));
+            Routing.RegisterRoute(nameof(ReminderPage), typeof(ReminderPage));
         }
     }
 }

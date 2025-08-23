@@ -9,6 +9,7 @@ namespace HabitTracker.Presentation
     /// </summary>
     public partial class MainPage : ContentPage
     {
+<<<<<<< HEAD
         private AndroidNotificationService _androidNotificationService;
         private Result<HabitReminderEntity, string> result;
         /// <summary>
@@ -18,10 +19,15 @@ namespace HabitTracker.Presentation
         /// The service responsible for scheduling repetitive notifications.
         /// </param>
         public MainPage(AndroidNotificationService androidNotificationService)
+=======
+
+        public MainPage()
+>>>>>>> 68a3ab6dc71a42c6204dc11005724db777322944
         {
             InitializeComponent();
             _androidNotificationService = androidNotificationService;
         }
+<<<<<<< HEAD
         /// <summary>
         /// Handles the click event of the "Create Notification" button.
         /// Validates user input, creates a habit reminder, and stores the result.
@@ -102,7 +108,12 @@ namespace HabitTracker.Presentation
                 ResultShowNotification.Text = error;
                 ResultShowNotification.TextColor = Colors.Red;
             }
+=======
+
+        private async void OnAddClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new AddPage());
+>>>>>>> 68a3ab6dc71a42c6204dc11005724db777322944
         }
     }
-
 }
