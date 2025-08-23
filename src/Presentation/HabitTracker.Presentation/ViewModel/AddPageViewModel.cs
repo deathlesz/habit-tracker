@@ -186,7 +186,12 @@ public partial class AddPageViewModel : INotifyPropertyChanged
             Goal = habitParse.CreateGoalInfo(goalText, mUnit),
             Regularity = habitParse.ParseRegularity(reg)
         };
-        _presentation.CreateHabit(habit);
+        //_presentation.CreateHabit(habit);
+        var createHabit = _presentation.CreateHabit(habit);
+        if (createHabit.IsError)
+        {
+            await Shell.Current.DisplayAlert("Error", createHabit.Error, "OK");
+        }
         await Shell.Current.DisplayAlert("Saved", "Your habit has been saved.", "OK"); // TODO: implement habit saving
         await Shell.Current.GoToAsync("..");
     }
