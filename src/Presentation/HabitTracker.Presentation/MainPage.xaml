@@ -1,12 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+		xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
              x:Class="HabitTracker.Presentation.MainPage"
              Padding="0"
+             Title="Main"
              BackgroundColor="#FFF0DA">
 
     <Grid RowDefinitions="Auto,*,Auto"
-          Padding="20"
+          Padding="0,10,0,0"
           RowSpacing="15">
 
         <!-- Header -->
@@ -40,20 +42,28 @@
                 <DataTemplate>
                     <Frame BackgroundColor="#ACC4F3"
                            CornerRadius="15"
-                           Padding="10"
-                           HorizontalOptions="Fill"
+                           Padding="8"
+                           HorizontalOptions="FillAndExpand"
+                           Margin="20,0,20,0"
                            HeightRequest="70">
                         
                         <StackLayout Spacing="2">
-                            <StackLayout Orientation="Horizontal" Spacing="10">
+                            <StackLayout Orientation="Horizontal" Spacing="2">
+                                <!-- Icon Habit -->
+                                       <Button ImageSource="bottle_icon.png"
+                                        BackgroundColor="{Binding StatusColor}"
+                                       CornerRadius="10"
+                                       Padding="5"
+                                       HeightRequest="45"
+                                       HorizontalOptions="Fill"/>
                                 <!-- Name Habit -->
-                                <Frame BackgroundColor="#3463BC"
+                                <Frame BackgroundColor="{Binding StatusColor}"
                                     BorderColor="Transparent"
                                     CornerRadius="10"
                                     Padding="5"
-                                    HeightRequest="50"
+                                    HeightRequest="45"
                                     HasShadow="True"
-                                    HorizontalOptions="Fill">
+                                    HorizontalOptions="FillAndExpand">
 
                                     <Grid ColumnDefinitions="*,Auto,Auto"
                                         ColumnSpacing="10"
@@ -73,18 +83,9 @@
                                         <Label Grid.Column="1"
                                             Text="{Binding Progress}"
                                             FontSize="16"
-                                            TextColor="{Binding StatusColor}"
+                                            TextColor="White"
                                             HorizontalOptions="End"
                                             VerticalOptions="Center"/>
-
-                                        <!-- Status - выравнивание по правому краю -->
-                                        <Label Grid.Column="2"
-                                            Text="{Binding Status}"
-                                            FontSize="16"
-                                            TextColor="{Binding StatusColor}"
-                                            HorizontalOptions="End"
-                                            VerticalOptions="Center"/>
-
                                     </Grid>
                                 </Frame>
                                 </StackLayout>
@@ -99,21 +100,6 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <!-- Action Buttons -->
-        <Frame Grid.Row="3"
-               Padding="15"
-               HasShadow="True"
-               BackgroundColor="#FFE0B0"
-               HorizontalOptions="FillAndExpand">
-
-            <Grid ColumnDefinitions="*,*"
-                  ColumnSpacing="10">
-
-                <Button Grid.Column="0" Text="H" FontSize="16" BackgroundColor="Transparent"/>
-                <Button Grid.Column="1" Text="S" FontSize="16" BackgroundColor="Transparent"/>
-            </Grid>
-        </Frame>
-
         <!-- Add Habit Floating Button -->
         <Button Grid.Row="1"
                 Text="+"
@@ -127,8 +113,20 @@
                 FontAttributes="Bold"
                 HorizontalOptions="End"
                 VerticalOptions="End"
-                Margin="0,0,0,0">
+                Margin="0,0,25,0"
+                Command="{Binding AddPageButton.Command}">
         </Button>
 
+        <!-- Action Buttons -->
+            <Grid 
+            Grid.Row="2"
+            ColumnDefinitions="*,*" 
+            Padding="16,8,16,8"
+            BackgroundColor="{StaticResource PageFooter}"
+            Margin="0">
+
+                <Button Grid.Column="0" ImageSource="home_page_enable_icon.png" BackgroundColor="Transparent"/>
+                <Button Grid.Column="1" ImageSource="stat_page_disable_icon.png" BackgroundColor="Transparent"/>
+            </Grid>
     </Grid>
 </ContentPage>

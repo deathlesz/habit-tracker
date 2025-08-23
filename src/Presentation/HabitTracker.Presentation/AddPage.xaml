@@ -243,7 +243,9 @@
             Grid.Row="2" 
             ColumnDefinitions="*,*" 
             Padding="16,8,16,8"
-            BackgroundColor="{StaticResource PageFooter}">
+            BackgroundColor="{StaticResource PageFooter}"
+            HorizontalOptions="FillAndExpand"
+            Margin="0">
             <Button
                 Grid.Column="0"
                 Text="Save"
