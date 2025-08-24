@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using HabitTracker.Domain.Dto;
+using HabitTracker.Domain.Enums;
 using JFomit.Functional;
 using System.Diagnostics;
 using JFomit.Functional.Extensions;
@@ -28,6 +29,9 @@ public partial class EditPageViewModel
     public ICommand SaveCommand { get; }
     public ICommand CancelCommand { get; }
 
+    private Habit originalHabit;
+    // private IPresentation presentation;
+
     private string FormatRegularity(Regularity regularity) => regularity switch
     {
         Daily => "Daily",
@@ -37,8 +41,12 @@ public partial class EditPageViewModel
         _ => throw new UnreachableException()
     };
 
+    // public EditPageViewModel(Habit habit, IPresentation presentation)
     public EditPageViewModel(Habit habit)
     {
+        originalHabit = habit;
+        // this.presentation = presentation;
+
         HabitTypeButton = new(ElementColorStyle.Default, $"Habit type: {habit.Kind}", Some(habit.Kind.ToString()))
         {
             Command = new Command(async () => await SelectHabitTypeAsync()),
@@ -70,11 +78,13 @@ public partial class EditPageViewModel
         {
             Command = new Command(async () => await SelectReminderAsync())
         };
+
         var startDate = habit.StartDate.ToOption().Select(date => date.ToString());
-        HabitStartDatePicker = new(ElementColorStyle.Default, $"{startDate}", startDate);
+        HabitStartDatePicker = new(ElementColorStyle.Default, $"{startDate.Match(date => date, () => "None")}", startDate);
 
         var endDate = habit.EndDate.ToOption().Select(date => date.ToString());
-        HabitEndDatePicker = new(ElementColorStyle.Default, $"{endDate}", endDate);
+        HabitEndDatePicker = new(ElementColorStyle.Default, $"{endDate.Match(date => date, () => "None")}", endDate);
+
         HabitDescriptionEditor = new(ElementColorStyle.Default, $"{habit.Description ?? ""}", Some(habit.Description ?? ""));
         SaveCommand = new Command(async () => await SaveAsync());
         CancelCommand = new Command(async () => await CancelAsync());
@@ -176,7 +186,53 @@ public partial class EditPageViewModel
 
     private async Task SaveAsync()
     {
-        await Shell.Current.DisplayAlert("Saved", "Your habit has been saved.", "OK"); // TODO: implement habit saving
+        var habit = new Habit(originalHabit.Id)
+        {
+            Color = Enum.Parse<Domain.Color>(HabitColorButton.StoredValue.Unwrap()),
+            Goal = new Goal(HabitGoalEntry.StoredValue.Unwrap(), HabitGoalMUnitButton.StoredValue.Unwrap() switch
+            {
+                "Km" => MeasurementUnit.Km,
+                "Sec" => MeasurementUnit.Sec,
+                "Count" => MeasurementUnit.Count,
+                "Step" => MeasurementUnit.Steps,
+                "M" => MeasurementUnit.M,
+                "Min" => MeasurementUnit.Min,
+                "Hour" => MeasurementUnit.Hr,
+                "Ml" => MeasurementUnit.Ml,
+                "Cal" => MeasurementUnit.Cal,
+                "G" => MeasurementUnit.G,
+                "Mg" => MeasurementUnit.Mg,
+                "Drink" => MeasurementUnit.Drink,
+                _ => throw new UnreachableException(),
+            }),
+            Icon = HabitIconButton.StoredValue.Unwrap() switch
+            {
+                "Bottle" => Icon.DrinkingWater,
+                "GYM" => Icon.Training,
+                "Run" => Icon.Running,
+                _ => Icon.Default,
+            },
+            Kind = Enum.Parse<GoodnessKind>(HabitTypeButton.StoredValue.Unwrap()),
+            Name = HabitNameEntry.StoredValue.Unwrap(),
+            Regularity = HabitRegularityButton.StoredValue.Unwrap(),
+            Description = HabitDescriptionEditor.StoredValue.Unwrap(),
+            StartDate = HabitStartDatePicker.StoredValue.Select(date => DateOnly.Parse(date)).ToNullable(),
+            EndDate = HabitEndDatePicker.StoredValue.Select(date => DateOnly.Parse(date)).ToNullable(),
+            PartOfTheDay = Enum.Parse<PartOfTheDay>(HabitTimeOfDayButton.StoredValue.Unwrap()),
+            State = originalHabit.State,
+            Reminder = originalHabit.Reminder // TODO: change when reminder page is merged
+        };
+
+        // TODO: uncomment when repositories are merged in
+        // if (presentation.UpdateHabit(habit).IsSuccess)
+        // {
+        //     await Shell.Current.DisplayAlert("Saved", "Your habit has been saved.", "OK");
+        // }
+        // else
+        // {
+        //     await Shell.Current.DisplayAlert("Error", "Encountered an error during saving.", "OK");
+        // }
+
         await Shell.Current.GoToAsync("..");
     }
     private async Task CancelAsync() => await Shell.Current.GoToAsync(".."); // return to home page

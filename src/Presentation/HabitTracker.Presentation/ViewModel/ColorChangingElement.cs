@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using JFomit.Functional.Extensions;
@@ -50,7 +49,7 @@ public partial class ColorChangingElement<T>(
     [ObservableProperty]
     private Color color = actualValue.Match(some: (_) => style.SetColor, none: () => style.DefaultColor);
     [ObservableProperty]
-    private Color strokeColor = actualValue.Match(some: (_) => style.SetStrokeColor, none: () => style.DefaultStrokeColor) ;
+    private Color strokeColor = actualValue.Match(some: (_) => style.SetStrokeColor, none: () => style.DefaultStrokeColor);
 
     [ObservableProperty]
     private string value = defaultValue;
