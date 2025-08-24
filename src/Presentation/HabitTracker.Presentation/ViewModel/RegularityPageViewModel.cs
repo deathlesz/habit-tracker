@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using HabitTracker.Domain.Dto;
+using JFomit.Functional.Extensions;
+using JFomit.Functional.Monads;
 using Microsoft.Maui.Controls;
 
 namespace HabitTracker.Presentation.ViewModel;
 
-public class RegularityPageViewModel : INotifyPropertyChanged
+public partial class RegularityPageViewModel : ObservableObject
 {
     private bool _isDaily;
     private bool _isMonthly;
@@ -75,7 +80,7 @@ public class RegularityPageViewModel : INotifyPropertyChanged
     private string _intervalDays = "1";
     private bool _intervalInvalid;
 
-    public event PropertyChangedEventHandler? PropertyChanged;
+    // public event PropertyChangedEventHandler? PropertyChanged;
 
     public bool IsDaily
     {
@@ -202,6 +207,77 @@ public class RegularityPageViewModel : INotifyPropertyChanged
         }
     }
 
-    private void OnPropertyChanged([CallerMemberName] string? name = null)
-        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    // private void OnPropertyChanged([CallerMemberName] string? name = null)
+    //     => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+    [ObservableProperty]
+    private Option<Regularity> regularity;
+
+    partial void OnRegularityChanged(Option<Regularity> value)
+    {
+        if (!value.TryUnwrap(out var regularity))
+        {
+            return;
+        }
+
+        switch (regularity)
+        {
+            case Daily(var daily):
+                {
+                    IsDaily = true;
+                    IsMonthly = false;
+                    IsInterval = false;
+
+                    if (daily is TimesPerWeek(var times))
+                    {
+                        DailyDaysPerWeek = (int)times;
+                    }
+                    else
+                    {
+                        var days = ((DaysOfTheWeek)daily);
+                        Monday = days.IsDaySet(DayOfWeek.Monday);
+                        Tuesday = days.IsDaySet(DayOfWeek.Tuesday);
+                        Wednesday = days.IsDaySet(DayOfWeek.Wednesday);
+                        Thursday = days.IsDaySet(DayOfWeek.Thursday);
+                        Friday = days.IsDaySet(DayOfWeek.Friday);
+                        Saturday = days.IsDaySet(DayOfWeek.Saturday);
+                        Sunday = days.IsDaySet(DayOfWeek.Sunday);
+                    }
+                    break;
+                }
+
+            case Monthly(var monthly):
+                {
+                    IsDaily = false;
+                    IsMonthly = true;
+                    IsInterval = false;
+
+                    if (monthly is TimesPerMonth(var times))
+                    {
+                        MonthlyDaysPerMonth = (int)times;
+                    }
+                    else
+                    {
+                        var days = monthly as ConcreteDays;
+                        var d = days!.UnpackDays();
+                        for (int i = 0; i < MonthlyDays.Length; i++)
+                        {
+                            MonthlyDays[i] = d.Contains(i + 1) ? true : false;
+                        }
+                    }
+                    break;
+                }
+
+            case EveryNDays(var count):
+                IsDaily = false;
+                IsMonthly = false;
+                IsInterval = true;
+
+                IntervalDays = count.ToString();
+                break;
+
+            default:
+                throw new UnreachableException();
+        }
+    }
 }

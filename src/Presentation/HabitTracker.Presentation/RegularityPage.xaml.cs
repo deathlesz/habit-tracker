@@ -1,8 +1,11 @@
+using HabitTracker.Domain.Dto;
 using HabitTracker.Presentation.ViewModel;
+using JFomit.Functional.Extensions;
+using JFomit.Functional.Monads;
 
 namespace HabitTracker.Presentation;
 
-public partial class RegularityPage : ContentPage
+public partial class RegularityPage : ContentPage, IQueryAttributable
 {
     public RegularityPage()
     {
@@ -19,4 +22,8 @@ public partial class RegularityPage : ContentPage
 
     }
 
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        ((RegularityPageViewModel)BindingContext).Regularity = query["Regularity"].ToOption().OfType<Option<Regularity>>().Flatten();
+    }
 }

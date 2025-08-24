@@ -28,15 +28,6 @@ public partial class EditPageViewModel
     public ICommand SaveCommand { get; }
     public ICommand CancelCommand { get; }
 
-    private string FormatRegularity(Regularity regularity) => regularity switch
-    {
-        Daily => "Daily",
-        Monthly => "Monthly",
-        EveryNDays(var count) => $"Every {count} days",
-
-        _ => throw new UnreachableException()
-    };
-
     public EditPageViewModel(Habit habit)
     {
         HabitTypeButton = new(ElementColorStyle.Default, $"Habit type: {habit.Kind}", Some(habit.Kind.ToString()))
@@ -49,9 +40,9 @@ public partial class EditPageViewModel
         {
             Command = new Command(async () => await SelectGoalMUnitAsync())
         };
-        HabitRegularityButton = new(ElementColorStyle.Default, FormatRegularity(habit.Regularity), Prelude.Some(habit.Regularity))
+        HabitRegularityButton = new(ElementColorStyle.Default, "Regularity", Some(habit.Regularity))
         {
-            Command = new Command(async () => await SelectRegularityAsync())
+            Command = new Command(async () => await SelectRegularityAsync(habit.Regularity))
         };
         HabitIconButton = new(ElementColorStyle.Default, $"Icon: {habit.Icon}", Some(habit.Icon.ToString()))
         {
@@ -112,7 +103,11 @@ public partial class EditPageViewModel
         HabitGoalMUnitButton.SetValue("Measurement unit:", action);
     }
 
-    private async Task SelectRegularityAsync() => await Shell.Current.GoToAsync($"{nameof(RegularityPage)}");
+    private async Task SelectRegularityAsync(Regularity regularity) => await Shell.Current.GoToAsync(nameof(RegularityPage), new ShellNavigationQueryParameters
+    {
+        { "Regularity", Some(regularity) }
+    });
+
     async Task SelectIconAsync()
     {
         var action = await Shell.Current.DisplayActionSheet(

@@ -24,7 +24,7 @@ namespace HabitTracker.Presentation
                 Icon = Icon.Training,
                 Kind = GoodnessKind.Positive,
                 Name = "A bs habit",
-                Regularity = new EveryNDays(5),
+                Regularity = new Daily(new TimesPerWeek(3)),
                 Description = "A very looooooong description.",
                 StartDate = new DateOnly(1970, 1, 1),
                 EndDate = DateOnly.FromDateTime(DateTime.Now),
