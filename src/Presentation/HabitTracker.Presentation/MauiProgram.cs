@@ -17,16 +17,16 @@ namespace HabitTracker.Presentation
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-			builder.Services.AddInfrastructureLayer();
-			builder.Services.AddPresentationLayer();
-			
+            builder.Services.AddInfrastructureLayer();
+            builder.Services.AddPresentationLayer();
+
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
             var application = builder.Build();
-			application.UseInfrastructureLayerSystems();
-			return application;
-		}
+            application.UseInfrastructureLayerSystems();
+            return application;
+        }
     }
 
 }
