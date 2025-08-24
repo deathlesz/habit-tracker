@@ -167,11 +167,79 @@ public partial class RegularityPageViewModel : ObservableObject
             return;
         }
 
-        // TODO: pass selected regularity back to AddPageViewModel (via messaging or shared state)
-        await Shell.Current.GoToAsync("..");
+        await Shell.Current.GoToAsync("..", new ShellNavigationQueryParameters()
+        {
+            { "NewRegularity", CreateRegularity() }
+        });
     }
 
     private async Task CancelAsync() => await Shell.Current.GoToAsync("..");
+
+    private Regularity CreateRegularity()
+    {
+        if (IsDaily)
+        {
+            if (DailyEveryDay)
+            {
+                return new Daily(new DaysOfTheWeek(
+                [
+                    DayOfWeek.Monday,
+                    DayOfWeek.Tuesday,
+                    DayOfWeek.Wednesday,
+                    DayOfWeek.Thursday,
+                    DayOfWeek.Friday,
+                    DayOfWeek.Saturday,
+                    DayOfWeek.Sunday
+                ]));
+            }
+
+            if (Monday || Tuesday || Wednesday || Thursday || Friday || Saturday || Sunday)
+            {
+                var lst = new List<DayOfWeek>();
+                AppendIfDaySet(lst, Monday, DayOfWeek.Monday);
+                AppendIfDaySet(lst, Tuesday, DayOfWeek.Tuesday);
+                AppendIfDaySet(lst, Wednesday, DayOfWeek.Wednesday);
+                AppendIfDaySet(lst, Thursday, DayOfWeek.Thursday);
+                AppendIfDaySet(lst, Friday, DayOfWeek.Friday);
+                AppendIfDaySet(lst, Saturday, DayOfWeek.Saturday);
+                AppendIfDaySet(lst, Sunday, DayOfWeek.Sunday);
+
+                return new Daily(new DaysOfTheWeek(lst.ToArray()));
+            }
+
+            return new Daily(new TimesPerWeek((uint)DailyDaysPerWeek));
+        }
+        if (IsMonthly)
+        {
+            if (MonthlyDays.Any(d => d))
+            {
+                var days = MonthlyDays
+                    .Select((d, i) => (d, i))
+                    .Where(item => item.d)
+                    .Select(item => item.i + 1)
+                    .ToArray();
+                return new Monthly(new ConcreteDays(days));
+            }
+            else
+            {
+                return new Monthly(new TimesPerMonth((uint)MonthlyDaysPerMonth));
+            }
+        }
+        if (IsInterval)
+        {
+            return new EveryNDays(uint.Parse(IntervalDays));
+        }
+
+        throw new UnreachableException();
+
+        static void AppendIfDaySet(List<DayOfWeek> lst, bool flag, DayOfWeek dayOfWeek)
+        {
+            if (flag)
+            {
+                lst.Add(dayOfWeek);
+            }
+        }
+    }
 
     private void Validate()
     {

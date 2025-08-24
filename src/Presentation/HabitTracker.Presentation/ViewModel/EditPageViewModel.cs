@@ -7,10 +7,12 @@ using JFomit.Functional;
 using System.Diagnostics;
 using JFomit.Functional.Extensions;
 using static JFomit.Functional.Prelude;
+using JFomit.Functional.Monads;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace HabitTracker.Presentation.ViewModel;
 
-public partial class EditPageViewModel
+public partial class EditPageViewModel : ObservableObject
 {
     public ColorChangingElement HabitTypeButton { get; init; }
     public ColorChangingElement HabitNameEntry { get; init; }
@@ -105,7 +107,7 @@ public partial class EditPageViewModel
 
     private async Task SelectRegularityAsync(Regularity regularity) => await Shell.Current.GoToAsync(nameof(RegularityPage), new ShellNavigationQueryParameters
     {
-        { "Regularity", regularity }
+        { "OldRegularity", regularity }
     });
 
     async Task SelectIconAsync()
@@ -198,8 +200,4 @@ public partial class EditPageViewModel
             }
         }
     }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-    private void OnPropertyChanged([CallerMemberName] string? name = null)
-        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 }

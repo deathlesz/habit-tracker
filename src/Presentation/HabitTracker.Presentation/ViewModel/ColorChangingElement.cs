@@ -72,4 +72,9 @@ public partial class ColorChangingElement<T>(
         Value = $"{prefix} {actual}";
         StoredValue = actual is null ? None : Some(actual);
     }
+    public void SetValueByText(string text, Option<T> actual)
+    {
+        Value = text;
+        StoredValue = actual;
+    }
 }

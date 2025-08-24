@@ -25,7 +25,7 @@ public partial class RegularityPage : ContentPage, IQueryAttributable
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        if (query.TryGetValue("Regularity", out var regularity))
+        if (query.TryGetValue("OldRegularity", out var regularity))
         {
             ((RegularityPageViewModel)BindingContext).Regularity = Prelude.Some((Regularity)regularity);
         }
