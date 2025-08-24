@@ -12,5 +12,9 @@ namespace HabitTracker.Presentation
         {
             await Navigation.PushModalAsync(new AddPage());
         }
+        private async void OnEditClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new EditPage());
+        }
     }
 }

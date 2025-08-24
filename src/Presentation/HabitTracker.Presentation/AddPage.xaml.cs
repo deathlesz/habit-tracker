@@ -13,48 +13,4 @@ public partial class AddPage : ContentPage
         InitializeComponent();
         BindingContext = new AddPageViewModel();
     }
-
-    // OnClicked methods
-    // I dunno how or why they work, but when deleted they cause compiler errors
-    private async void OnCancelClicked(object sender, EventArgs e) // pop-up window & return to home page
-    {
-
-    }
-
-    private async void OnSaveClicked(object sender, EventArgs e)
-    {
-
-    }
-
-    private async void OnTypeClicked(object sender, EventArgs e)
-    {
-
-    }
-
-    private void OnHabitNameChanged(object sender, TextChangedEventArgs e)
-    {
-
-    }
-
-    private void OnHabitGoalChanged(object sender, TextChangedEventArgs e)
-    {
-
-    }
-
-    private async void OnGoalClicked(object sender, EventArgs e)
-    {
-
-    }
-    private async void OnStartDateClicked(object sender, EventArgs e)
-    {
-
-    }
-    private async void OnEndDateClicked(object sender, EventArgs e)
-    {
-
-    }
-    private async void OnReminderClicked(object sender, EventArgs e)
-    {
-
-    }
 }
