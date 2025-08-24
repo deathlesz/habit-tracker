@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Windows.Input;
-using Android.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using JFomit.Functional.Extensions;
 using JFomit.Functional.Monads;
@@ -8,22 +7,19 @@ using static JFomit.Functional.Prelude;
 
 namespace HabitTracker.Presentation.ViewModel;
 
-public partial class ColorChangingElement(
-    ElementColorStyle style,
-    string defaultValue = "",
-    Option<string> actualValue = default) : ObservableObject
+public partial class ColorChangingElement(ElementColorStyle style, string defaultValue = "", Option<string> storedValue = default) : ObservableObject
 {
     public ICommand? Command { get; init; } = null;
     public ElementColorStyle Style { get; init; } = style;
 
     [ObservableProperty]
-    private Color color = actualValue.Match(some: (_) => style.SetColor, none: () => style.DefaultColor);
+    private Color color = storedValue.Match(some: (_) => style.SetColor, none: () => style.DefaultColor);
     [ObservableProperty]
-    private Color strokeColor = actualValue.Match(some: (_) => style.SetStrokeColor, none: () => style.DefaultStrokeColor) ;
+    private Color strokeColor = storedValue.Match(some: (_) => style.SetStrokeColor, none: () => style.DefaultStrokeColor);
 
     [ObservableProperty]
     private string value = defaultValue;
-    public Option<string> StoredValue { get; private set; } = actualValue;
+    public Option<string> StoredValue { get; private set; } = storedValue;
 
     partial void OnValueChanged(string value)
     {

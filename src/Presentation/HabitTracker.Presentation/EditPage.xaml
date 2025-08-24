@@ -208,7 +208,7 @@
 
                 <!-- Optional: reminder -->
                 <Button
-                    Text="Add reminder"
+                    Text="{Binding HabitReminderButton.Value}"
                     BackgroundColor="{Binding HabitReminderButton.Color}"
                     Style="{StaticResource ListButton}"
                     Command="{Binding HabitReminderButton.Command}" />
