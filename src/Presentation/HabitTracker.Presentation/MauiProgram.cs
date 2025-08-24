@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using HabitTracker.Infrastructure.Platforms.Android.ProgramConfiguration;
-using HabitTracker.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
 using HabitTracker.Presentation.ProgramConfiguration;
 namespace HabitTracker.Presentation
 {
