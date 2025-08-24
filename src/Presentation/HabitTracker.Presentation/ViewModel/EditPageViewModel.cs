@@ -8,10 +8,12 @@ using JFomit.Functional;
 using System.Diagnostics;
 using JFomit.Functional.Extensions;
 using static JFomit.Functional.Prelude;
+using JFomit.Functional.Monads;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace HabitTracker.Presentation.ViewModel;
 
-public partial class EditPageViewModel
+public partial class EditPageViewModel : ObservableObject
 {
     public ColorChangingElement HabitTypeButton { get; init; }
     public ColorChangingElement HabitNameEntry { get; init; }
@@ -32,16 +34,6 @@ public partial class EditPageViewModel
     private Habit originalHabit;
     // private IPresentation presentation;
 
-    private string FormatRegularity(Regularity regularity) => regularity switch
-    {
-        Daily => "Daily",
-        Monthly => "Monthly",
-        EveryNDays(var count) => $"Every {count} days",
-
-        _ => throw new UnreachableException()
-    };
-
-    // public EditPageViewModel(Habit habit, IPresentation presentation)
     public EditPageViewModel(Habit habit)
     {
         originalHabit = habit;
@@ -57,9 +49,9 @@ public partial class EditPageViewModel
         {
             Command = new Command(async () => await SelectGoalMUnitAsync())
         };
-        HabitRegularityButton = new(ElementColorStyle.Default, FormatRegularity(habit.Regularity), Prelude.Some(habit.Regularity))
+        HabitRegularityButton = new(ElementColorStyle.Default, "Regularity", Some(habit.Regularity))
         {
-            Command = new Command(async () => await SelectRegularityAsync())
+            Command = new Command(async () => await SelectRegularityAsync(habit.Regularity))
         };
         HabitIconButton = new(ElementColorStyle.Default, $"Icon: {habit.Icon}", Some(habit.Icon.ToString()))
         {
@@ -122,7 +114,11 @@ public partial class EditPageViewModel
         HabitGoalMUnitButton.SetValue("Measurement unit:", action);
     }
 
-    private async Task SelectRegularityAsync() => await Shell.Current.GoToAsync($"{nameof(RegularityPage)}");
+    private async Task SelectRegularityAsync(Regularity regularity) => await Shell.Current.GoToAsync(nameof(RegularityPage), new ShellNavigationQueryParameters
+    {
+        { "OldRegularity", regularity }
+    });
+
     async Task SelectIconAsync()
     {
         var action = await Shell.Current.DisplayActionSheet(
@@ -259,8 +255,4 @@ public partial class EditPageViewModel
             }
         }
     }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-    private void OnPropertyChanged([CallerMemberName] string? name = null)
-        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 }
