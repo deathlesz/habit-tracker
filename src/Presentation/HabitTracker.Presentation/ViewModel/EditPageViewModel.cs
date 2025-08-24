@@ -105,7 +105,7 @@ public partial class EditPageViewModel
 
     private async Task SelectRegularityAsync(Regularity regularity) => await Shell.Current.GoToAsync(nameof(RegularityPage), new ShellNavigationQueryParameters
     {
-        { "Regularity", Some(regularity) }
+        { "Regularity", regularity }
     });
 
     async Task SelectIconAsync()

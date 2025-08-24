@@ -20,11 +20,11 @@ namespace HabitTracker.Presentation
             await Navigation.PushModalAsync(new EditPage(new Habit(-1)
             {
                 Color = Domain.Color.Cyan,
-                Goal = new Goal("Goal", MeasurementUnit.Cal),
+                Goal = new Goal("A bs goal", MeasurementUnit.Cal),
                 Icon = Icon.Training,
-                Kind = GoodnessKind.Positive,
+                Kind = GoodnessKind.Negative,
                 Name = "A bs habit",
-                Regularity = new Daily(new TimesPerWeek(3)),
+                Regularity = new Monthly(new ConcreteDays([1, 2, 15, 30])),
                 Description = "A very looooooong description.",
                 StartDate = new DateOnly(1970, 1, 1),
                 EndDate = DateOnly.FromDateTime(DateTime.Now),

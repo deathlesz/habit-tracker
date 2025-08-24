@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using HabitTracker.Domain.Dto;
+using JFomit.Functional;
 using JFomit.Functional.Extensions;
 using JFomit.Functional.Monads;
 using Microsoft.Maui.Controls;
@@ -264,6 +265,7 @@ public partial class RegularityPageViewModel : ObservableObject
                         {
                             MonthlyDays[i] = d.Contains(i + 1) ? true : false;
                         }
+                        OnPropertyChanged(nameof(MonthlyDays));
                     }
                     break;
                 }
@@ -280,4 +282,12 @@ public partial class RegularityPageViewModel : ObservableObject
                 throw new UnreachableException();
         }
     }
+
+    // public void ApplyQueryAttributes(IDictionary<string, object> query)
+    // {
+    //     if (query.TryGetValue("regularity", out var regularity))
+    //     {
+    //         Regularity = Prelude.Some((Regularity)regularity);
+    //     }
+    // }
 }

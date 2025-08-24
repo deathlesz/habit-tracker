@@ -1,5 +1,6 @@
 using HabitTracker.Domain.Dto;
 using HabitTracker.Presentation.ViewModel;
+using JFomit.Functional;
 using JFomit.Functional.Extensions;
 using JFomit.Functional.Monads;
 
@@ -24,6 +25,9 @@ public partial class RegularityPage : ContentPage, IQueryAttributable
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        ((RegularityPageViewModel)BindingContext).Regularity = query["Regularity"].ToOption().OfType<Option<Regularity>>().Flatten();
+        if (query.TryGetValue("Regularity", out var regularity))
+        {
+            ((RegularityPageViewModel)BindingContext).Regularity = Prelude.Some((Regularity)regularity);
+        }
     }
 }
