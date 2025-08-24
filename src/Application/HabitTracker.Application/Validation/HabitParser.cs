@@ -2,8 +2,6 @@ using System.Diagnostics;
 using HabitTracker.Domain.Dto;
 using HabitTracker.Domain.Entities;
 using HabitTracker.Domain.Entities.Regularity;
-using HabitTracker.Domain.Enums;
-using Java.Time;
 using JFomit.Functional.Extensions;
 using JFomit.Functional.Monads;
 using static JFomit.Functional.Prelude;
