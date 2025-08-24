@@ -4,13 +4,25 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Maui.Controls;
 using System.Collections.ObjectModel;
+using JFomit.Functional;
+using JFomit.Functional.Monads;
 using Microsoft.Maui.Graphics;
 
 namespace HabitTracker.Presentation.ViewModel;
 
-
+[QueryProperty(nameof(ReminderResult), "ReminderResult")]
 public partial class AddPageViewModel : INotifyPropertyChanged
 {
+    private Option<ReminderResult> _selectedReminder = Prelude.None;
+    public ReminderResult ReminderResult
+    {
+        set
+        {
+            HabitReminderButton.SetValue("Reminder set:", 
+                $"{value.StartDate}, cycle {value.CyclePatternLength} days");
+            _selectedReminder = Prelude.Some(value);
+        }
+    }
     public ColorChangingElement HabitTypeButton { get; init; }
     public ColorChangingElement HabitNameEntry { get; init; }
     public ColorChangingElement HabitGoalEntry { get; init; }
