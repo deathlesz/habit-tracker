@@ -18,5 +18,4 @@ namespace HabitTracker.Presentation
             await Navigation.PushModalAsync(new AddPage());
         }
     }
-
 }
