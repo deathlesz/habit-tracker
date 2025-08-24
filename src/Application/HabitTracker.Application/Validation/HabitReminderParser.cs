@@ -24,7 +24,7 @@ static class HabitReminderParser
         IsAnyDay = true,
         StartDate = habit.StartDate,
         RepeatingCycleDays = (int)count, // will not overflow, since habit is valid
-        DaysMachedInCycle = 0, // none so far
+        DaysMatchedInCycle = 0, // none so far
         RepeatingDatesToMatch = null, // IsAnyDay == true
         CycleMachedDaysGoal = 1, // only 1 is required
 
@@ -53,7 +53,7 @@ static class HabitReminderParser
                 IsAnyDay = false,
                 StartDate = habit.StartDate,
                 RepeatingCycleDays = 0, // is unset
-                DaysMachedInCycle = 0, // none so far
+                DaysMatchedInCycle = 0, // none so far
                 RepeatingDatesToMatch = daysOffsets, // well, they are set here
                 CycleMachedDaysGoal = daysOffsets.Count, // here as well
 
@@ -70,7 +70,7 @@ static class HabitReminderParser
                 IsAnyDay = true,
                 StartDate = habit.StartDate,
                 RepeatingCycleDays = 0, // is unset
-                DaysMachedInCycle = 0, // none so far
+                DaysMatchedInCycle = 0, // none so far
                 RepeatingDatesToMatch = null, // IsAnyDay == true
                 CycleMachedDaysGoal = (int)perMonth.Count, // will not overflow
 
@@ -99,7 +99,7 @@ static class HabitReminderParser
                 IsAnyDay = true,
                 StartDate = habit.StartDate,
                 RepeatingCycleDays = 7, // a week
-                DaysMachedInCycle = 0, // none so far
+                DaysMatchedInCycle = 0, // none so far
                 RepeatingDatesToMatch = null, // IsAnyDay == true
                 CycleMachedDaysGoal = (int)timesPerWeek.Count, // will not overflow
 
@@ -118,7 +118,7 @@ static class HabitReminderParser
                 IsAnyDay = false,
                 StartDate = habit.StartDate,
                 RepeatingCycleDays = 7, // a week
-                DaysMachedInCycle = 0, // none so far
+                DaysMatchedInCycle = 0, // none so far
                 RepeatingDatesToMatch = days, // well, we have them, we set them
                 CycleMachedDaysGoal = days.Count, // here as well
 
