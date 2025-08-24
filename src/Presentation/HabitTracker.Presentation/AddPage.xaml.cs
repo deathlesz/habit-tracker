@@ -4,8 +4,20 @@ using HabitTracker.Presentation.ViewModel;
 namespace HabitTracker.Presentation;
 
 [QueryProperty(nameof(ItemId), "itemId")]
+[QueryProperty(nameof(RegularityDataJson), "RegularityData")]
 public partial class AddPage : ContentPage
 {
+    public string RegularityDataJson 
+    {
+        set
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                var dto = System.Text.Json.JsonSerializer.Deserialize<RegularityDto>(value);
+                (BindingContext as AddPageViewModel)?.SetRegularity(dto);
+            }
+        }
+    } 
     public string ItemId { get; set; } // must be public set
 
     public AddPage()

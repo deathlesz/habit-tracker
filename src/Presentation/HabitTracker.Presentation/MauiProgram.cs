@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using HabitTracker.Application.Interfaces.Repositories;
+using HabitTracker.Presentation.ViewModel;
+using Microsoft.Extensions.Logging;
 namespace HabitTracker.Presentation
 {
     public static class MauiProgram
@@ -13,7 +15,9 @@ namespace HabitTracker.Presentation
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-
+            builder.Services.AddSingleton<IHabitRepository, DummyHabitRepository>();
+            builder.Services.AddSingleton<AddPageViewModel>();
+            builder.Services.AddSingleton<MainPage>();
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

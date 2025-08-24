@@ -4,13 +4,31 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Maui.Controls;
 using System.Collections.ObjectModel;
+using HabitTracker.Application.Interfaces;
+using HabitTracker.Application.Interfaces.Repositories;
+using HabitTracker.Domain.Dto;
+using HabitTracker.Domain.Entities;
+using HabitTracker.Domain.Entities.Regularity;
+using HabitTracker.Domain.Enums;
+using HabitTracker.Infrastructure.Services;
+using JFomit.Functional;
+using JFomit.Functional.Monads;
 using Microsoft.Maui.Graphics;
+using Color = HabitTracker.Domain.Color;
 
 namespace HabitTracker.Presentation.ViewModel;
 
-
 public partial class AddPageViewModel : INotifyPropertyChanged
 {
+    private IPresentation _presentation;
+    private Option<RegularityDto> _regularity;
+    public void SetRegularity(RegularityDto dto)
+    {
+        HabitRegularityButton.SetValue("Regularity:", dto.IsDaily ? "Daily" :
+            dto.IsMonthly ? "Monthly" : "Interval");
+        _regularity = Prelude.Some(dto);
+    }
+
     public ColorChangingElement HabitTypeButton { get; init; }
     public ColorChangingElement HabitNameEntry { get; init; }
     public ColorChangingElement HabitGoalEntry { get; init; }
@@ -23,12 +41,12 @@ public partial class AddPageViewModel : INotifyPropertyChanged
     public ColorChangingElement HabitStartDatePicker { get; init; }
     public ColorChangingElement HabitEndDatePicker { get; init; }
     public ColorChangingElement HabitDescriptionEditor { get; init; }
-
     public ICommand SaveCommand { get; }
     public ICommand CancelCommand { get; }
 
-    public AddPageViewModel()
+    public AddPageViewModel(IPresentation presentation)
     {
+        _presentation = presentation;
         HabitTypeButton = new(ElementColorStyle.Default, "Enter your habit type")
         {
             Command = new Command(async () => await SelectHabitTypeAsync())
@@ -70,13 +88,7 @@ public partial class AddPageViewModel : INotifyPropertyChanged
     async Task SelectHabitTypeAsync()
     {
         var action = await Shell.Current.DisplayActionSheet(
-                "Choose your habit type",
-                "Cancel",
-                null,
-                "Positive",
-                "Negative"
-            );
-
+            "Choose your habit type", "Cancel", null, "Positive", "Negative");
         if (string.IsNullOrEmpty(action) || action == "Cancel")
         {
             return;
@@ -87,9 +99,8 @@ public partial class AddPageViewModel : INotifyPropertyChanged
 
     private async Task SelectGoalMUnitAsync()
     {
-        var action = await Shell.Current.DisplayActionSheet(
-            "Choose your goal measurement unit", "Cancel", null, "Km", "Sec", "Count", "Step", "M", "Min", "Hour", "Ml", "Cal", "G", "Mg", "Drink");
-
+        var action = await Shell.Current.DisplayActionSheet("Choose your goal measurement unit", "Cancel", null, "Km",
+            "Sec", "Count", "Step", "M", "Min", "Hour", "Ml", "Cal", "G", "Mg", "Drink");
         if (string.IsNullOrEmpty(action) || action == "Cancel")
         {
             return;
@@ -99,17 +110,10 @@ public partial class AddPageViewModel : INotifyPropertyChanged
     }
 
     private async Task SelectRegularityAsync() => await Shell.Current.GoToAsync($"{nameof(RegularityPage)}");
+
     async Task SelectIconAsync()
     {
-        var action = await Shell.Current.DisplayActionSheet(
-                "Choose your icon",
-                "Cancel",
-                null,
-                "Bottle",
-                "GYM",
-                "Run"
-            );
-
+        var action = await Shell.Current.DisplayActionSheet("Choose your icon", "Cancel", null, "Bottle", "GYM", "Run");
         if (string.IsNullOrEmpty(action) || action == "Cancel")
         {
             return;
@@ -117,22 +121,11 @@ public partial class AddPageViewModel : INotifyPropertyChanged
 
         HabitIconButton.SetValue("Icon selected:", action);
     }
+
     async Task SelectColorAsync()
     {
-        var action = await Shell.Current.DisplayActionSheet(
-                "Choose your habit color",
-                "Cancel",
-                null,
-                "Black",
-                "Red",
-                "Green",
-                "Yellow",
-                "Blue",
-                "Magenta",
-                "Cyan",
-                "White"
-            );
-
+        var action = await Shell.Current.DisplayActionSheet("Choose your habit color", "Cancel", null, "Black", "Red",
+            "Green", "Yellow", "Blue", "Magenta", "Cyan", "White");
         if (string.IsNullOrEmpty(action) || action == "Cancel")
         {
             return;
@@ -140,16 +133,11 @@ public partial class AddPageViewModel : INotifyPropertyChanged
 
         HabitColorButton.SetValue("Habit color:", action);
     }
+
     private async Task SelectTimeOfDayAsync()
     {
-        var action = await Shell.Current.DisplayActionSheet(
-            "Choose preferred time of day",
-            "Cancel",
-            null,
-            "Morning",
-            "Afternoon",
-            "Night");
-
+        var action = await Shell.Current.DisplayActionSheet("Choose preferred time of day", "Cancel", null, "Morning",
+            "Afternoon", "Night");
         if (string.IsNullOrEmpty(action) || action == "Cancel")
         {
             return;
@@ -162,20 +150,58 @@ public partial class AddPageViewModel : INotifyPropertyChanged
 
     private async Task SaveAsync()
     {
-        await Shell.Current.DisplayAlert("Saved", "Your habit has been saved.", "OK"); // TODO: implement habit saving
-        await Shell.Current.GoToAsync("..");
+        var name = HabitNameEntry.Value;
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            await Shell.Current.DisplayAlert("Error", "Please enter habit name", "OK");
+            return;
+        }
+
+        var goalText = HabitGoalEntry.Value;
+        if (string.IsNullOrWhiteSpace(goalText))
+        {
+            await Shell.Current.DisplayAlert("Error", "Please enter goal text", "OK");
+            return;
+        }
+        
+        var typeOk = HabitTypeButton.StoredValue.TryUnwrap(out var type);
+        var iconOk = HabitIconButton.StoredValue.TryUnwrap(out var icon);
+        var colorOk = HabitColorButton.StoredValue.TryUnwrap(out var color);
+        var mUnitOk = HabitGoalMUnitButton.StoredValue.TryUnwrap(out var mUnit);
+        var regOk = _regularity.TryUnwrap(out var reg);
+
+        if (!typeOk || !iconOk || !colorOk || !mUnitOk || !regOk)
+        {
+            await Shell.Current.DisplayAlert("Error", "Not all required fields are filled", "OK");
+            return;
+        }
+
+        var habitParse = new HabitParser();
+        var habit = new Habit(-1)
+        {
+            Kind = habitParse.ParseKind(type),
+            Name = name,
+            Icon = habitParse.ParseIcon(icon),
+            Color = habitParse.ParseColor(color),
+            Goal = habitParse.CreateGoalInfo(goalText, mUnit),
+            Regularity = habitParse.ParseRegularity(reg)
+        };
+        //_presentation.CreateHabit(habit);
+        var createHabit = _presentation.CreateHabit(habit);
+        if (createHabit.IsError)
+        {
+            await Shell.Current.DisplayAlert("Error", createHabit.Error, "OK");
+        }
+        else
+        {
+            await Shell.Current.DisplayAlert("Saved", "Your habit has been saved.", "OK"); // TODO: implement habit saving
+            await Shell.Current.GoToAsync("..");
+        }
     }
+
     private async Task CancelAsync() => await Shell.Current.GoToAsync(".."); // return to home page
-
-
     private string? _selectedIcon;
-
-    public ObservableCollection<string> Icons { get; } = new()
-    {
-        "run_icon.png",
-        "gym_icon.png",
-        "bottle_icon.png"
-    };
+    public ObservableCollection<string> Icons { get; } = new() { "run_icon.png", "gym_icon.png", "bottle_icon.png" };
 
     public string? SelectedIcon
     {
@@ -191,6 +217,7 @@ public partial class AddPageViewModel : INotifyPropertyChanged
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
-    private void OnPropertyChanged([CallerMemberName] string? name = null)
-        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+    private void OnPropertyChanged([CallerMemberName] string? name = null) =>
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 }

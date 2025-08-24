@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using GoogleGson.Annotations;
 using Microsoft.Maui.Controls;
 
 namespace HabitTracker.Presentation.ViewModel;
@@ -160,9 +161,23 @@ public class RegularityPageViewModel : INotifyPropertyChanged
             await Shell.Current.DisplayAlert("Validation error", "Please correct the highlighted options.", "OK");
             return;
         }
-
-        // TODO: pass selected regularity back to AddPageViewModel (via messaging or shared state)
-        await Shell.Current.GoToAsync("..");
+        
+        var dto = new RegularityDto()
+        {
+            IsDaily = _isDaily,
+            IsMonthly = _isMonthly,
+            IsInterval = _isInterval,
+            DailyEveryDay = _dailyEveryDay,
+            DailyDaysPerWeek = _dailyDaysPerWeek,
+            MonthlyDaysPerMonth = _monthlyDaysPerMonth,
+            MonthlyDays =  _monthlyDays,
+            IntervalDays = _intervalDays,
+        };
+        var serialized = System.Text.Json.JsonSerializer.Serialize(dto);
+        await Shell.Current.GoToAsync("..", true, new Dictionary<string, object>
+        {
+            { "RegularityData", serialized }
+        });
     }
 
     private async Task CancelAsync() => await Shell.Current.GoToAsync("..");
