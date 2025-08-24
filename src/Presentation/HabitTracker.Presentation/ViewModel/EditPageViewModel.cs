@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using Microsoft.Maui.Graphics;
 using HabitTracker.Domain.Dto;
 using JFomit.Functional;
+using System.Diagnostics;
 
 namespace HabitTracker.Presentation.ViewModel;
 public partial class EditPageViewModel
@@ -15,7 +16,7 @@ public partial class EditPageViewModel
     public ColorChangingElement HabitNameEntry { get; init; }
     public ColorChangingElement HabitGoalEntry { get; init; }
     public ColorChangingElement HabitGoalMUnitButton { get; init; }
-    public ColorChangingElement HabitRegularityButton { get; init; }
+    public ColorChangingElement<Regularity> HabitRegularityButton { get; init; }
     public ColorChangingElement HabitIconButton { get; init; }
     public ColorChangingElement HabitColorButton { get; init; }
     public ColorChangingElement HabitTimeOfDayButton { get; init; }
@@ -26,6 +27,15 @@ public partial class EditPageViewModel
 
     public ICommand SaveCommand { get; }
     public ICommand CancelCommand { get; }
+
+    private string FormatRegularity(Regularity regularity) => regularity switch
+    {
+        Daily => "Daily",
+        Monthly => "Monthly",
+        EveryNDays(var count) => $"Every {count} days",
+
+        _ => throw new UnreachableException()
+    };
 
     public EditPageViewModel(Habit habit)
     {
@@ -39,7 +49,7 @@ public partial class EditPageViewModel
         {
             Command = new Command(async () => await SelectGoalMUnitAsync())
         };
-        HabitRegularityButton = new(ElementColorStyle.Default)
+        HabitRegularityButton = new(ElementColorStyle.Default, FormatRegularity(habit.Regularity), Prelude.Some(habit.Regularity))
         {
             Command = new Command(async () => await SelectRegularityAsync())
         };
