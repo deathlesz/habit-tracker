@@ -1,10 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-		xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
+             xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
              x:Class="HabitTracker.Presentation.MainPage"
-             Padding="0"
-             Title="Main"
+             Title=""
              BackgroundColor="#FFF0DA">
 
     <Grid RowDefinitions="Auto,*,Auto"
@@ -28,7 +27,7 @@
                    HorizontalOptions="Center"/>
         </Frame>
 
-        <!-- Habits Vertilac Scroll -->
+        <!-- Habits Vertical Scroll -->
         <CollectionView Grid.Row="1"
                         ItemsSource="{Binding Habits}"
                         VerticalScrollBarVisibility="Never"
@@ -40,62 +39,90 @@
             
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame BackgroundColor="#ACC4F3"
-                           CornerRadius="15"
-                           Padding="8"
-                           HorizontalOptions="FillAndExpand"
-                           Margin="20,0,20,0"
-                           HeightRequest="70">
-                        
-                        <StackLayout Spacing="2">
-                            <StackLayout Orientation="Horizontal" Spacing="2">
-                                <!-- Icon Habit -->
-                                       <Button ImageSource="bottle_icon.png"
-                                        BackgroundColor="{Binding StatusColor}"
-                                       CornerRadius="10"
-                                       Padding="5"
-                                       HeightRequest="45"
-                                       HorizontalOptions="Fill"/>
-                                <!-- Name Habit -->
-                                <Frame BackgroundColor="{Binding StatusColor}"
-                                    BorderColor="Transparent"
-                                    CornerRadius="10"
-                                    Padding="5"
-                                    HeightRequest="45"
-                                    HasShadow="True"
-                                    HorizontalOptions="FillAndExpand">
+                    <SwipeView>
+                        <!-- Swipe Actions -->
+                       <SwipeView.RightItems>
+    <SwipeItems Mode="Reveal">
+        
+        <!-- Dinamic action button -->
+        <SwipeItem BackgroundColor="#FFF0DA"
+                   Text="{Binding ActionButtonText}"
+                   Command="{Binding ActionCommand}"
+                   CommandParameter="{Binding .}"/>
 
-                                    <Grid ColumnDefinitions="*,Auto,Auto"
-                                        ColumnSpacing="10"
-                                        VerticalOptions="Center">
+        <!-- Statistic buttons -->
+        <SwipeItem Text="✏️"
+                   BackgroundColor="#FFF0DA"
+                   Command="{Binding EditCommand}"
+                   CommandParameter="{Binding .}"/>
+        
+        <SwipeItem Text="🗑️"
+                   BackgroundColor="#FFF0DA"
+                   Command="{Binding DeleteCommand}"
+                   CommandParameter="{Binding .}"/>
 
-                                        <!-- Название привычки - растягивается -->
-                                        <Label Grid.Column="0"
-                                            Text="{Binding Name}"
-                                            TextColor="White"
-                                            FontSize="18"
-                                            FontAttributes="Bold"
-                                            HorizontalOptions="Start"
-                                            VerticalOptions="Center"
-                                            LineBreakMode="TailTruncation"/>  <!-- Обрезать длинный текст -->
+    </SwipeItems>
+</SwipeView.RightItems>
 
-                                        <!-- Progress - выравнивание по правому краю -->
-                                        <Label Grid.Column="1"
-                                            Text="{Binding Progress}"
-                                            FontSize="16"
-                                            TextColor="White"
-                                            HorizontalOptions="End"
-                                            VerticalOptions="Center"/>
-                                    </Grid>
-                                </Frame>
+                        <!-- Habit -->
+                        <Frame BackgroundColor="#ACC4F3"
+                               CornerRadius="15"
+                               Padding="8"
+                               HorizontalOptions="FillAndExpand"
+                               Margin="20,0,20,0"
+                               HeightRequest="70">
+                            
+                            <StackLayout Spacing="2">
+                                <StackLayout Orientation="Horizontal" Spacing="2">
+                                    <!-- Icon Habit -->
+                                    <Button ImageSource="bottle_icon.png"
+                                            BackgroundColor="{Binding StatusColor}"
+                                            CornerRadius="10"
+                                            Padding="5"
+                                            HeightRequest="45"
+                                            HorizontalOptions="Fill"/>
+                                    
+                                    <!-- Name Habit -->
+                                    <Frame BackgroundColor="{Binding StatusColor}"
+                                           BorderColor="Transparent"
+                                           CornerRadius="10"
+                                           Padding="5"
+                                           HeightRequest="45"
+                                           HasShadow="True"
+                                           HorizontalOptions="FillAndExpand">
+
+                                        <Grid ColumnDefinitions="*,Auto"
+                                              ColumnSpacing="10"
+                                              VerticalOptions="Center">
+
+                                            <!-- Name habit -->
+                                            <Label Grid.Column="0"
+                                                   Text="{Binding Name}"
+                                                   TextColor="White"
+                                                   FontSize="18"
+                                                   FontAttributes="Bold"
+                                                   HorizontalOptions="Start"
+                                                   VerticalOptions="Center"
+                                                   LineBreakMode="TailTruncation"/>
+
+                                            <!-- Progress -->
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding Status}"
+                                                   FontSize="16"
+                                                   TextColor="White"
+                                                   HorizontalOptions="End"
+                                                   VerticalOptions="Center"/>
+                                        </Grid>
+                                    </Frame>
                                 </StackLayout>
                                 
-                            <ProgressBar Progress="{Binding ProgressPercentage}"
-                                       ProgressColor="{Binding StatusColor}"
-                                       HeightRequest="8"
-                                       IsVisible="{Binding ShowProgressBar}"/>
-                        </StackLayout>
-                    </Frame>
+                                <ProgressBar Progress="{Binding ProgressPercentage}"
+                                           ProgressColor="{Binding StatusColor}"
+                                           HeightRequest="8"
+                                           IsVisible="{Binding ShowProgressBar}"/>
+                            </StackLayout>
+                        </Frame>
+                    </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
@@ -118,15 +145,19 @@
         </Button>
 
         <!-- Action Buttons -->
-            <Grid 
-            Grid.Row="2"
-            ColumnDefinitions="*,*" 
-            Padding="16,8,16,8"
-            BackgroundColor="{StaticResource PageFooter}"
-            Margin="0">
+        <Grid Grid.Row="2"
+              ColumnDefinitions="*,*" 
+              Padding="16,8,16,8"
+              BackgroundColor="{StaticResource PageFooter}"
+              Margin="0">
 
-                <Button Grid.Column="0" ImageSource="home_page_enable_icon.png" BackgroundColor="Transparent"/>
-                <Button Grid.Column="1" ImageSource="stat_page_disable_icon.png" BackgroundColor="Transparent"/>
-            </Grid>
+            <Button Grid.Column="0"
+                ImageSource="home_page_enable_icon.png"
+                BackgroundColor="Transparent"/>
+            <Button Grid.Column="1"
+                ImageSource="stat_page_disable_icon.png"
+                BackgroundColor="Transparent"
+                Command="{Binding StatPageButton.Command}"/>
+        </Grid>
     </Grid>
 </ContentPage>

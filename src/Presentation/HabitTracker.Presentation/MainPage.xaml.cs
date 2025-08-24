@@ -1,4 +1,5 @@
 ﻿﻿using Microsoft.Maui.Controls;
+using HabitTracker.Presentation.ViewModel;
 
 namespace HabitTracker.Presentation
 {
@@ -7,7 +8,7 @@ namespace HabitTracker.Presentation
         public MainPage()
         {
             InitializeComponent();
-            BindingContext = new MainViewModel();
+            BindingContext = new ViewModel.MainViewModel();
         }
     }
 }

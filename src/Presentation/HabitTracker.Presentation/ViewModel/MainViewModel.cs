@@ -1,94 +1,85 @@
 using System.Collections.ObjectModel;
-using HabitTracker.Presentation.ViewModel;
+using System.Windows.Input;
 using Microsoft.Maui.Graphics;
 
-namespace HabitTracker.Presentation;
-        public class MainViewModel
+namespace HabitTracker.Presentation.ViewModel
+{
+    public class MainViewModel
+    {
+        public ObservableCollection<Habit> Habits { get; set; }
+        public ColorChangingElement AddPageButton { get; init; }
+        public ColorChangingElement StatPageButton { get; init; }
+
+        public MainViewModel()
         {
-            public ObservableCollection<Habit> Habits { get; set; }
-            public ColorChangingElement AddPageButton { get; init; }
-            public MainViewModel()
+            AddPageButton = new ColorChangingElement(ElementColorStyle.Default)
             {
-                AddPageButton = new(ElementColorStyle.Default)
-                {
-                    Command = new Command(async () => await SelectAddPageAsync())
-                };
-                Habits = new ObservableCollection<Habit>();
-                LoadHabits();
-            }
-
-            private void LoadHabits()
+                Command = new Command(async () => await SelectAddPageAsync())
+            };
+            StatPageButton = new ColorChangingElement(ElementColorStyle.Default)
             {
-                Habits.Add(new Habit
-                {
-                    Name = "Утренняя зарядка",
-                    Progress = "2500/3000 MI",
-                    StatusColor = Color.FromArgb("#3B82F6"),
-                    ProgressPercentage = 2500.0 / 3000.0,
-                    ShowProgressBar = true
-                });
+                Command = new Command(async () => await SelectStatPageAsync())
+            };
 
-                Habits.Add(new Habit
-                {
-                    Name = "Чтение книги",
-                    Progress = "Completed",
-                    StatusColor = Color.FromArgb("#10B981"),
-                    ProgressPercentage = 3000.0 / 3000.0,
-                    ShowProgressBar = true
-                });
-
-                Habits.Add(new Habit
-                {
-                    Name = "Чтение книги",
-                    Progress = "Completed",
-                    StatusColor = Color.FromArgb("#10B981"),
-                    ProgressPercentage = 3000.0 / 3000.0,
-                    ShowProgressBar = true
-                });
-
-                Habits.Add(new Habit
-                {
-                    Name = "Чтение книги",
-                    Progress = "Completed",
-                    StatusColor = Color.FromArgb("#10B981"),
-                    ProgressPercentage = 3000.0 / 3000.0,
-                    ShowProgressBar = true
-                });
-
-                Habits.Add(new Habit
-                {
-                    Name = "Чтение книги",
-                    Progress = "Completed",
-                    StatusColor = Color.FromArgb("#10B981"),
-                    ProgressPercentage = 3000.0 / 3000.0,
-                    ShowProgressBar = true
-                });
-
-                Habits.Add(new Habit
-                {
-                    Name = "Медитация",
-                    Progress = "Skipped",
-                    StatusColor = Color.FromArgb("#6B7280"),
-                    ShowProgressBar = false
-                });
-
-                Habits.Add(new Habit
-                {
-                    Name = "Чтение книги",
-                    Progress = "Completed",
-                    StatusColor = Color.FromArgb("#10B981"),
-                    ProgressPercentage = 3000.0 / 3000.0,
-                    ShowProgressBar = true
-                });
-            }
-            private async Task SelectAddPageAsync() => await Shell.Current.GoToAsync($"{nameof(AddPage)}");
+            Habits = new ObservableCollection<Habit>();
+            LoadHabits();
         }
 
-        public class Habit
+        private void LoadHabits()
         {
-            public string Name { get; set; } = string.Empty;
-            public string Progress { get; set; } = string.Empty;
-            public Color StatusColor { get; set; } = Colors.Gray;
-            public double ProgressPercentage { get; set; }
-            public bool ShowProgressBar { get; set; }
+            Habits.Add(new Habit
+            {
+                Name = "Tranning",
+                Status = "2500.0 / 3000.0",
+                StatusColor = Color.FromArgb("#3B82F6"),
+                ProgressPercentage = 2500.0 / 3000.0,
+                ShowProgressBar = true
+            });
+
+            Habits.Add(new Habit
+            {
+                Name = "Reading book",
+                Status = "Completed",
+                StatusColor = Color.FromArgb("#10B981"),
+                ProgressPercentage = 3000.0 / 3000.0,
+                ShowProgressBar = true
+            });
+
+            Habits.Add(new Habit
+            {
+                Name = "Learning english",
+                Status = "Completed",
+                StatusColor = Color.FromArgb("#10B981"),
+                ProgressPercentage = 3000.0 / 3000.0,
+                ShowProgressBar = true
+            });
+
+            Habits.Add(new Habit
+            {
+                Name = "Running",
+                Status = "Skipped",
+                StatusColor = Color.FromArgb("#6B7280"),
+                ShowProgressBar = false
+            });
+
+            Habits.Add(new Habit
+            {
+                Name = "Drink water",
+                Status = "Active",
+                StatusColor = Color.FromArgb("#3B82F6"),
+                ProgressPercentage = 1500.0 / 2000.0,
+                ShowProgressBar = true
+            });
         }
+
+        private async Task SelectAddPageAsync()
+        {
+            await Shell.Current.GoToAsync($"{nameof(AddPage)}");
+        }
+
+        private async Task SelectStatPageAsync()
+        {
+            await Shell.Current.GoToAsync($"{nameof(StatPage)}");
+        }
+    }
+}
