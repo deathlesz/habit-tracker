@@ -14,9 +14,8 @@
         <Entry x:Name="DaysToNotify" Placeholder="e.g. 1,3,5"></Entry>
         <Label Text="Cycles to Run (optional):"></Label>
         <Entry x:Name="CyclesToRun" Placeholder="Leave empty for infinite" Keyboard="Numeric"></Entry>
-        <Button Text="Create Notification" Clicked="OnCreateNotificationServiceClicked"/>
+        <Button Text="Create Notification" Clicked="OnCreateNotificationClicked"/>
         <Label x:Name="ResultLabel" TextColor="Green" FontAttributes="Bold" />
-        <Button Text="Show Notification" Clicked="OnShowNotificationButtonClicked"/>
-        <Label x:Name="ResultShowNotification" TextColor="Green" FontAttributes="Bold" />
     </VerticalStackLayout>
+    
 </ContentPage>

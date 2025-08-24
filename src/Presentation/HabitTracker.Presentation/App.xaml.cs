@@ -7,7 +7,7 @@
             InitializeComponent();
             try
             {
-                MainPage = serviceProvider.GetService<MainPage>();
+                MainPage = new AppShell();
             }
             catch (Exception ex)
             {

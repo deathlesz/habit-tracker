@@ -1,94 +1,100 @@
+using HabitTracker.Application.Interfaces.Services;
 using HabitTracker.Domain.Entities;
 using HabitTracker.Infrastructure.Services.Notification;
+using HabitTracker.Presentation.ViewModel;
 using JFomit.Functional.Monads;
 
 namespace HabitTracker.Presentation;
 
 public partial class ReminderPage : ContentPage
 {
-    private AndroidNotificationService _androidNotificationService;
-    private Result<HabitReminderEntity, string> result;
-    public ReminderPage(AndroidNotificationService androidNotificationService)
+    private int _cyclePatternLength;
+
+    private ICollection<int> _daysToNotify;
+
+    private int? _cyclesToRun = null;
+    public ReminderPage()
     {
         InitializeComponent();
-        _androidNotificationService = androidNotificationService;
     }
-    private void OnCreateNotificationServiceClicked(object sender, EventArgs e)
+    
+    private async void OnCreateNotificationClicked(object sender, EventArgs e)
+    {
+        var result = CheckingAndRecordingData();
+    
+        if (result.TryUnwrap2(out var reminderResult, out var error))
         {
-            string message = MessageEntry.Text;
-            DateOnly startDate = DateOnly.FromDateTime(DatePicker.Date);
-            if (!int.TryParse(CyclePatternLength.Text, out int cyclePatternLength))
+            await Shell.Current.GoToAsync("..", true, new Dictionary<string, object>
             {
-                ResultLabel.TextColor = Colors.Red;
-                ResultLabel.Text = "Invalid cycle pattern length";
-                return;
-            }
+                ["ReminderResult"] = reminderResult
+            });
+        }
+        else
+        {
+            ResultLabel.TextColor = Colors.Red;
+            ResultLabel.Text = error;
+        }
+    }
 
-            var days = DaysToNotify.Text;
-            ICollection<int> daysToNotifycate;
-            try
-            {
-                daysToNotifycate = days.Split(',').Select(d => int.Parse(d.Trim())).ToList();
-            }
-            catch
-            {
-                ResultLabel.TextColor = Colors.Red;
-                ResultLabel.Text = "Invalid days format! Use: 1,3,5";
-                return;
-            }
+    private Result<ReminderResult, string> CheckingAndRecordingData()
+    {
+        if (!int.TryParse(CyclePatternLength.Text, out _cyclePatternLength))
+        {
+            return Result<ReminderResult, string>.Fail("Invalid cycle pattern length");
+        }
 
-            int? cyclesToRun = null;
-            if (!string.IsNullOrWhiteSpace(CyclesToRun.Text))
+        var days = DaysToNotify.Text;
+        try
+        {
+            _daysToNotify = days.Split(',').Select(d => int.Parse(d.Trim())).ToList();
+        }
+        catch
+        {
+            return Result<ReminderResult, string>.Fail("Invalid days format! Use: 1,3,5");
+        }
+        
+        if (!string.IsNullOrWhiteSpace(CyclesToRun.Text))
+        {
+            if (int.TryParse(CyclesToRun.Text, out int parsedCyclesToRun))
             {
-                if (int.TryParse(CyclesToRun.Text, out int parsedCyclesToRun))
-                {
-                    cyclesToRun = parsedCyclesToRun;
-                }
-                else
-                {
-                    ResultLabel.Text = "Invalid cycle pattern length";
-                    ResultLabel.TextColor = Colors.Red;
-                    return;
-                }
-            }
-
-            result = _androidNotificationService.SetRepetitiveNotification(
-                message,
-                startDate,
-                cyclePatternLength,
-                daysToNotifycate,
-                cyclesToRun
-            );
-            if (result.IsSuccess)
-            {
-                ResultLabel.Text = "Success";
-                ResultLabel.TextColor = Colors.Green;
+                _cyclesToRun = parsedCyclesToRun;
             }
             else
             {
-                ResultLabel.Text = result.Error;
-                ResultLabel.TextColor = Colors.Red;
+                return Result<ReminderResult, string>.Fail("Invalid cycles to run value");
             }
         }
+        
+        var reminderResult = new ReminderResult()
+        {
+            Message = MessageEntry.Text,
+            CyclePatternLength = _cyclePatternLength,
+            CyclesToRun = _cyclesToRun,
+            DaysToNotify = _daysToNotify,
+            StartDate = DateOnly.FromDateTime(DatePicker.Date),
+        };
+
+        return Result<ReminderResult, string>.Ok(reminderResult);
+    }
 
     /// <summary>
     /// Handles the click event of the "Show Notification" button.
     /// If a valid habit reminder exists, displays it as an Android notification.
     /// </summary>
-    private void OnShowNotificationButtonClicked(object sender, EventArgs e)
-    {
-
-        if (result.TryUnwrap2(out var habitReminder, out var error))
-        {
-            var notification = new ShowAndroidNotification();
-            notification.OnShowAndroidNotification(habitReminder);
-            ResultShowNotification.Text = $"Success: {habitReminder}";
-            ResultShowNotification.TextColor = Colors.Green;
-        }
-        else
-        {
-            ResultShowNotification.Text = error;
-            ResultShowNotification.TextColor = Colors.Red;
-        }
-    }
+    // private void OnShowNotificationButtonClicked(object sender, EventArgs e)
+    // {
+    //
+    //     if (result.TryUnwrap2(out var habitReminder, out var error))
+    //     {
+    //         var notification = new ShowAndroidNotification();
+    //         notification.OnShowAndroidNotification(habitReminder);
+    //         ResultShowNotification.Text = $"Success: {habitReminder}";
+    //         ResultShowNotification.TextColor = Colors.Green;
+    //     }
+    //     else
+    //     {
+    //         ResultShowNotification.Text = error;
+    //         ResultShowNotification.TextColor = Colors.Red;
+    //     }
+    // }
 }
