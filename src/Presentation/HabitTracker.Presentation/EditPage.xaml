@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HabitTracker.Presentation.AddPage"
-             Title="AddPage">
-
+             x:Class="HabitTracker.Presentation.EditPage"
+             Title="EditPage">
     <ContentPage.Resources>
 
         <!-- Rounded pill-like style for list buttons -->
@@ -43,7 +42,7 @@
         RowDefinitions="Auto,* ,Auto" 
         Padding="0,10,0,0"
         BackgroundColor="{StaticResource PageBg}">
-        
+
         <!-- Header pill -->
         <Border
             Grid.Row="0"
@@ -53,7 +52,7 @@
             Padding="26,10"
             Margin="0,6,0,10">
             <Label 
-                Text="Add habit" 
+                Text="Edit habit" 
                 FontAttributes="Bold" 
                 FontSize="32" 
                 TextColor="Black"/>
@@ -71,8 +70,8 @@
                     Style="{StaticResource ListButton}"
                     Command="{Binding Path=HabitTypeButton.Command}" />
 
-                    <!-- 2. Enter habit name (filled look after entry) -->
-                    <Border
+                <!-- 2. Enter habit name (filled look after entry) -->
+                <Border
                         x:Name="NameBorder"
                         StrokeShape="RoundRectangle 18"
                         BackgroundColor="{Binding Path=HabitNameEntry.Color}"
@@ -80,7 +79,7 @@
                         StrokeThickness="1.5"
                         Padding="14,8"
                         WidthRequest="300">
-                        <Entry
+                    <Entry
                             Placeholder="Enter habit name"
                             Text="{Binding Path=HabitNameEntry.Value, Mode=TwoWay}"
                             TextColor="{StaticResource ButtonText}"
@@ -162,7 +161,7 @@
                     Style="{StaticResource ListButton}"
                     BackgroundColor="{Binding HabitTimeOfDayButton.Color}"
                     Command="{Binding HabitTimeOfDayButton.Command}" />
-                
+
                 <!-- Optional: start date -->
                 <Border
                     x:Name="StartDateBorder"
@@ -209,7 +208,7 @@
 
                 <!-- Optional: reminder -->
                 <Button
-                    Text="Add reminder"
+                    Text="{Binding HabitReminderButton.Value}"
                     BackgroundColor="{Binding HabitReminderButton.Color}"
                     Style="{StaticResource ListButton}"
                     Command="{Binding HabitReminderButton.Command}" />
