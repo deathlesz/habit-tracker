@@ -57,9 +57,9 @@ namespace HabitTracker.Domain.Entities.Regularity
         /// The number of marked days per cycle.
         /// </summary>
         public int DaysMatchedInCycle { get; set; }
-		/// <summary>
-		/// Discriminator of habits regularity type
-		/// </summary>
-		public HabitRegularityType HabitRegularityType { get; set; }
+        /// <summary>
+        /// Discriminator of habits regularity type
+        /// </summary>
+        public HabitRegularityType HabitRegularityType { get; set; }
     }
 }
