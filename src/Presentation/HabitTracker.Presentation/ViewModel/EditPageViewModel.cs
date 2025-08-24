@@ -5,6 +5,8 @@ using System.Windows.Input;
 using Microsoft.Maui.Controls;
 using System.Collections.ObjectModel;
 using Microsoft.Maui.Graphics;
+using HabitTracker.Domain.Dto;
+using JFomit.Functional;
 
 namespace HabitTracker.Presentation.ViewModel;
 public partial class EditPageViewModel
@@ -25,15 +27,15 @@ public partial class EditPageViewModel
     public ICommand SaveCommand { get; }
     public ICommand CancelCommand { get; }
 
-    public EditPageViewModel()
+    public EditPageViewModel(Habit habit)
     {
-        HabitTypeButton = new(ElementColorStyle.Default, "Enter your habit type")
+        HabitTypeButton = new(ElementColorStyle.Default, $"Habit type: {habit.Kind}", Prelude.Some(habit.Kind.ToString()))
         {
-            Command = new Command(async () => await SelectHabitTypeAsync())
+            Command = new Command(async () => await SelectHabitTypeAsync()),
         };
-        HabitNameEntry = new(ElementColorStyle.Default);
-        HabitGoalEntry = new(ElementColorStyle.Default);
-        HabitGoalMUnitButton = new(ElementColorStyle.Default, "Select measurement unit")
+        HabitNameEntry = new(ElementColorStyle.Default, habit.Name, Prelude.Some(habit.Name));
+        HabitGoalEntry = new(ElementColorStyle.Default, habit.Goal.Name, Prelude.Some(habit.Goal.Name));
+        HabitGoalMUnitButton = new(ElementColorStyle.Default, $"Measurement unit: {habit.Goal.Unit}", Prelude.Some(habit.Goal.Unit.ToString()))
         {
             Command = new Command(async () => await SelectGoalMUnitAsync())
         };
@@ -41,7 +43,7 @@ public partial class EditPageViewModel
         {
             Command = new Command(async () => await SelectRegularityAsync())
         };
-        HabitIconButton = new(ElementColorStyle.Default, "Choose the icon from the list:")
+        HabitIconButton = new(ElementColorStyle.Default, $"Icon: {habit.Icon}", Prelude.Some(habit.Icon.ToString()))
         {
             Command = new Command(async () => await SelectIconAsync())
         };
