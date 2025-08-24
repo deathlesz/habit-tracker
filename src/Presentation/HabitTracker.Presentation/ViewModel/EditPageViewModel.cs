@@ -7,8 +7,14 @@ using System.Collections.ObjectModel;
 using Microsoft.Maui.Graphics;
 
 namespace HabitTracker.Presentation.ViewModel;
+
+// ViewModel for the Edit page. It does not inherit from ObservableObject;
+// instead, it raises PropertyChanged manually only for properties that need it.
 public partial class EditPageViewModel
 {
+    // UI-facing elements that can change their visual style and display a value/label.
+    // Presumably ColorChangingElement is your own control model that exposes properties
+    // like Text, Value, and a Command to trigger interactions.
     public ColorChangingElement HabitTypeButton { get; init; }
     public ColorChangingElement HabitNameEntry { get; init; }
     public ColorChangingElement HabitGoalEntry { get; init; }
@@ -22,49 +28,62 @@ public partial class EditPageViewModel
     public ColorChangingElement HabitEndDatePicker { get; init; }
     public ColorChangingElement HabitDescriptionEditor { get; init; }
 
+    // Page-level commands for Save/Cancel footer buttons.
     public ICommand SaveCommand { get; }
     public ICommand CancelCommand { get; }
 
     public EditPageViewModel()
     {
+        // Initialize each “element” with a default visual style and optional caption.
+        // For interactive items, wire up a Command that opens a picker or navigates.
         HabitTypeButton = new(ElementColorStyle.Default, "Enter your habit type")
         {
             Command = new Command(async () => await SelectHabitTypeAsync())
         };
         HabitNameEntry = new(ElementColorStyle.Default);
         HabitGoalEntry = new(ElementColorStyle.Default);
+
         HabitGoalMUnitButton = new(ElementColorStyle.Default, "Select measurement unit")
         {
             Command = new Command(async () => await SelectGoalMUnitAsync())
         };
+
         HabitRegularityButton = new(ElementColorStyle.Default)
         {
             Command = new Command(async () => await SelectRegularityAsync())
         };
+
         HabitIconButton = new(ElementColorStyle.Default, "Choose the icon from the list:")
         {
             Command = new Command(async () => await SelectIconAsync())
         };
+
         HabitColorButton = new(ElementColorStyle.Default, "Choose the color from the list:")
         {
             Command = new Command(async () => await SelectColorAsync())
         };
+
         HabitTimeOfDayButton = new(ElementColorStyle.Default, "Select time of day")
         {
             Command = new Command(async () => await SelectTimeOfDayAsync())
         };
+
         HabitReminderButton = new(ElementColorStyle.Default)
         {
             Command = new Command(async () => await SelectReminderAsync())
         };
+
         HabitStartDatePicker = new(ElementColorStyle.Default);
         HabitEndDatePicker = new(ElementColorStyle.Default);
         HabitDescriptionEditor = new(ElementColorStyle.Default);
+
+        // Footer actions
         SaveCommand = new Command(async () => await SaveAsync());
         CancelCommand = new Command(async () => await CancelAsync());
     }
 
-    // methods that display action sheets and alerts
+    // Opens an action sheet to pick habit type (Positive/Negative).
+    // Updates the button’s displayed value when a valid choice is made.
     async Task SelectHabitTypeAsync()
     {
         var action = await Shell.Current.DisplayActionSheet(
@@ -77,16 +96,18 @@ public partial class EditPageViewModel
 
         if (string.IsNullOrEmpty(action) || action == "Cancel")
         {
-            return;
+            return; // no selection
         }
 
         HabitTypeButton.SetValue("Habit type:", action);
     }
 
+    // Opens an action sheet for measurement unit selection and updates the UI element.
     private async Task SelectGoalMUnitAsync()
     {
         var action = await Shell.Current.DisplayActionSheet(
-            "Choose your goal measurement unit", "Cancel", null, "Km", "Sec", "Count", "Step", "M", "Min", "Hour", "Ml", "Cal", "G", "Mg", "Drink");
+            "Choose your goal measurement unit", "Cancel", null,
+            "Km", "Sec", "Count", "Step", "M", "Min", "Hour", "Ml", "Cal", "G", "Mg", "Drink");
 
         if (string.IsNullOrEmpty(action) || action == "Cancel")
         {
@@ -96,7 +117,10 @@ public partial class EditPageViewModel
         HabitGoalMUnitButton.SetValue("Measurement unit:", action);
     }
 
+    // Navigates to the Regularity page (modal or pushed via Shell route).
     private async Task SelectRegularityAsync() => await Shell.Current.GoToAsync($"{nameof(RegularityPage)}");
+
+    // Opens an action sheet to choose an icon and updates the UI element.
     async Task SelectIconAsync()
     {
         var action = await Shell.Current.DisplayActionSheet(
@@ -115,6 +139,8 @@ public partial class EditPageViewModel
 
         HabitIconButton.SetValue("Icon selected:", action);
     }
+
+    // Opens an action sheet to choose a color and updates the UI element.
     async Task SelectColorAsync()
     {
         var action = await Shell.Current.DisplayActionSheet(
@@ -138,6 +164,8 @@ public partial class EditPageViewModel
 
         HabitColorButton.SetValue("Habit color:", action);
     }
+
+    // Opens an action sheet to choose time-of-day preference and updates the UI element.
     private async Task SelectTimeOfDayAsync()
     {
         var action = await Shell.Current.DisplayActionSheet(
@@ -156,18 +184,23 @@ public partial class EditPageViewModel
         HabitTimeOfDayButton.SetValue("Chosen time:", action);
     }
 
+    // Navigates to a Reminder configuration page.
     private async Task SelectReminderAsync() => await Shell.Current.GoToAsync($"{nameof(ReminderPage)}");
 
+    // Saves the habit (placeholder) and returns to the previous page.
     private async Task SaveAsync()
     {
         await Shell.Current.DisplayAlert("Saved", "Your habit has been saved.", "OK"); // TODO: implement habit saving
-        await Shell.Current.GoToAsync("..");
+        await Shell.Current.GoToAsync(".."); // pop current page
     }
+
+    // Cancels edit and returns to previous page.
     private async Task CancelAsync() => await Shell.Current.GoToAsync(".."); // return to home page
 
-
+    // Backing field for the currently selected icon (from a list below).
     private string? _selectedIcon;
 
+    // Example icon catalog (filenames in your Resources).
     public ObservableCollection<string> Icons { get; } = new()
     {
         "run_icon.png",
@@ -175,6 +208,8 @@ public partial class EditPageViewModel
         "bottle_icon.png"
     };
 
+    // Selected icon property with manual change notification.
+    // Only properties that the UI needs to react to must raise PropertyChanged.
     public string? SelectedIcon
     {
         get => _selectedIcon;
@@ -183,12 +218,15 @@ public partial class EditPageViewModel
             if (_selectedIcon != value)
             {
                 _selectedIcon = value;
-                OnPropertyChanged();
+                OnPropertyChanged(); // notifies bindings that SelectedIcon changed
             }
         }
     }
 
+    // Minimal INotifyPropertyChanged implementation for properties that need UI updates.
     public event PropertyChangedEventHandler? PropertyChanged;
+
+    // CallerMemberName lets you call OnPropertyChanged() without specifying the property name.
     private void OnPropertyChanged([CallerMemberName] string? name = null)
         => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 }

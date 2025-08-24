@@ -6,6 +6,6 @@ public partial class EditPage : ContentPage
     public EditPage()
     {
         InitializeComponent();
-        BindingContext = new EditPageViewModel();
+        BindingContext = new EditPageViewModel(); // linking ViewModel
     }
 }
