@@ -192,8 +192,11 @@ public partial class AddPageViewModel : INotifyPropertyChanged
         {
             await Shell.Current.DisplayAlert("Error", createHabit.Error, "OK");
         }
-        await Shell.Current.DisplayAlert("Saved", "Your habit has been saved.", "OK"); // TODO: implement habit saving
-        await Shell.Current.GoToAsync("..");
+        else
+        {
+            await Shell.Current.DisplayAlert("Saved", "Your habit has been saved.", "OK"); // TODO: implement habit saving
+            await Shell.Current.GoToAsync("..");
+        }
     }
 
     private async Task CancelAsync() => await Shell.Current.GoToAsync(".."); // return to home page
